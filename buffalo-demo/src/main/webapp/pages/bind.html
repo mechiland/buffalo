@@ -1,0 +1,90 @@
+<script language="javascript">
+
+var buffalo = new Buffalo(endPoint);
+
+function bindChkbox() {
+	Buffalo.bind("testChk", "no");
+}
+function bindTable(tableId) {
+	var t1 = new Date();
+	buffalo.remoteCall("simpleService.allLocales", [], function(reply) {
+		/**Buffalo.bind("area", reply.getSource());*/
+		Buffalo.bind(tableId, reply.getResult());
+	})
+	alert("Bind is waste of time:" + (new Date() - t1)+"ms");
+}
+
+buffalo.bindReply("simpleService.provincesNames",[],"sel_province");
+</script>
+
+<h1>Bind Test</h1>
+<hr/>
+<H3>Bind Select</H3>
+<P>
+<SELECT NAME="sel_province" id="sel_province" 
+onchange="buffalo.bindReply('simpleService.provinceCities',[this.value],'sel_city')">
+</SELECT>
+<SELECT NAME="sel_city" id="sel_city">
+</SELECT>
+<INPUT TYPE="button" NAME="" value="Get Select Value" onclick="alert($('sel_province').value)">
+<P>
+<H3>CheckBox</H3>
+<INPUT TYPE="checkbox" NAME="" id="testChk">
+<INPUT TYPE="button" value="Bind Checkbox" onclick="bindChkbox()">
+
+<H3>Table</H3>
+<INPUT TYPE="button" NAME="" value="Bind Table" onclick="bindTable('testTbl')">
+
+<TABLE id="testTbl" border="1" jheight="0">
+</TABLE><P>
+<input type="button" name="" value="Bind Table2" onclick="bindTable('testTbl2')">
+
+<TABLE id="testTbl2" jheight="2">
+<TR bgcolor="#FFCC00">
+	<TD jtext="language">Language</TD>
+	<TD width="300" bgcolor="#FFCC00" jtext="country">Country</TD>
+	<TD jtext="variant">variant</TD>
+	<TD jtext="hashcode">Hashcode</TD>
+</TR>
+<TR bgcolor="#FFFF66">
+	<TD>a</TD>
+	<TD width="300">d</TD>
+	<TD>c</TD>
+	<TD>d</TD>
+</TR>
+</TABLE>
+<P>
+<INPUT TYPE="button" NAME="" value="Bind Table3" onclick="bindTable('testtbl3')">
+
+<table id="testtbl3" border = "0" jheight="3">
+<tr bgcolor="#FFCC00">
+	<td jtext="language">Language</td>
+	<td jtext="country">Country</td>
+	<td jtext="variant">variant</td>
+	<td jtext="hashcode">hashcode</td>
+</tr>
+<tr bgcolor="#FFFF66">
+	<td>a</td>
+	<td>d</td>
+	<td>c</td>
+	<td>d</td>
+</tr>
+<tr bgcolor="#FFFFCC">
+	<td>a</td>
+	<td>d</td>
+	<td>c</td>
+	<td>d</td>
+</tr>
+</table>
+
+<p>
+<input type="button" name="" value="Bind Table4" onclick="bindTable('testtbl4')">
+<table id="testtbl4" jheight="1">
+<tr bgcolor="#FFCC00">
+	<TD jtext="language">Language</TD>
+	<TD jtext="country" width="300" style="word-break:break-all">Country</TD>
+	<TD jtext="variant">variant</TD>
+	<TD jtext="hashcode">Hashcode</TD>
+</tr>
+</table>
+<!--<textarea name="" rows="10" cols="80" id="area"></textarea>-->

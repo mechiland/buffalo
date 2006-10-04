@@ -1,0 +1,37 @@
+<script language="javascript">
+var buffalo = new Buffalo(endPoint)
+
+function sendObject() {
+	var a = {};
+	a[Buffalo.BOCLASS] = "java.util.Map";
+	a["a"] = "A";
+	a["b"] = true;
+	a["c"] = 123.4;
+	var u = {};
+	u[Buffalo.BOCLASS] = "net.buffalo.demo.simple.User";
+	u.id = 234;
+	u.name = "<xml here>&";
+	u.age = 17;
+	u.sex = false;
+	u.memo = "very beautiful";
+	a["u"] = u;
+	buffalo.remoteCall("simpleService.object",[a], function(reply) {
+		alert("return user memo:" + reply.getResult()["u"].memo);
+	});
+}
+</script>
+
+<h1>users can assemble the parameter at the client</h1>
+<hr/>
+ <p>This example has Map to the server,Has contained the following content:
+ <br>
+ a="A"<br>
+b=true,<br>
+c=123.4<br>
+u=net.buffalo.demo.simple.User{id=234,name="&lt;xml here&gt;&amp;",age=17,sex=false,memo="very beautiful"}<br>
+ <br>
+ </p>
+<p>Warning:This method can expose the server end class object structure.
+</p>
+<input type="button" name="Submit" value="Send Object" onclick="sendObject()"> 
+

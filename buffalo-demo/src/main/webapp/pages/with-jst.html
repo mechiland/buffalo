@@ -1,0 +1,52 @@
+<script language="javascript">	
+var buffalo = new Buffalo(endPoint);
+
+function doProcess() {
+	buffalo.remoteCall("simpleService.allLocales", [], function(reply) {
+		var data = reply.getResult();
+		
+		var result = TrimPath.processDOMTemplate("jst_ta", {locales:data});
+		$("jst_result").innerHTML = result;
+
+	})
+}
+
+</script>
+<h1>with JavaScript Template(JST) </h1>
+
+<p>Obvious, the Buffalo client side module is not very full.<a href="http://trimpath.com/project/wiki/JavaScriptTemplates">JST</a> is a quite formidable supplement 
+</p>
+
+<p>For example, Buffalo form bind does not support the nesting label,may manufacture a template, then increase the data with buffalo,finally will output with JST.</p>
+
+Example: <br>
+<p>
+JST Template: <br/>
+<textarea id="jst_ta" rows="5" cols="60">
+<TABLE id="testTbl2">
+<TR bgcolor="#FFCC00">
+	<TD jtext="language">Language</TD>
+	<TD jtext="country" width="300">Country</TD>
+	<TD jtext="variant">variant</TD>
+	<TD jtext="hashcode">Hashcode</TD>
+</TR>
+{for locale in locales}
+<TR bgcolor="#FFFF66">
+	<TD><a href="#?lang=${locale.language}">${locale.language}</a></TD>
+	<TD width="300"><font color="red">${locale.country}</font></TD>
+	<TD>${locale.variant}</TD>
+	<TD>${locale.hashcode}</TD>
+</TR>
+{/for}
+</TABLE>
+</textarea>
+
+<p>
+<input type="button" name="" onclick="doProcess()" value="Transform"/>
+</p>
+
+<p>
+Transform Result: <br>
+
+<span id="jst_result"></span>
+</p>

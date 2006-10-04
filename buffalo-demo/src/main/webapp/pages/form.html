@@ -1,0 +1,51 @@
+<script language="javascript">
+var buffalo = new Buffalo(endPoint);
+
+function doAnotherSubmit() {
+	var userObj = Buffalo.Form.formToBean("form1", "net.buffalo.demo.form.User");
+	buffalo.remoteCall("userService.createUser", [userObj], function(reply){
+		$("form_infomsg").innerHTML="Form has been submited, username is: " + reply.getResult().username;
+	})
+}
+
+</script>
+
+<h1>Form demos</h1>
+<hr/>
+<div id="form_infomsg" style="color:blue"></div>
+<form id="form1" name="form1" method="get" onsubmit="return false;">
+  <label for="textfield">Username</label>
+  <input type="text" name="username" id="username" value="jsmith"/>
+  <br />
+  <label for="label">Password</label>
+  <input type="text" name="password" id="label" value="dummypass"/>
+  <br />
+Gendor: 
+<input type="radio" name="gendor" value="male" id="radiobutton" checked/>
+<label for="radiobutton" >Male</label>
+<input type="radio" name="gendor" value="female" id="radio" />
+<label for="radio">Femail<br /></label>
+Interest:
+<input type="checkbox" name="interests" value="football" id="interests1" />
+<label for="interests1">Football</label>
+ <input type="checkbox" name="interests" value="basketball" id="interests2" checked/>
+ <label for="interests2">BasketBall</label>
+ <input type="checkbox" name="interests" value="music" id="interests3" />
+ <label for="interests3">Music</label>
+ <input type="checkbox" name="interests" value="reading" id="interests4" checked/>
+ <label for="interests4">Reading</label>
+ <br />
+ <label for="select">Roles</label>
+ <select name="roles" size="3" multiple="multiple" id="roles">
+   <option value="Developers" selected>Developers</option>
+   <option value="PM">Project Manager</option>
+   <option value="QA" selected>Q/A</option>
+   <option value="Tester">Tester</option>
+ </select>
+ <br />
+ <label for="Submit"></label>
+ <input type="submit" name="Submit" value="submit" id="Submit" onclick="doAnotherSubmit();"/>
+ <input type="reset" name="Submit2" value="Reset" />
+</form>
+
+

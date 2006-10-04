@@ -1,0 +1,38 @@
+<script language="javascript">
+var buffalo = new Buffalo(endPoint);
+
+function doCompletion() {
+	var target = $("complete-field");
+	buffalo.remoteCall("ajaxService.filterJavaAPI", [target.value, 50], function(reply) {
+		var result = reply.getResult();
+		$("replyContent").value = "";
+		for (var i=0; i < result.length; i++) {
+			$("replyContent").value += result[i]+"\n";
+		}
+	})
+}
+</script>
+ 
+<h1>Java API auto completion</h1>
+  <form name="autofillform" action="#" method="get">
+   <input type="hidden" name="action" value="lookupbyname"/>
+   <table border="0" cellpadding="5" cellspacing="0">
+    <tr>
+     <td><b>Input the java api(start with java.):</b></td>
+     <td>
+      <input    type="text"
+                size="20"  
+                  id="complete-field"
+				name="id"
+             onkeyup="doCompletion();">
+     </td>
+     <td align="left">
+      &nbsp;
+     </td>
+    </tr>
+    <tr><td id="auto-row" colspan="2">&nbsp;<td/></tr>
+   </table>
+  </form>
+<textarea name="" rows="10" cols="60" id="replyContent"></textarea><br/>
+This demo is buggy. Feel free about it.
+</div>

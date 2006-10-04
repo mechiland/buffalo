@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+<title> New Document </title>
+<meta name="Generator" content="EditPlus">
+<meta name="Author" content="">
+<meta name="Keywords" content="">
+<meta name="Description" content="">
+<script language="JavaScript" src="../js/template.js"></script>
+<script language="JavaScript" src="../js/prototype.js"></script>
+
+</head>
+
+<body>
+
+<script language="javascript">	
+
+var myData = [
+	{language:"l1", country:"c1", variant:"v1", hashcode:"h1"},
+	{language:"l1", country:"c1", variant:"v1", hashcode:"h1"},
+	{language:"l1", country:"c1", variant:"v1", hashcode:"h1"},
+	{language:"l1", country:"c1", variant:"v1", hashcode:"h1"}
+]
+
+function doProcess() {
+	
+	var count=0;
+	var totalObjs = "";
+	for (var i = 0; i< myData.length; i++) {
+		totalObjs += i + openObj(myData[i]);
+	}
+
+ 
+	var result = TrimPath.processDOMTemplate("jst_ta", {locales:myData});
+	document.getElementById("jst_result").innerHTML = result;
+	document.getElementById("jst_ta").value = totalObjs;
+
+}
+
+function openObj(obj) {
+	var str = "\n\n[newObj]\n";
+	for (x in obj) {
+		str += x + "=" + obj[x] + "\n";
+	}
+	return str;
+}
+
+</script>
+<h1>with JavaScript Template(JST) </h1>
+
+<p>Obvious, the Buffalo client side module is not very full.<a href="http://trimpath.com/project/wiki/JavaScriptTemplates">JST</a> is a quite formidable supplement 
+</p>
+
+<p>For example, Buffalo form bind does not support the nesting label,may manufacture a template, then increase the data with buffalo,finally will output with JST.</p>
+
+Example: <br>
+<p>
+JST Template: <br/>
+<textarea id="jst_ta" rows="5" cols="60">
+<TABLE id="testTbl2" border = "1">
+<TR bgcolor="#abcdef">
+	<TD jtext="language">Language</TD>
+	<TD jtext="country" width="300">Country</TD>
+	<TD jtext="variant">variant</TD>
+	<TD jtext="hashcode">Hashcode</TD>
+</TR>
+{for locale in locales}
+<TR bgcolor="#ffaabb">
+	<TD><a href="#?lang=${locale.language}">${locale.language}</a>[A]</TD>
+	<TD width="300"><font color="red">${locale.country}</font>[B]</TD>
+	<TD>${locale.variant}&nbsp;[C]</TD>
+	<TD>${locale.hashcode}&nbsp;[D]</TD>
+</TR>
+{/for}
+</TABLE>
+</textarea>
+
+<p>
+<input type="button" name="" onclick="doProcess()" value="Transform"/>
+</p>
+
+<p>
+Transform Result: <br>
+
+<span id="jst_result"></span>
+</p>
+
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+<script language="javascript">
+
+var buffalo = new Buffalo(endPoint);
+
+function bindChkbox() {
+	Buffalo.bind("testChk", "no");
+}
+function bindTable(tableId) {
+	var t1 = new Date();
+	buffalo.remoteCall("simpleService.allLocales", [], function(reply) {
+		Buffalo.bind("area", reply.getSource());
+		Buffalo.bind(tableId, reply.getResult());
+	})
+	alert("绑定耗时:" + (new Date() - t1)+"ms");
+}
+
+buffalo.bindReply("simpleService.provincesNames",[],"sel_province");
+</script>
+
+<h1>绑定测试</h1>
+<hr/>
+<H3>绑定Select</H3>
+<P>
+<SELECT NAME="sel_province" id="sel_province" 
+onchange="buffalo.bindReply('simpleService.provinceCities',[this.value],'sel_city')">
+</SELECT>
+<SELECT NAME="sel_city" id="sel_city">
+</SELECT>
+<INPUT TYPE="button" NAME="" value="得到选定值" onclick="alert(Buffalo.getElementById('sel_province').value)">
+<P>
+<H3>复选框</H3>
+<INPUT TYPE="checkbox" NAME="" id="testChk">
+<INPUT TYPE="button" value="绑定Checkbox" onclick="bindChkbox()">
+
+<H3>表格</H3>
+<INPUT TYPE="button" NAME="" value="绑定Table1" onclick="bindTable('testTbl')">
+
+<TABLE id="testTbl" border="1" jheight="0">
+</TABLE><P>
+<input type="button" name="" value="绑定Table2" onclick="bindTable('testTbl2')">
+
+<TABLE id="testTbl2" border = "1" jheight="2">
+<TR bgcolor="#abcdef">
+	<TD jtext="language">语言</TD>
+	<TD jtext="country" width="300">国家</TD>
+	<TD jtext="variant">variant</TD>
+	<TD jtext="hashcode">Hashcode</TD>
+</TR>
+<TR bgcolor="#ffaabb">
+	<TD>a</TD>
+	<TD width="300">d</TD>
+	<TD>c</TD>
+	<TD>d</TD>
+</TR>
+</TABLE>
+<P>
+<INPUT TYPE="button" NAME="" value="绑定Table3" onclick="bindTable('testtbl3')">
+
+<table id="testtbl3" border = "1" jheight="3">
+<tr bgcolor="#abcdef">
+	<td jtext="language">语言</td>
+	<td jtext="country">国家</td>
+	<td jtext="variant">variant</td>
+	<td jtext="hashcode">hashcode</td>
+</tr>
+<tr bgcolor="#ffaabb">
+	<td>a</td>
+	<td>d</td>
+	<td>c</td>
+	<td>d</td>
+</tr>
+<tr bgcolor="#aaffcc">
+	<td>a</td>
+	<td>d</td>
+	<td>c</td>
+	<td>d</td>
+</tr>
+</table>
+
+<p>
+<input type="button" name="" value="绑定table4" onclick="bindTable('testtbl4')">
+<table id="testtbl4" border = "1" jheight="1">
+<tr bgcolor="#abcdef">
+	<TD jtext="language">语言</TD>
+	<TD jtext="country" width="300" style="word-break:break-all">国家</TD>
+	<TD jtext="variant">variant</TD>
+	<TD jtext="hashcode">Hashcode</TD>
+</tr>
+</table>
+<textarea name="" rows="10" cols="80" id="area"></textarea>

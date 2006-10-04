@@ -1,0 +1,50 @@
+<script language="javascript">	
+var buffalo = new Buffalo(endPoint);
+
+function doProcess() {
+	buffalo.remoteCall("simpleService.allLocales", [], function(reply) {
+		var data = reply.getResult();
+		var result = TrimPath.processDOMTemplate("jst_ta", {locales:data});
+		$("jst_result").innerHTML = result;
+	})
+}
+</script>
+<h1>与JavaScript Template(JST)集成 </h1>
+
+<p>显而易见的，Buffalo客户端组件很不充分。<a href="http://trimpath.com/project/wiki/JavaScriptTemplates">JST</a>
+是一个相当强大的补充. 
+</p>
+
+<p>例如，Buffalo表格绑定不支持嵌套标签，可以制作一个模板，然后用buffalo加载数据，用JST将结果输出。</p>
+
+以下是一个例子：<br>
+<p>
+JST模板：<br/>
+<textarea id="jst_ta" rows="5" cols="60">
+<TABLE id="testTbl2" border = "1">
+<TR bgcolor="#abcdef">
+	<TD>语言</TD>
+	<TD width="300">国家</TD>
+	<TD>variant</TD>
+	<TD>Hashcode</TD>
+</TR>
+{for locale in locales}
+<TR bgcolor="#ffaabb">
+	<TD><a href="#?lang=${locale.language}">${locale.language}</a></TD>
+	<TD width="300"><font color="red">${locale.country}</font></TD>
+	<TD>${locale.variant}</TD>
+	<TD>${locale.hashcode}</TD>
+</TR>
+{/for}
+</TABLE>
+</textarea>
+
+<p>
+<input type="button" name="" onclick="doProcess()" value="转换"/>
+</p>
+
+<p>
+转换后的结果：<br>
+
+<span id="jst_result"></span>
+</p>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Maven">
+  <bannerLeft>
+    <name>Buffalo AJAX Framework</name>
+    <!--
+    <src>http://maven.apache.org/images/apache-maven-project.png</src>
+    <href>http://maven.apache.org/</href>-->
+  </bannerLeft>
+  <!--
+  <bannerRight>
+    <src>http://maven.apache.org/images/maven-small.gif</src>
+  </bannerRight>
+  -->
+  <body>
+    <links>
+      <item name="Chinese" href="http://www.amowa.net/buffalo" />
+    </links>
+
+    <menu name="Quick Start">
+      <item name="Download" href="format.html"/>
+      <item name="1 Minute Tutorial" href="faq.html"/>
+      <item name="Xdoc Example" href="xdoc.html"/>      
+    </menu>
+  </body>
+</project>

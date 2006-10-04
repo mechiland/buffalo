@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+
+	<bean name="buffaloConfigBean1" class="net.buffalo.service.BuffaloServiceConfigurer">
+		<property name="services">
+            <map>
+                <entry key="testSpringService1">
+                    <ref bean="testBean"/>
+                </entry>
+            </map>
+        </property>
+	</bean>
+	
+	<bean name="buffaloConfigBean2" class="net.buffalo.service.BuffaloServiceConfigurer">
+		<property name="services">
+            <map>
+                <entry key="testSpringService2">
+                    <ref bean="testBean"/>
+                </entry>
+            </map>
+        </property>
+	</bean>
+
+	<bean name="testBean" class="net.buffalo.service.TestBean" />
+	
+</beans>

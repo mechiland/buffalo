@@ -1,0 +1,15 @@
+<html>
+   <title>Buffalo Browser History IFrame</title>
+   <script language="javascript">
+    function reportLoc() {
+		if (parent.Buffalo) {
+			setTimeout("parent.Buffalo.View.iframeLoaded(window.location)", 100);
+		} else {
+			alert("This page cannot run alone!");
+		}
+	}
+   </script>
+   <body onload="reportLoc()">
+      <h1>buffalo-blank.html - Needed for browser back/forward.</h1>
+   </body>
+</html>

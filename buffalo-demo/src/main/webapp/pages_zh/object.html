@@ -1,0 +1,37 @@
+<script language="javascript">
+var buffalo = new Buffalo(endPoint)
+
+function sendObject() {
+	var a = {};
+	a[Buffalo.BOCLASS] = "java.util.Map";
+	a["a"] = "A";
+	a["b"] = true;
+	a["c"] = 123.4;
+	var u = {};
+	u[Buffalo.BOCLASS] = "net.buffalo.demo.simple.User";
+	u.id = 234;
+	u.name = "<xml here>&";
+	u.age = 17;
+	u.sex = false;
+	u.memo = "very beautiful";
+	a["u"] = u;
+	buffalo.remoteCall("simpleService.object",[a], function(reply) {
+		alert("返回的用户memo:" + reply.getResult()["u"].memo);
+	});
+}
+</script>
+
+<h1>客户端组装对象作为参数</h1>
+<hr/>
+ <p>这个例子向服务器端发送了一个Map, 其中包含了如下内容：
+ <br>
+ a="A"<br>
+b=true,<br>
+c=123.4<br>
+u=net.buffalo.demo.simple.User{id=234,name="&lt;xml here&gt;&amp;",age=17,sex=false,memo="very beautiful"}<br>
+ <br>
+ </p>
+<p>请慎重使用这个特性，因为它会暴露服务器端类对象结构。
+</p>
+<input type="button" name="Submit" value="发送对象" onclick="sendObject()"> 
+

@@ -1,0 +1,38 @@
+<script language="javascript">
+var buffalo = new Buffalo(endPoint);
+init();
+function init() {
+	buffalo.remoteCall("numberService.newRound",[], function(reply) {
+		window.status = "Loading Complete.";
+		$("num").focus();
+	});
+}
+function guess() {
+	var num = parseInt($("num").value);
+	var numObj = $("num");
+	var info = $("info_panel");
+	
+	buffalo.remoteCall("numberService.guess",[num], function(reply) {
+		var result = reply.getResult();
+		if (!result.success) {
+			numObj.select();
+			info.innerHTML = result.hint+". You have made "+result.numGuesses+" guesses."; 
+		} else {
+			info.innerHTML = "Congratulations! You got it.And after just " + result.numGuesses + " tries.";
+			if (confirm("Care to try again?")) {
+				init();
+			}
+		}
+	})
+}
+</script>
+
+<h1>Number Guess game </h1>
+<hr/>
+<p><span id="info_panel" class="style2">Welcome to the Number Guess game.</span></p>
+<p>I'm thinking of a number between 1 and 100.</p>
+<p>What's your guess?
+  <input name="num" type="text" id="num"  onKeyDown="javascript:if (event.keyCode==13) {guess();}">
+  <input type="button" name="Submit" value="Submit" onClick="guess()">
+</p>
+<p><a href="/jsp-examples/num/numguess.jsp" target="_blank">Click hear JSP version.&gt;&gt;</a></p>

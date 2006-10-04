@@ -1,0 +1,66 @@
+/*
+ * Copyright 2002-2004 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * $Id: RequestContextTest.java,v 1.2 2006/09/30 12:32:18 mechiland Exp $
+ */ 
+package net.buffalo.request;
+
+import java.util.HashMap;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
+
+import junit.framework.TestCase;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockServletContext;
+
+public class RequestContextTest extends TestCase {
+	
+	public void testShouldGetRequestContextHolder() throws Exception {
+		RequestContext context = new RequestContext(new HashMap());
+		RequestContext.setContext(context);
+		assertEquals(context, RequestContext.getContext());
+	}
+	
+	public void testShouldGetTheMapWhenCreateUsingUtil() throws Exception {
+		MockServletContext mockServletContext = new MockServletContext();
+		MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockServletContext);
+		HttpSession mockHttpSession = mockRequest.getSession();
+		MockHttpServletResponse mockResponse = new MockHttpServletResponse();;
+		
+		Cookie cookie = new Cookie("c_name", "c_value");
+		mockServletContext.setAttribute("a", "appValue");
+		mockRequest.addParameter("parameterName", "parameterValue");
+		mockRequest.setCookies(new Cookie[]{cookie});
+		mockHttpSession.setAttribute("s", "sessionValue");
+		
+		RequestContextUtil.createRequestContext(mockServletContext,	mockRequest, mockResponse);
+		
+		RequestContext context = RequestContext.getContext();
+		assertNotNull(context);
+		assertEquals("appValue", context.getApplication().get("a"));
+		assertEquals(1, context.getSession().size());
+		assertEquals("appValue", context.getApplication().get("a"));
+		assertEquals("sessionValue", context.getSession().get("s"));
+		
+		assertEquals(mockRequest, context.getHttpRequest());
+		assertEquals(mockHttpSession, context.getHttpSession());
+		assertEquals(1, context.getParameter().size());
+		assertEquals(mockResponse, context.getHttpResponse());
+		
+	}
+}

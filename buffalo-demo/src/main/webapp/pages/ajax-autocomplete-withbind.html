@@ -1,0 +1,87 @@
+<script language="javascript">
+
+var buffalo = new Buffalo(endPoint);
+
+var isIE = true;
+var req;
+var names;
+var target;
+
+
+function getElementY(element){
+	var targetTop = 0;
+	if (element.offsetParent) {
+		while (element.offsetParent) {
+			targetTop += element.offsetTop;
+            element = element.offsetParent;
+		}
+	} else if (element.y) {
+		targetTop += element.y;
+    }
+	return targetTop;
+}
+
+function getElementX(element){
+	var targetLeft = 0;
+	if (element.offsetParent) {
+		while (element.offsetParent) {
+			targetLeft += element.offsetLeft;
+            element = element.offsetParent;
+		}
+	} else if (element.y) {
+		targetLeft += element.x;
+    }
+	return targetLeft;
+}
+
+function init() {
+    target = $("complete-field");
+    var menu = $("complete-field");
+    var autorow = $("menu-popup");
+    autorow.style.top = getElementY(menu)+20 + "px";
+	autorow.style.left=getElementX(menu)+"px";
+    
+}
+
+function doCompletion() {
+	buffalo.bindReply("ajaxService.filterEmployees",[target.value], "names");
+}
+
+init()
+</script>
+ 
+ 
+ <h1>Auto-Completion using Asynchronous JavaScript and XML (AJAX)</h1>
+  <h2>Buffalo bind module edition.</h1>
+ <hr/>
+ <p>
+ This example shows how you can do reall time auto-completion using AJAX interactions.
+ </p>
+ <p>
+ In the form below enter a name. Possible names that will be completed are displayed beneath
+ the form. Click on one of the selections to see the employee details. Try typing &quot;Greg&quot, &quot;Murray&quot;, &quot;Jones&quot;, or "&quot;Cindy&quot;.
+ </p>
+ 
+  <form name="autofillform" action="#" method="get">
+   <input type="hidden" name="action" value="lookupbyname"/>
+   <table border="0" cellpadding="5" cellspacing="0">
+    <tr>
+     <td><b>Employee Name:</b></td>
+     <td>
+      <input    type="text"
+                size="20"  
+                  id="complete-field"
+				name="id"
+             onkeyup="doCompletion();">
+     </td>
+     <td align="left">
+      <input id="submit_btn" type="Submit" value="Lookup Employee">
+     </td>
+    </tr>
+    <tr><td id="auto-row" colspan="2">&nbsp;<td/></tr>
+   </table>
+  </form>
+<div style="position: absolute; top:170px;left:140px" id="menu-popup">
+<TABLE id="names" border="1" jheight="0">
+</TABLE>
+</div>

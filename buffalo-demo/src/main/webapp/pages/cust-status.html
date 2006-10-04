@@ -1,0 +1,155 @@
+<script language="javascript">
+var buffalo = new Buffalo(endPoint);
+buffalo.events["onLoading"] = function(state) {
+	if (state) {
+		window.status = "Loading...";
+	} else {
+		window.status = "Loading complete";
+	}
+}
+function openObj(obj) {
+	var tmp = obj+"{";
+	for (var x in obj) {
+			tmp += x + "=" + obj[x]+";";
+	}
+	tmp += "}";
+	return tmp;
+}
+
+function cmdDivide() {
+	var double1 = parseFloat($("double1").value);
+	var double2 = parseFloat($("double2").value);
+	var d3Handle = $("double3");
+	
+	buffalo.remoteCall("simpleService.divide",[double1,double2], function(reply) {
+		d3Handle.value = reply.getResult();
+	})
+}
+
+function cmdServerTime() {
+	var dtObj = $("datetime");
+	buffalo.remoteCall("simpleService.now",[], function(reply){
+		dtObj.value = reply.getResult();
+	})
+}
+
+function cmdException() {
+	buffalo.remoteCall("simpleService.fault",[], function(reply) {
+		var f = reply.getResult();
+		alert(f);
+		//reportFault(f);
+	})
+}
+
+function reportFault(f) {
+	var str = openObj(f);
+	alert(str);
+}
+
+function cmdRandomUser() {
+	buffalo.remoteCall("simpleService.randomUser",[], function(reply) {
+		var obj = reply.getResult();
+		$("user_id").value=obj.id;
+		$("user_name").value=obj.name;
+		$("user_age").value=obj.age;
+		$("user_sex").value=obj.sex;
+		$("user_memo").value=obj.memo;
+	});
+}
+
+function cmdRandomComplexUser() {
+	
+	buffalo.remoteCall("simpleService.randomComplexUser",[], function(reply) {
+		var obj = reply.getResult();
+		
+		$("cuser_name").value=obj.name;
+		$("cuser_fullname").value=obj.name.firstName+" " + obj.name.middleName+" " +obj.name.familyName;
+		$("cuser_friends").value=friendsToStr(obj.friends);
+
+	});
+}
+
+function friendsToStr(arr) {
+	var str = "";
+	for (var i = 0; i < arr.length; i++) {
+		var obj = arr[i];
+		str += obj.name.firstName+" " + obj.name.middleName+" " +obj.name.familyName + "\n";
+	}
+	return str;
+}
+
+
+
+</script>
+
+<h1>Custom the Asynchronously calling status</h1>
+<hr/>
+<h4>1 Division calculator</h4>
+<p>
+  <input name="double1" type="text" class="input_text" id="double1" size="12"> 
+  /
+  <input name="double2" type="text" class="input_text" id="double2" size="12"> 
+  <input type="button" name="Submit" value=" = " onclick="cmdDivide()">
+  <input name="double3" type="text" class="input_text" id="double3">
+</p>
+<h4>2 What's Time?</h4>
+<p>
+  <input name="Submit2" type="button" onClick="cmdServerTime()" value="Server Time">
+  <input name="datetime" type="text" id="datetime" size="50">
+</p>
+<h4>3 Throw Exception(fault)</h4>
+<p>
+  <input name="Submit3" type="button" onClick="cmdException()" value="Throw Exception">
+</p>
+<h4>4 Return Object</h4>
+<p>
+  <input name="Submit5" type="button" onClick="cmdRandomUser()" value="Random User">
+</p>
+<p>Object Consist of Name,Age,Sex,Memo</p>
+<table border="1" bordercolor="#006600">
+  <tr>
+    <td>Number(1,2,3May use)</td>
+    <td><input name="user_id" type="text" id="user_id">    </td>
+  </tr>
+  <tr>
+    <td>Name</td>
+    <td><input name="user_name" type="text" id="user_name"></td>
+  </tr>
+  <tr>
+    <td>Age</td>
+    <td><input name="user_age" type="text" id="user_age"></td>
+  </tr>
+  <tr>
+    <td>Sex</td>
+    <td><input name="user_sex" type="text" id="user_sex"></td>
+  </tr>
+  <tr>
+    <td>Memo</td>
+    <td><textarea name="user_memo" rows="4" wrap="VIRTUAL" id="user_memo"></textarea></td>
+  </tr>
+</table>
+
+<h4>5 Advancde Object</h4>
+<p>
+  <input name="Submit5" type="button" onClick="cmdRandomComplexUser()" value="Random Advancde object">
+</p>
+<p>Advancde object name{First Name,middle name,family name},Friend[Advancde Object Array]<br>
+  This complex example has mainly demonstrated the multistage data simple use, as well as between them quotation relations.<br>
+  User[0] : {{&quot;John&quot;,&quot;M&quot;,&quot;Smith&quot;}}, friends=[User[1],User[2]]<br>
+User[1] : {{&quot;Friend&quot;,&quot;H&quot;,&quot;Johnson&quot;}}, friends=[User[0],User[2]]<br>
+User[2] : {{&quot;Michael&quot;,&quot;J&quot;,&quot;Jordon&quot;}}, friends=[User[1],User[0]]</p>
+<table border="1" bordercolor="#006600">
+  <tr>
+    <td>Name(Object)</td>
+    <td><input name="cuser_name" type="text" id="cuser_name"></td>
+  </tr>
+  <tr>
+    <td>Full Name</td>
+    <td><input name="cuser_fullname" type="text" id="cuser_fullname"></td>
+  </tr>
+  <tr>
+    <td>Friend</td>
+    <td><textarea name="cuser_friends" rows="10" cols="80" wrap="VIRTUAL" id="cuser_friends"></textarea></td>
+  </tr>
+</table>
+<p>&nbsp;</p>

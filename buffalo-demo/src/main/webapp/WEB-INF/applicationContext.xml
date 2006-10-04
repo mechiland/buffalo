@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	
+	<bean name="simpleService" class="net.buffalo.demo.simple.SimpleService"></bean>
+	<bean name="numberService" class="net.buffalo.demo.numberguess.NumberGuessService"></bean>
+	
+	<bean name="buffaloConfigBean" class="net.buffalo.service.BuffaloServiceConfigurer">
+		<property name="services">
+            <map>
+                <entry key="springSimpleService">
+                    <ref bean="simpleService"/>
+                </entry>
+				<entry key="springNumberService">
+                    <ref bean="numberService"/>
+                </entry>
+            </map>
+        </property>
+	</bean>
+	
+</beans>

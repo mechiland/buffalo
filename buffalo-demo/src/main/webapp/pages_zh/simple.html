@@ -1,0 +1,148 @@
+<script language="javascript">
+var buffalo = new Buffalo(endPoint);
+
+function openObj(obj) {
+	var tmp = obj+"{";
+	for (var x in obj) {
+			tmp += x + "=" + obj[x]+";";
+	}
+	tmp += "}";
+	return tmp;
+}
+
+function cmdDivide() {
+	var double1 = parseFloat(Buffalo.getElementById("double1").value);
+	var double2 = parseFloat(Buffalo.getElementById("double2").value);
+	var d3Handle = Buffalo.getElementById("double3");
+	
+	buffalo.remoteCall("simpleService.divide",[double1,double2], function(reply) {
+		d3Handle.value = reply.getResult();
+	})
+}
+
+function cmdServerTime() {
+	var dtObj = Buffalo.getElementById("datetime");
+	var buffalo2 = new Buffalo(endPoint);
+	buffalo2.remoteCall("simpleService.now",[], function(reply){
+		dtObj.value = reply.getResult();
+	})
+}
+
+function cmdException() {
+var buffalo2 = new Buffalo(endPoint);
+	buffalo2.remoteCall("simpleService.fault",[], function(reply) {
+		var f = reply.getResult();
+		alert(reply.getSource());
+		//reportFault(f);
+	})
+}
+
+function reportFault(f) {
+	var str = openObj(f);
+	alert(str);
+}
+
+function cmdRandomUser() {
+	buffalo.remoteCall("simpleService.randomUser",[], function(reply) {
+		var obj = reply.getResult();
+		Buffalo.getElementById("user_id").value=obj.id;
+		Buffalo.getElementById("user_name").value=obj.name;
+		Buffalo.getElementById("user_age").value=obj.age;
+		Buffalo.getElementById("user_sex").value=obj.sex;
+		Buffalo.getElementById("user_memo").value=obj.memo;
+	});
+}
+
+function cmdRandomComplexUser() {
+	
+	buffalo.remoteCall("simpleService.randomComplexUser",[], function(reply) {
+		var obj = reply.getResult();
+		
+		Buffalo.getElementById("cuser_name").value=obj.name;
+		Buffalo.getElementById("cuser_fullname").value=obj.name.firstName+" " + obj.name.middleName+" " +obj.name.familyName;
+		Buffalo.getElementById("cuser_friends").value=friendsToStr(obj.friends);
+
+	});
+}
+
+function friendsToStr(arr) {
+	var str = "";
+	for (var i = 0; i < arr.length; i++) {
+		var obj = arr[i];
+		str += obj.name.firstName+" " + obj.name.middleName+" " +obj.name.familyName + "\n";
+	}
+	return str;
+}
+</script>
+
+<h1>基本使用</h1>
+<hr/>
+<h4>1 除法运算器</h4>
+<p>
+  <input name="double1" type="text" class="input_text" id="double1" size="12"> 
+  /
+  <input name="double2" type="text" class="input_text" id="double2" size="12"> 
+  <input type="button" name="Submit" value=" = " onclick="cmdDivide()">
+  <input name="double3" type="text" class="input_text" id="double3">
+</p>
+<h4>2 什么时候了？</h4>
+<p>
+  <input name="Submit2" type="button" onClick="cmdServerTime()" value="服务器时间">
+  <input name="datetime" type="text" id="datetime" size="50">
+</p>
+<h4>3 抛出异常(fault)</h4>
+<p>
+  <input name="Submit3" type="button" onClick="cmdException()" value="抛出异常">
+</p>
+<h4>4 返回对象</h4>
+<p>
+  <input name="Submit5" type="button" onClick="cmdRandomUser()" value="随机用户">
+</p>
+<p>用户对象包括编号，姓名，年龄，性别，简介。</p>
+<table border="1" bordercolor="#006600">
+  <tr>
+    <td>编号(1,2,3可用)</td>
+    <td><input name="user_id" type="text" id="user_id">    </td>
+  </tr>
+  <tr>
+    <td>姓名</td>
+    <td><input name="user_name" type="text" id="user_name"></td>
+  </tr>
+  <tr>
+    <td>年龄</td>
+    <td><input name="user_age" type="text" id="user_age"></td>
+  </tr>
+  <tr>
+    <td>性别</td>
+    <td><input name="user_sex" type="text" id="user_sex"></td>
+  </tr>
+  <tr>
+    <td>简介</td>
+    <td><textarea name="user_memo" rows="4" wrap="VIRTUAL" id="user_memo"></textarea></td>
+  </tr>
+</table>
+
+<h4>5 复杂对象</h4>
+<p>
+  <input name="Submit5" type="button" onClick="cmdRandomComplexUser()" value="随机复杂用户">
+</p>
+<p>复杂用户对象姓名{First Name, middle name, family name}, 朋友[复杂用户对象数组]<br>
+  这个复杂的例子主要演示了多级数据的简单使用，以及它们之间的引用关系。<br>
+  User[0] : {{&quot;John&quot;,&quot;M&quot;,&quot;Smith&quot;}}, friends=[User[1],User[2]]<br>
+User[1] : {{&quot;Friend&quot;,&quot;H&quot;,&quot;Johnson&quot;}}, friends=[User[0],User[2]]<br>
+User[2] : {{&quot;Michael&quot;,&quot;J&quot;,&quot;Jordon&quot;}}, friends=[User[1],User[0]]</p>
+<table border="1" bordercolor="#006600">
+  <tr>
+    <td>姓名(对象)</td>
+    <td><input name="cuser_name" type="text" id="cuser_name"></td>
+  </tr>
+  <tr>
+    <td>全名</td>
+    <td><input name="cuser_fullname" type="text" id="cuser_fullname"></td>
+  </tr>
+  <tr>
+    <td>朋友</td>
+    <td><textarea name="cuser_friends" rows="10" cols="80" wrap="VIRTUAL" id="cuser_friends"></textarea></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
