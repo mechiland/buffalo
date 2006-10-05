@@ -1,16 +1,13 @@
  -----
- Buffalo AJAX Framework
+ Home
  -----
- The Maven Team
+ Michael Chen
  -----
 
-Maven Site for your project
+What is Buffalo?
 
- Congratulations! If you are looking at this page then you have successfully generated a
- template site employing the site archetype and you have run:
+  Buffalo is a lightweight J*EE AJAX framework using based on burlap protocal. It is simple, easy to use yet powerful. It solves most the common problems during j2ee ajax development. It promise bringing benifits for both developers and the end users. Buffalo does not want to provide tricky ways to hide the javascript creating, it exposes all the things to developer as concerns about javascript is important for web development.
   
-+-----+
+Why Buffalo and Why Not?
 
-m2 site:site
-
-+-----+
+  If you are familiar with some other java based open source ajax products(such as DWR), skip this and move on. AJAX frameworks are straightforward and if not, it¡¯s a bad project. Also, if you want see features or history of buffalo.

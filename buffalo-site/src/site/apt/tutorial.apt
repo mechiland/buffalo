@@ -1,0 +1,106 @@
+ --------
+ 1 Minute Tutorial
+ --------
+ 
+Prepare
+
+  Please download the latest version of buffalo distribution. Create a directory structure as follows:
+
++---------------------+
+buffalo-example
+  WEB-INF/classes
+  WEB-INF/lib
+  script
++---------------------+
+
+  Copy burlap-2.1.2.jar, buffalo-<version>.jar to WEB-INF/lib, copy prototype.js, buffalo.js to script.
+  
+Edit web.xml
+
+  Create a web.xml in WEB-INF with content as follow:
+
++----------------------------------------------------------------------------------+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+<display-name>Buffalo Example Application</display-name>
+<servlet>
+    <servlet-name>bfapp</servlet-name>
+    <servlet-class>net.buffalo.web.servlet.ApplicationServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>bfapp</servlet-name>
+    <url-pattern>/bfapp/*</url-pattern>
+</servlet-mapping>
+</web-app>
++---------------------------------------------------------------------------------+
+
+Edit buffalo-service.properties
+
+  Create a text file buffalo-service.properties to WEB-INF/classes with content as follow:
+
++---------------------+
+# Example Service
+helloService=example.HelloService
++---------------------+
+
+Edit JSP file
+
+  Create example.jsp in the web root:
+
++---------------------+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html">
+<title>Example::Hello</title>
+<script language="javascript" src="script/prototype.js"></script>
+<script language="javascript" src="script/buffalo.js"></script>
+<script language="javascript">
+var END_POINT="<%=request.getContextPath()%>/bfapp";
+var buffalo = new Buffalo(END_POINT);
+function hello() {
+    var p1 = $("myname").value;
+    buffalo.remoteCall("helloService.hello",[p1], function(reply) {
+        alert(reply.getResult());
+    });
+}
+</script>
+</head>
+<body>
+    <p>Buffalo Hello World</p>
+    <p>&nbsp;</p>
+    <form name="form1" method="post" action="">
+      Your name: 
+      <input name="myname" type="text" id="myname">
+      <input type="button" name="Submit" value="Hello" onclick="hello()">
+    </form>
+</body>
+</html>
++---------------------+
+
+Adding a Service
+
++---------------------+
+package example;
+public class HelloService {
+public String hello(String name) {
+  try {
+    // to see the loading status
+    Thread.sleep(2000);
+  } catch (InterruptedException e) {
+    e.printStackTrace();
+  }
+  return "Hello, " + name;
+  }
+}
++---------------------+
+
+  compile it and copy the binary class file to WEB-INF/classes.
+
+Final step: run the application
+
+  Copy the whole buffalo-exmaple directory to TOMCAT_HOME/webapps, start tomcat, open browser and visit http://localhost:8080/buffalo-example/example.jsp, input your name and click ¡®Hello¡¯ buffalo, see your result.
+
+Further more
+
+  Please read spring integration and best practice for more information
