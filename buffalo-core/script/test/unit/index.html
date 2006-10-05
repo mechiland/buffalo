@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>script.aculo.us Unit test file</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <script src="../lib/prototype.js" type="text/javascript"></script>
+  <script src="../lib/unittest.js" type="text/javascript"></script>
+  <script src="../../main/base.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="../lib/test.css" type="text/css" />
+</head>
+<body>
+
+<h3>Buffalo Unit Tests</h3>
+
+<p id="version"></p>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+// <![CDATA[
+  $('version').innerHTML = 'Buffalo version '+Buffalo.VERSION+'<br/>Prototype version ' + Prototype.Version;
+// ]]>
+</script>
+
+<ul id="tests">
+  <li><a href="form_test.html" target="test">Form test</a></li>
+  <li><a href="call_test.html" target="test">Call test</a></li>
+  <li><a href="reply_test.html" target="test">Reply test</a></li>
+  <li><a href="base_test.html" target="test">Base test</a></li>
+</ul>
+
+<script>
+var totalTests = $$("#tests a");
+var currentTest = 0;
+var testWindow = top.window.test;
+
+totalTests[currentTest].style.backgroundColor="#FFFF99"; 
+totalTests[currentTest].focus();
+testWindow.location.href= totalTests[currentTest].href ;
+
+var runner = new PeriodicalExecuter(function(){
+  var tests = testWindow.testCase.tests;
+  var state = "passed";
+  
+  var test = tests[testWindow.testCase.currentTest];
+  if (test != null) {
+    return;
+  }
+  
+  for (var i = 0; i < tests.length; i++) {
+    if (tests[i].status() != "passed") {
+      state = tests[i].status();
+      break;
+    }
+  }
+  
+  if (state == "passed") {
+    totalTests[currentTest].style.background = '#00ff00';
+    if (currentTest >= (totalTests.length-1)) {
+        runner.stop();
+    } else {
+      totalTests[++currentTest].style.backgroundColor="#FFFF99"; 
+      totalTests[currentTest].focus();
+      testWindow.location.href= totalTests[currentTest].href
+    }
+  } else {
+    totalTests[currentTest].style.background = '#ff0000';
+    runner.stop();
+  }
+}, 1)
+</script>
+
+</body>
+</html>

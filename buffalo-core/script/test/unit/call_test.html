@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>test form</title>
+<link rel="stylesheet" href="../lib/test.css" type="text/css" />
+<script language="javascript" src="../lib/prototype.js"></script>
+<script language="javascript" src="../lib/unittest.js"></script>
+<script language="javascript" src="../../main/base.js"></script>
+<script language="javascript" src="../../main/form.js"></script>
+<script language="javascript" src="../../main/call.js"></script>
+</head>
+
+<body>
+<div id="testlog"> </div>
+<script type="text/javascript" language="javascript" charset="utf-8">
+var testCase = new Test.Unit.Runner({
+
+	testUndefinedValue: function(){with(this){
+		
+		var call = new Buffalo.Call("test");
+		var a;
+		call.addParameter(a);
+		assertEqual(true, call.xml().indexOf("undefined") == -1)
+		
+	}},
+	
+	testNullValue: function(){with(this){
+		var call = new Buffalo.Call("test");
+		var a = null;
+		call.addParameter(a);
+		assertEqual(true, call.xml().indexOf("null") > -1);
+		
+	}},
+	
+	testDateY2K: function(){with(this){
+		
+		var call = new Buffalo.Call("test");
+		var date1 = new Date();
+		date1.setYear(1986);
+		
+		var date2 = new Date();
+		date2.setYear(2006);
+
+		call.addParameter(date1);
+		call.addParameter(date2);
+		
+		var callXml = call.xml();
+		assertEqual(true, callXml.indexOf("1986") > -1);
+		assertEqual(true, callXml.indexOf("2006") > -1);
+		
+	}}
+
+}, "testlog");
+</script>
+</body>
+</html>

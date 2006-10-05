@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>test form</title>
+<link rel="stylesheet" href="../lib/test.css" type="text/css" />
+<script language="javascript" src="../lib/prototype.js"></script>
+<script language="javascript" src="../lib/unittest.js"></script>
+<script language="javascript" src="../../main/base.js"></script>
+<script language="javascript" src="../../main/form.js"></script>
+<script language="javascript" src="../../main/call.js"></script>
+</head>
+
+<body>
+<div id="testlog"> </div>
+<xmp id="aaa"></xmp>
+<form id="form1" name="form1" method="get" action="" onsubmit="return testFormToBean();">
+  <label for="textfield">Username</label>
+  <input type="text" name="username" id="username" value="JoshSmith">
+  <br>
+  <label for="label">Password</label>
+<input type="text" name="password" id="label" value="dummypass">
+<br>
+Gendor: 
+<input type="radio" name="gendor" value="1" id="radiobutton" checked>
+<label for="radiobutton">Boy</label>
+<input type="radio" name="gendor" value="0" id="radio">
+<label for="radio">Girl</label>
+<br>
+Interest: 
+<input type="checkbox" name="interest" value="A" id="interest" checked>
+<label for="checkbox">A</label>
+<input type="checkbox" name="interest" value="B" id="interest">
+<label for="checkbox2">B</label>
+<input type="checkbox" name="interest" value="C" id="interest" checked>
+<label for="checkbox3">C</label>
+<br>
+<label for="textarea"></label>
+<label for="select">Option</label>
+<select name="option" size="3" multiple id="option">
+  <option value="1">Option1</option>
+  <option value="2" selected>Option2</option>
+  <option value="3" selected>Option3</option>
+</select>
+<br>
+<br>
+<label for="Submit"></label>
+<input type="submit" name="submit" value="submit" id="Submit">
+</form>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+var testCase = new Test.Unit.Runner({
+	
+	testFormToBean : function() { with(this) {
+		var object = Buffalo.Form.formToBean("form1", null, false);
+		assertEqual('JoshSmith', object.username);
+		assertEqual('1', object.gendor);
+		assertEqual('A', object.interest[0]);
+		assertEqual('C', object.interest[1]);
+		assertEqual('2', object.option[0]);
+		assertEqual('3', object.option[1]);
+		assertEqual('submit', object.submit);
+	}},
+
+	testFormToBeanIgnoreButton: function(){with(this){
+		var object = Buffalo.Form.formToBean("form1", null, true);
+		assertEqual(null, object.submit);
+	}},
+
+	testFormToBeanWithoutClass: function(){with(this){
+		var object = Buffalo.Form.formToBean("form1", null, true);
+		assertEqual("java.util.Map", object[Buffalo.BOCLASS]);
+	}},
+
+	testFormToBeanWithClass: function(){with(this){
+		var domainObject = "yourdomain.app.User";
+		var object = Buffalo.Form.formToBean("form1", domainObject, true);
+		assertEqual(domainObject, object[Buffalo.BOCLASS]);
+	}},
+
+	testFormBeanToCall: function(){with(this){
+		var domainObject = "yourdomain.app.User";
+		var object = Buffalo.Form.formToBean("form1", domainObject, true);
+		var call = new Buffalo.Call("test");
+		call.addParameter(object);
+		call.xml();
+	}}
+
+}, "testlog");
+</script>
+</body>
+</html>
