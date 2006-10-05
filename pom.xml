@@ -4,9 +4,14 @@
   <version>2.0</version>
   <artifactId>buffalo-parent</artifactId>
   <packaging>pom</packaging>
+  <name>Buffalo</name>
   <modules>
     <module>buffalo-core</module>
     <module>buffalo-demo</module>
     <module>buffalo-site</module>
   </modules>
+  
+  <scm>
+    <url>scm:svn:http://svn.sourceforge.net/viewvc/buffalo/trunk</url>
+  </scm>
 </project>
