@@ -22,6 +22,7 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Stack;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.ProtocolException;
 
 public class FastStreamReader implements StreamReader {
@@ -294,21 +295,21 @@ public class FastStreamReader implements StreamReader {
 
 	static {
 		tagCache = new HashMap();
-		tagCache.put("null", new Integer(TAG_NULL));
-		tagCache.put("boolean", new Integer(TAG_BOOLEAN));
-		tagCache.put("int", new Integer(TAG_INT));
-		tagCache.put("long", new Integer(TAG_LONG));
-		tagCache.put("double", new Integer(TAG_DOUBLE));
-		tagCache.put("date", new Integer(TAG_DATE));
-		tagCache.put("string", new Integer(TAG_STRING));
-		tagCache.put("map", new Integer(TAG_MAP));
-		tagCache.put("list", new Integer(TAG_LIST));
-		tagCache.put("type", new Integer(TAG_TYPE));
-		tagCache.put("length", new Integer(TAG_LENGTH));
-		tagCache.put("ref", new Integer(TAG_REF));
-		tagCache.put("buffalo-call", new Integer(TAG_CALL));
-		tagCache.put("fault", new Integer(TAG_FAULT));
-		tagCache.put("method", new Integer(TAG_METHOD));
+		tagCache.put(ProtocalTag.TAG_NULL, new Integer(TAG_NULL));
+		tagCache.put(ProtocalTag.TAG_BOOLEAN, new Integer(TAG_BOOLEAN));
+		tagCache.put(ProtocalTag.TAG_INT, new Integer(TAG_INT));
+		tagCache.put(ProtocalTag.TAG_LONG, new Integer(TAG_LONG));
+		tagCache.put(ProtocalTag.TAG_DOUBLE, new Integer(TAG_DOUBLE));
+		tagCache.put(ProtocalTag.TAG_DATE, new Integer(TAG_DATE));
+		tagCache.put(ProtocalTag.TAG_STRING, new Integer(TAG_STRING));
+		tagCache.put(ProtocalTag.TAG_MAP, new Integer(TAG_MAP));
+		tagCache.put(ProtocalTag.TAG_LIST, new Integer(TAG_LIST));
+		tagCache.put(ProtocalTag.TAG_TYPE, new Integer(TAG_TYPE));
+		tagCache.put(ProtocalTag.TAG_LENGTH, new Integer(TAG_LENGTH));
+		tagCache.put(ProtocalTag.TAG_REF, new Integer(TAG_REF));
+		tagCache.put(ProtocalTag.TAG_CALL, new Integer(TAG_CALL));
+		tagCache.put(ProtocalTag.TAG_FAULT, new Integer(TAG_FAULT));
+		tagCache.put(ProtocalTag.TAG_METHOD, new Integer(TAG_METHOD));
 	}
 	
 	class Tag {

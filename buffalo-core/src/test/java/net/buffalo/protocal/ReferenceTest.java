@@ -1,12 +1,15 @@
 package net.buffalo.protocal;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import junit.framework.TestCase;
 import net.buffalo.protocal.converters.DefaultConverterLookup;
+import net.buffalo.protocal.io.DefaultMarshallingContext;
 import net.buffalo.protocal.io.DefaultUnmarshallingContext;
+import net.buffalo.protocal.io.FastStreamWriter;
 import net.buffalo.protocal.io.StreamReader;
 import net.buffalo.protocal.io.UnmarshallingContext;
 
@@ -27,6 +30,10 @@ public class ReferenceTest extends TestCase {
 		List people = new ArrayList();
 		people.add(p1);
 		people.add(p2);
+		
+		StringWriter stringWriter = new StringWriter();
+		DefaultMarshallingContext marshallingContext = new DefaultMarshallingContext(new DefaultConverterLookup(), new FastStreamWriter(stringWriter));
+		marshallingContext.convertAnother(people);
 	}
 	
 	public void testObjectRefOnly() throws Exception {

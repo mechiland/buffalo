@@ -2,6 +2,7 @@ package net.buffalo.protocal.converters.collection;
 
 import java.util.Date;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.Converter;
 import net.buffalo.protocal.io.MarshallingContext;
 import net.buffalo.protocal.io.StreamReader;
@@ -38,22 +39,22 @@ public class ArrayConverter extends AbstractListConverter implements Converter {
 		String name = clazz.getName();
 
 		if (clazz.equals(String.class))
-			return "string";
+			return ProtocalTag.TAG_STRING;
 		else if (clazz.equals(Object.class))
-			return "object";
+			return ProtocalTag.TAG_MAP;
 		else if (clazz.equals(Date.class))
-			return "date";
+			return ProtocalTag.TAG_DATE;
 		else if (clazz.equals(short.class) || clazz.equals(byte.class) 
 				|| clazz.equals(Short.class) || clazz.equals(Byte.class) 
 				|| clazz.equals(Integer.class)) 
-			return "int"; 
+			return ProtocalTag.TAG_INT; 
 		else if (clazz.equals(Long.class)) 
-			return "long";
+			return ProtocalTag.TAG_LONG;
 		else if (clazz.equals(float.class) || clazz.equals(Float.class)
 				|| clazz.equals(double.class) || clazz.equals(Double.class)) 
-			return "double"; 
-		else if (clazz.equals(Boolean.class)) 
-			return "boolean";
+			return ProtocalTag.TAG_DOUBLE; 
+		else if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) 
+			return ProtocalTag.TAG_BOOLEAN;
 		
 		return name;
 	}

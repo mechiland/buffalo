@@ -17,6 +17,7 @@
  */ 
 package net.buffalo.protocal.converters;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.map.AbstractMapConverter;
 import net.buffalo.protocal.io.MarshallingContext;
 import net.buffalo.protocal.io.StreamReader;
@@ -40,7 +41,7 @@ public class SqlDateConverter extends AbstractMapConverter implements Converter 
 
 	protected void marshalMapObject(Object value, MarshallingContext context, StreamWriter streamWriter) {
 		java.sql.Date date = (java.sql.Date) value;
-		streamWriter.startNode("string");
+		streamWriter.startNode(ProtocalTag.TAG_STRING);
 		streamWriter.setValue("value");
 		streamWriter.endNode();
 		context.convertAnother(new java.util.Date(date.getTime()));

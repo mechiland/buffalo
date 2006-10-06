@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.TypeNotFoundException;
 import net.buffalo.protocal.converters.Converter;
 import net.buffalo.protocal.io.MarshallingContext;
@@ -75,11 +76,11 @@ public class CollectionConverter extends AbstractListConverter implements Conver
 		className.append(type.substring(0, idx));
 		className.append("L");
 
-		classType = classType.equals("string") ? "java.lang.String" : 
-					classType.equals("int") ? "java.lang.Integer" : 
-					classType.equals("long") ? "java.lang.Long" : 
-					classType.equals("double") ? "java.lang.Double" : 
-					classType.equals("date") ? "java.util.Date" : classType;
+		classType = classType.equals(ProtocalTag.TAG_STRING) ? "java.lang.String" : 
+					classType.equals(ProtocalTag.TAG_INT) ? "java.lang.Integer" : 
+					classType.equals(ProtocalTag.TAG_LONG) ? "java.lang.Long" : 
+					classType.equals(ProtocalTag.TAG_DOUBLE) ? "java.lang.Double" : 
+					classType.equals(ProtocalTag.TAG_DATE) ? "java.util.Date" : classType;
 
 		className.append(classType);
 		className.append(";");

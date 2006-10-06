@@ -17,6 +17,7 @@
  */
 package net.buffalo.protocal.converters.basic;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.ProtocolException;
 import net.buffalo.protocal.converters.Converter;
 import net.buffalo.protocal.io.MarshallingContext;
@@ -37,13 +38,13 @@ public class BooleanConverter extends AbstractBasicConverter implements Converte
 		} else if (value.equals("0")) {
 			return Boolean.FALSE;
 		} else {
-			throw new ProtocolException("<boolean> contains only 1 or 0: "+ value);
+			throw new ProtocolException("<"+ProtocalTag.TAG_BOOLEAN+"> contains only 1 or 0: "+ value);
 		}
 	}
 	
 	public void marshal(Object source, MarshallingContext context, StreamWriter streamWriter) {
 		Boolean b = (Boolean) source;
-		streamWriter.startNode("boolean");
+		streamWriter.startNode(ProtocalTag.TAG_BOOLEAN);
 		streamWriter.setValue(String.valueOf(b.booleanValue() ? 1 : 0));
 		streamWriter.endNode();
 	}

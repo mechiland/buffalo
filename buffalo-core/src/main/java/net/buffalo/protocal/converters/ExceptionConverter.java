@@ -17,6 +17,7 @@
  */ 
 package net.buffalo.protocal.converters;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.io.MarshallingContext;
 import net.buffalo.protocal.io.StreamReader;
 import net.buffalo.protocal.io.StreamWriter;
@@ -34,13 +35,13 @@ public class ExceptionConverter implements Converter {
 		if (ex.getCause() != null) {
 			detail = "caused by: " + ex.getCause().getMessage();
 		}
-		streamWriter.startNode("fault");
-		node(streamWriter, "string", "code");
-		node(streamWriter, "string", ex.getClass().getName());
-		node(streamWriter, "string", "message");
-		node(streamWriter, "string", ex.getMessage());
-		node(streamWriter, "string", "detail");
-		node(streamWriter, "string", detail);
+		streamWriter.startNode(ProtocalTag.TAG_FAULT);
+		node(streamWriter, ProtocalTag.TAG_STRING, "code");
+		node(streamWriter, ProtocalTag.TAG_STRING, ex.getClass().getName());
+		node(streamWriter, ProtocalTag.TAG_STRING, "message");
+		node(streamWriter, ProtocalTag.TAG_STRING, ex.getMessage());
+		node(streamWriter, ProtocalTag.TAG_STRING, "detail");
+		node(streamWriter, ProtocalTag.TAG_STRING, detail);
 		streamWriter.endNode();
 	}
 

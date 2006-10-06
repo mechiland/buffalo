@@ -1,11 +1,12 @@
 package net.buffalo.protocal.converters.basic;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.Converter;
 
 public class IntegerConverter extends AbstractBasicConverter implements Converter {
 
 	protected String getType() {
-		return "int";
+		return ProtocalTag.TAG_INT;
 	}
 
 	public boolean canConvert(Class value) {

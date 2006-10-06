@@ -35,14 +35,7 @@ public class MapConverter extends AbstractMapConverter implements Converter {
 		reader.moveUp();
 		
 		if (type.equals("java.sql.Date")) {
-			reader.moveDown();
-			reader.moveUp();
-			reader.moveDown();
-			java.util.Date result = DateUtil.fromUTCString(reader.getValue());
-			java.sql.Date sqlDate = new java.sql.Date(result.getTime());
-			unmarshallingContext.addObject(sqlDate);
-			reader.moveUp();
-			return sqlDate;
+			return dealWithSqlDate(reader, unmarshallingContext);
 		}
 		
 		if (type.equals("") || type.equals("java.util.Map")) type = "java.util.HashMap";
@@ -61,6 +54,17 @@ public class MapConverter extends AbstractMapConverter implements Converter {
 		}
 		
 		return obj;
+	}
+
+	private Object dealWithSqlDate(StreamReader reader, UnmarshallingContext unmarshallingContext) {
+		reader.moveDown();
+		reader.moveUp();
+		reader.moveDown();
+		java.util.Date result = DateUtil.fromUTCString(reader.getValue());
+		java.sql.Date sqlDate = new java.sql.Date(result.getTime());
+		unmarshallingContext.addObject(sqlDate);
+		reader.moveUp();
+		return sqlDate;
 	}
 
 }

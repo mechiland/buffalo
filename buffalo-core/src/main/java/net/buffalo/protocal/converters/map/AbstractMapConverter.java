@@ -17,6 +17,7 @@
  */ 
 package net.buffalo.protocal.converters.map;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.AbstractReferencableConverter;
 import net.buffalo.protocal.converters.Converter;
 import net.buffalo.protocal.io.MarshallingContext;
@@ -25,9 +26,8 @@ import net.buffalo.protocal.io.StreamWriter;
 public abstract class AbstractMapConverter extends AbstractReferencableConverter implements Converter {
 
 	protected final void marshalObject(Object value, MarshallingContext context, StreamWriter streamWriter) {
-		streamWriter.startNode("map");
-		
-		streamWriter.startNode("type");
+		streamWriter.startNode(ProtocalTag.TAG_MAP);
+		streamWriter.startNode(ProtocalTag.TAG_TYPE);
 		streamWriter.setValue(value.getClass().getName());
 		streamWriter.endNode();
 		

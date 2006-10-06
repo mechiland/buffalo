@@ -2,6 +2,7 @@ package net.buffalo.protocal.converters.basic;
 
 import java.util.Date;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.Converter;
 import net.buffalo.protocal.io.MarshallingContext;
 import net.buffalo.protocal.io.StreamWriter;
@@ -17,7 +18,7 @@ public class DateConverter extends AbstractBasicConverter implements Converter {
 
 	public void marshal(Object value, MarshallingContext context, StreamWriter streamWriter) {
 		long time = ((Date) value).getTime();
-		streamWriter.startNode("date");
+		streamWriter.startNode(ProtocalTag.TAG_DATE);
 		streamWriter.setValue(DateUtil.toUTCString(time));
 		streamWriter.endNode();
 	}

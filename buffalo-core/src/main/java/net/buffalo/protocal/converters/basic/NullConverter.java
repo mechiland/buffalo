@@ -1,5 +1,6 @@
 package net.buffalo.protocal.converters.basic;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.Converter;
 import net.buffalo.protocal.io.MarshallingContext;
 import net.buffalo.protocal.io.StreamReader;
@@ -13,7 +14,7 @@ public class NullConverter implements Converter{
 	}
 
 	public void marshal(Object object, MarshallingContext context, StreamWriter streamWriter) {
-		streamWriter.startNode("null");
+		streamWriter.startNode(ProtocalTag.TAG_NULL);
 		streamWriter.endNode();
 	}
 

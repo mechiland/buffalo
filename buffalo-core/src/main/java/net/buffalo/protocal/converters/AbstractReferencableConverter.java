@@ -17,6 +17,7 @@
  */ 
 package net.buffalo.protocal.converters;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.io.MarshallingContext;
 import net.buffalo.protocal.io.StreamWriter;
 
@@ -26,7 +27,7 @@ public final void marshal(Object value, MarshallingContext context, StreamWriter
 		
 		int objectIndex = context.getObjects().indexOf(value);
 		if (objectIndex > -1) {
-			streamWriter.startNode("ref");
+			streamWriter.startNode(ProtocalTag.TAG_REF);
 			streamWriter.setValue(String.valueOf(objectIndex));
 			streamWriter.endNode();
 			return;

@@ -17,6 +17,7 @@
  */ 
 package net.buffalo.protocal.converters.collection;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.AbstractReferencableConverter;
 import net.buffalo.protocal.converters.Converter;
 import net.buffalo.protocal.io.StreamWriter;
@@ -24,11 +25,11 @@ import net.buffalo.protocal.io.StreamWriter;
 public abstract class AbstractListConverter extends AbstractReferencableConverter implements Converter {
 	
 	protected void writeListHeader(StreamWriter streamWriter, String type, int size) {
-		streamWriter.startNode("list");
-		streamWriter.startNode("type");
+		streamWriter.startNode(ProtocalTag.TAG_LIST);
+		streamWriter.startNode(ProtocalTag.TAG_TYPE);
 		streamWriter.setValue(type);
 		streamWriter.endNode();
-		streamWriter.startNode("length");
+		streamWriter.startNode(ProtocalTag.TAG_LENGTH);
 		streamWriter.setValue(String.valueOf(size));
 		streamWriter.endNode();	
 	}

@@ -1,11 +1,12 @@
 package net.buffalo.protocal.converters.basic;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.Converter;
 
 public class StringConverter extends AbstractBasicConverter implements Converter{
 
 	protected String getType() {
-		return "string";
+		return ProtocalTag.TAG_STRING;
 	}
 	
 	

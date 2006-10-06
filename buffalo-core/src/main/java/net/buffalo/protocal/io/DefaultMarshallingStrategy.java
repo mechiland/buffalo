@@ -21,12 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.buffalo.protocal.BuffaloCall;
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.ConverterLookup;
 
 public class DefaultMarshallingStrategy implements MarshallingStrategy {
 	
 	public void marshal(Object obj, ConverterLookup converterLookup, StreamWriter streamWriter) {
-		streamWriter.startNode("buffalo-reply");
+		streamWriter.startNode(ProtocalTag.TAG_REPLY);
 		MarshallingContext marshallingContext = new DefaultMarshallingContext(converterLookup, streamWriter);
 		marshallingContext.convertAnother(obj);
 		streamWriter.endNode();
