@@ -4,7 +4,7 @@
   <version>2.0</version>
   <artifactId>buffalo-parent</artifactId>
   <packaging>pom</packaging>
-  <name>Buffalo</name>
+  <name>Buffalo Parent</name>
   <modules>
     <module>buffalo-core</module>
     <module>buffalo-demo</module>
@@ -12,6 +12,7 @@
   </modules>
   
   <scm>
-    <url>scm:svn:http://svn.sourceforge.net/viewvc/buffalo/trunk</url>
+    <developerConnection>scm:svn:https://svn.sourceforge.net/viewvc/buffalo/trunk</developerConnection>
+    <url>http://svn.sourceforge.net/svnroot/buffalo/trunk</url>
   </scm>
 </project>

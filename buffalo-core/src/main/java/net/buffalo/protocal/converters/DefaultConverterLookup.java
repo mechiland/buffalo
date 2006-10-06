@@ -28,6 +28,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.ProtocolException;
 import net.buffalo.protocal.converters.basic.BooleanConverter;
 import net.buffalo.protocal.converters.basic.DateConverter;
@@ -103,16 +104,16 @@ public class DefaultConverterLookup implements ConverterLookup {
 		// Should be last one
 		converters.add(objectConverter);
 		
-		tagNameConverterCache.put("boolean", booleanConverter);
-		tagNameConverterCache.put("string", stringConverter);
-		tagNameConverterCache.put("int", integerConverter);
-		tagNameConverterCache.put("long", longConverter);
-		tagNameConverterCache.put("double", doubleConverter);
-		tagNameConverterCache.put("null", new NullConverter());
-		tagNameConverterCache.put("date", dateConverter);
-		tagNameConverterCache.put("list", collectionConverter);
-		tagNameConverterCache.put("map", mapConverter);
-		tagNameConverterCache.put("ref", new ReferenceConverter());
+		tagNameConverterCache.put(ProtocalTag.TAG_BOOLEAN, booleanConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_STRING, stringConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_INT, integerConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_LONG, longConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_DOUBLE, doubleConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_NULL, nullConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_DATE, dateConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_LIST, collectionConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_MAP, mapConverter);
+		tagNameConverterCache.put(ProtocalTag.TAG_REF, new ReferenceConverter());
 		
 		converterCache.put(Boolean.class, booleanConverter);
 		converterCache.put(boolean.class, booleanConverter);

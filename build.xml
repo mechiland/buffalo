@@ -1,0 +1,49 @@
+<!--
+Buffalo Release Script
+
+Please use it after 'mvn package' or 'mvn install'
+-->
+<project basedir="." name="Buffalo AJAX Framework" default="release">
+	
+	<property file="build.properties" />
+	
+	<property name="core.target" value="${basedir}/buffalo-core/target" />
+	<property name="demo.target" value="${basedir}/buffalo-demo/target" />
+	<property name="site.target" value="${basedir}/buffalo-site/target" />
+	
+	<property name="target.dir" value="${basedir}/target"/>
+	
+	<property name="release.src" value="${target.dir}/buffalo-${buffalo.version}-src" />
+	<property name="release.bin" value="${target.dir}/buffalo-${buffalo.version}-bin" />
+	
+	<target name="release">
+		<delete dir="${target.dir}" />
+		<mkdir dir="${target.dir}" />
+		<exec executable="svn">
+			<arg value="export"/>
+			<arg value="."/>
+			<arg value="${release.src}"/>
+		</exec>
+		
+		<zip destfile="${release.src}.zip" basedir="${release.src}" />
+		
+		<mkdir dir="${release.bin}" />
+		
+		<copy todir="${release.bin}">
+			<fileset dir="${core.target}">
+				<include name="buffalo-*.jar"/>
+				<include name="buffalo.js"/>
+				<include name="buffalo-blank.html"/>
+			</fileset>
+			<fileset dir="${demo.target}">
+				<include name="buffalo-demo.war"/>
+			</fileset>
+			<fileset dir="${site.target}">
+				<include name="site/**"/>
+			</fileset>
+		</copy>
+		
+		<zip destfile="${release.bin}.zip" basedir="${release.bin}"/>
+	</target>
+	
+</project>
