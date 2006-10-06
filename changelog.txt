@@ -1,0 +1,67 @@
+2006/10/6, 2.0-alpha1 release
+* CHANGE: new protocal implementation
+* CHNAGE: move to sourceforge
+* CHANGE: using maven as project management tool
+
+2006/9/7, 1.2.4 bug fix release
+* BUG: BuffaloService is not thread safe
+
+2006/4/28, 1.2.3 feature release
+* BUG: spring integreating
+* BUG: handle null and undefined values
+* IMPROVEMENT: The ServiceNotFoundException is not user-friendly
+* IMPROVEMENT: call remoteCall with one single buffalo instance
+* FEATURE: Opera, Safari browser support
+* FEATURE: add Buffalo.BOCLASS proproty for object coming from remote
+
+2006/2/16, 1.2.2 bug fix release
+* fix 1.2.1 cannot run under jdk 1.4
+* change ant build.xml 'compile' target to java 1.4 specified.
+* other little fix
+
+2006/1/20, 1.2.1 release
+* add Buffalo.Form.formToBean method
+* add resin server(2.x, 3.x) support
+* verify bea weblogic (8.0.15) support
+* change the build.xml
+
+2005/12/26, 1.2 release
+* support browser back/forward
+* rewrite the whole service module
+* rewrite the spring integration
+* rewrite the burlap dependencies, remove the burlap-fix.jar, 
+  You can use the original burlap jar now.
+* update trimpath template.js to 1.0.38 (bug fix)
+* upgrade prototype to 1.4
+
+2005/11/16 1.2alpha1 release
+* integrate prototype
+* refactor and rewrite whole code into prototype-like.
+* split javascript source into 4 parts: core, call, reply, bind
+* modify build.xml, concat the 4 parts into one js in the dist target.
+* modify the event system, change to buffalo.events["onLoading"]...
+* some bugfix
+
+1.1 develop release
+core:
+* Spring integration
+* capable with burlap call
+* add sync. call
+* can custom event
+
+binding(in very alpha state, just show demo only)£º
+* checkbox, select...
+* table
+
+document & demo
+* improve demo UI
+* buffalo rewrite j2ee blueprints ajax demo
+
+2005/06/03 1.0beta:
+* add ServiceRepository support
+* add ajax-autocomplete demo
+* add bing-test.html to show the buffalo-bind power
+* add LISENCE
+
+1.0alpha
+* initial release

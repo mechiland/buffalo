@@ -1,7 +1,9 @@
-echo Pre-Release...
-cmd /C mvn clean install site
-
-echo Coping and Zipping...
+@echo Pre-Release...
+@echo off
+cmd /C mvn clean package site
+@echo on
+@echo Coping and Zipping...
+@echo off
 cmd /C ant
-
-echo Release sucessfully, See <target> directory
+@echo on
+@echo Release sucessfully, See <target> directory

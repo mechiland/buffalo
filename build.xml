@@ -30,6 +30,9 @@ Please use it after 'mvn package' or 'mvn install'
 		<mkdir dir="${release.bin}" />
 		
 		<copy todir="${release.bin}">
+      <fileset dir="${basedir}">
+        <include name="readme.txt" />
+      </fileset>
 			<fileset dir="${core.target}">
 				<include name="buffalo-*.jar"/>
 				<include name="buffalo.js"/>
