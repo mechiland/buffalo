@@ -47,6 +47,7 @@ public class BuffaloCall {
 	}
 	
 	public String toString() {
+		if (arguments.length == 0) return methodName + "()";
 		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < arguments.length; i++) {
 			buffer.append(",");

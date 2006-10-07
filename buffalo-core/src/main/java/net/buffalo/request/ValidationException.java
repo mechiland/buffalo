@@ -27,6 +27,8 @@ package net.buffalo.request;
  */
 public class ValidationException extends RuntimeException {
 
+	private static final long serialVersionUID = -4841190721418212896L;
+
 	public ValidationException() {
 		super();
 		

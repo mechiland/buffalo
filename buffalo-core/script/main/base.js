@@ -3,7 +3,7 @@ Buffalo.BOCLASS="_BUFFALO_OBJECT_CLASS_";
 Buffalo.VERSION="@@BUFFALO_VERSION@@";
 
 Buffalo.prototype = {
-	initialize: function(gateway, async, events) {
+	initialize: function(gateway, async, events, options) {
 		this.gateway = gateway;
 		this.transport = null;
 		if (typeof(async) == 'undefined') {
@@ -15,6 +15,8 @@ Buffalo.prototype = {
 		this.setEvents(events);
 		this.queue = [];
 		this.requesting = false;
+		this.options = {timeout:5000};
+		Object.extend(this.options, options || {});
 	},
 	
 	getGateway : function() { return this.gateway;},
@@ -23,27 +25,39 @@ Buffalo.prototype = {
 		this.events = {
 			onLoading: Buffalo.Default.showLoading,
 			onFinish: new Function(),
-			onException: new Function(),
-			onError: Buffalo.Default.showError
+			onException: Buffalo.Default.showException,
+			onError: Buffalo.Default.showError,
+			onTimeout: Buffalo.Default.showTimeout
 		};
 		Object.extend(this.events, events || {});
 	},
 	
-	_remoteCall: function(url, burlapCall, callback) {
+	_remoteCall: function(url, buffaloCall, callback) {
 		this.requesting = true;
 		this.transport = XmlHttp.create();
-    try {
-  		this.transport.open("POST", url, this.async);
-  		this.transport.send(burlapCall.xml());
-    } catch (e) {
-      this.events.onError(e);
-    }
+		try {
+			this.transport.open("POST", url, this.async);
+			this.transport.send(buffaloCall.xml());
+		} catch (e) {
+			this.events.onError(this.transport);
+			this.events["onLoading"](false);
+			return;
+		}
+		this.requestTime = new Date();
+		this.timeoutHandle = new PeriodicalExecuter(this._timeoutChecker.bind(this), 0.5);
 		this.currentCallback = callback;
 		if (this.async) {
 			this.transport.onreadystatechange = this.onStateChange.bind(this);
 			this.events["onLoading"](true);
 		} else { 
 			this.response();
+		}
+	},
+	
+	_timeoutChecker: function() {
+		if ((new Date() - this.requestTime) > this.options.timeout)	{
+			this.events["onTimeout"]();
+			this.timeoutHandle.stop();
 		}
 	},
 
@@ -80,24 +94,30 @@ Buffalo.prototype = {
 	},
 	
 	response : function() {
+		this.timeoutHandle.stop();
 		if (this.transport.status == '200') {
 			var reply = new Buffalo.Reply(this.transport);
 			this.events["onLoading"](false);
+			if (reply.isFault()) {
+				this.events["onException"](reply.getResult());
+			}
 			this.currentCallback(reply);
 			this.events["onFinish"](reply);
 			this.requesting = false;
 			this.nextRemoteCall();
 		} else {
-			this.events["onError"](this.transport.responseText);
+			this.events["onError"](this.transport);
+			this.events["onLoading"](false);
+			this.requesting = false;
 		}
 	}
 
 }
 
-
 Buffalo.Default = {
-	loadingPane:null,
-	errorPane:null,
+	loadingPane: null,
+	errorPane: null,
+	exceptionPane: null,
 	
 	showLoading : function(state) {
 		this.loadingPane = $("buffalo_loading");
@@ -117,22 +137,43 @@ Buffalo.Default = {
 		}
 	},
 	
-	showError: function(errorStr) {
+	showError: function(transport) {
 		this.errorPane = $("buffalo_error");
 		if (this.errorPane == null) {
 			var el = document.createElement('DIV');
 			el.setAttribute("id","buffalo_error");
-			el.style.cssText="font-size:11px;border:4px solid #cc0000;background-color:#fff;padding:4px;position:absolute;overflow:auto; right:10px; top:10px; width:500px; height:300px; z-index:1";
-			el.innerHTML=errorStr;
-      el.onclick=function(){
-        el.style.display="none";
-      }
+			el.style.cssText="font-size:11px;border:4px solid #FF3333;background-color:#fff;padding:4px;position:absolute;overflow:auto; right:10px; top:10px; width:500px; height:300px; z-index:1";
+			el.innerHTML="<h2>Error: " + transport.status+" - "+transport.statusText+"</h2>";
+			el.innerHTML+="<textarea style='width:96%;height:80%'>"+transport.responseText.stripTags()+"</textarea>";
+      		el.onclick=function(){ el.style.display="none"; }
 			document.body.appendChild(el);
 			this.errorPane = el;
+		} else {
+			this.errorPane.style.display = "block";
 		}
 	},
 	
-	showException: function(ex) { /*TODO*/ }
+	showException: function(faultObj) {
+		this.exceptionPane = $("buffalo_exception");
+		if (this.exceptionPane == null) {
+			var el = document.createElement('DIV');
+			el.setAttribute("id","buffalo_exception");
+			el.style.cssText="font-size:11px;border:4px solid #FFFF33;background-color:#fff;padding:4px;position:absolute;overflow:auto; right:10px; top:10px; width:300px; height:100px; z-index:1";
+			el.innerHTML ="<h2>Exception: " + faultObj.code+"</h2>";
+			el.innerHTML += "Code: "+faultObj.code+"<br/>";
+			el.innerHTML += "Message: "+faultObj.message+"<br/>";
+			el.innerHTML += "Detail: " + faultObj.detail;
+      		el.onclick=function(){ el.style.display="none"; }
+			document.body.appendChild(el);
+			this.exceptionPane = el;
+		} else {
+			this.exceptionPane.style.display = "block";
+		}
+	},
+	
+	showTimeout: function() {
+		alert("timeout!");
+	}
 }
 
 function getDomDocumentPrefix() {

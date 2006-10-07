@@ -19,7 +19,6 @@ var testCase = new Test.Unit.Runner({
 	testRemoteCallSimple: function() {with(this){
 		var call = new Buffalo.Call();
 		var buffalo = new Buffalo('sample-reply.xml', false);
-		//buffalo.events["onError"] = function(){alert("")};
 		buffalo._remoteCall('sample-reply.xml', call, function(reply) {
 			assertEqual(0.5, reply.getResult());
 		});
@@ -30,7 +29,7 @@ var testCase = new Test.Unit.Runner({
 		assertEqual(1, arr.shift());
 		assertEqual(2, arr.length);
 		assertEqual(2, arr[0]);
-	}}
+	}},
 
 }, "testlog");
 </script>

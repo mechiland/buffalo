@@ -30,7 +30,10 @@ function cmdDivide() {
 	
 }
 
-
+function error() {
+	var newbuffalo = new Buffalo(endPoint);
+	newbuffalo.remoteCall("simpleService.xxxx", [], function(reply){})
+}
 
 </script>
 
@@ -47,7 +50,6 @@ function cmdDivide() {
 <textarea id="result" rows="6" cols="60"></textarea>
 
 <p>&nbsp;</p>
-
-
+<input type="button" onclick="error()" value="error">
 </body>
 </html>

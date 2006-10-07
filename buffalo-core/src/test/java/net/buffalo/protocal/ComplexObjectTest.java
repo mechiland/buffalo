@@ -44,6 +44,11 @@ public class ComplexObjectTest extends TestCase {
 		StreamWriter streamWriter = new FastStreamWriter(stringWriter);
 		MarshallingContext context = new DefaultMarshallingContext(new DefaultConverterLookup(), streamWriter);
 		converter.marshal(user, context, streamWriter);
-		System.out.println(stringWriter.getBuffer().toString());
+		assertEquals("<map><type>net.buffalo.protocal.User</type><string>username</string><string>Michael</string>" +
+				"<string>password</string><string>password</string><string>gendor</string><string>girl</string>" +
+				"<string>interests</string><list><type>java.util.ArrayList</type><length>3</length>" +
+				"<string>Football</string><string>Music</string><string>Cook</string></list><string>roles</string>" +
+				"<list><type>[string</type><length>2</length><string>SA</string><string>Architect</string></list></map>",
+				stringWriter.getBuffer().toString());
 	}
 }

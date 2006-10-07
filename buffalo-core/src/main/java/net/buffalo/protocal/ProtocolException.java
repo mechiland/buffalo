@@ -19,6 +19,8 @@ package net.buffalo.protocal;
 
 public class ProtocolException extends RuntimeException {
 
+	private static final long serialVersionUID = 4532061712982896057L;
+
 	public ProtocolException() {
 		super();
 	}

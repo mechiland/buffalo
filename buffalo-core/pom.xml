@@ -77,6 +77,8 @@
 										files="base.js,call.js,reply.js,bind.js,view.js,form.js">
 										</filelist>
 								</concat>
+								<replace file="${basedir}/target/buffalo.js" token="@@BUFFALO_VERSION@@" 
+									value="${version}" />
 								<copy todir="${basedir}/target" 
 									file="${basedir}/script/main/buffalo-blank.html" />
 							</tasks>

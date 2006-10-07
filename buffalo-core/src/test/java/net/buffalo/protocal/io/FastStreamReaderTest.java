@@ -208,7 +208,7 @@ public class FastStreamReaderTest extends TestCase {
 		for (int i = 0; i < depth; i++) {
 			empthstr += "  ";
 		}
-		System.out.println(empthstr+reader.getNodeName()+"="+reader.getValue());
+		
 		depth++;
 		while (reader.hasMoreChildren()) {
 			reader.moveDown();

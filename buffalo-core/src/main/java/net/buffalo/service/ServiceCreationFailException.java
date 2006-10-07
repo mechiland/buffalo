@@ -26,6 +26,8 @@ package net.buffalo.service;
  */
 public class ServiceCreationFailException extends RuntimeException {
 
+	private static final long serialVersionUID = -8751690886216464063L;
+
 	public ServiceCreationFailException() {
 		super();
 	}

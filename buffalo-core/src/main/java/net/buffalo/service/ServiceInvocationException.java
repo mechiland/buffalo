@@ -26,6 +26,8 @@ package net.buffalo.service;
  */
 public class ServiceInvocationException extends RuntimeException {
 
+	private static final long serialVersionUID = 4265698432215818206L;
+
 	public ServiceInvocationException() {
 		super();
 	}

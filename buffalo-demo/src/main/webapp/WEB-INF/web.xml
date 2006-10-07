@@ -8,23 +8,6 @@
 			/WEB-INF/applicationContext.xml
 		</param-value>
 	</context-param>
-	<servlet>
-		<servlet-name>service</servlet-name>
-		<servlet-class>net.buffalo.server.BuffaloServiceServlet</servlet-class>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet>
-	
-	<servlet>
-		<servlet-name>bfpage</servlet-name>
-		<servlet-class>net.buffalo.server.BuffaloPageServlet</servlet-class>
-		<init-param>
-			<param-name>debug</param-name>
-			<param-value>true</param-value>
-		</init-param>
-	</servlet>
 	
 	<servlet>
 		<servlet-name>bfapp</servlet-name>
@@ -38,18 +21,8 @@
 	</servlet>
 	
 	<servlet-mapping>
-		<servlet-name>bfpage</servlet-name>
-		<url-pattern>/bfpage/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
 		<servlet-name>bfapp</servlet-name>
 		<url-pattern>/bfapp/*</url-pattern>
 	</servlet-mapping>
 	
-	<servlet-mapping>
-		<servlet-name>service</servlet-name>
-		<url-pattern>/BUFFALO</url-pattern>
-	</servlet-mapping>
-
 </web-app>

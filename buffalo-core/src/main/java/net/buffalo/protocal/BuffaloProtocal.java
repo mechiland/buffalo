@@ -17,6 +17,7 @@
  */
 package net.buffalo.protocal;
 
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -25,9 +26,10 @@ import java.io.Writer;
 import net.buffalo.protocal.converters.ConverterLookup;
 import net.buffalo.protocal.converters.DefaultConverterLookup;
 import net.buffalo.protocal.io.DefaultMarshallingStrategy;
+import net.buffalo.protocal.io.FastInputStreamReader;
 import net.buffalo.protocal.io.FastStreamReader;
-import net.buffalo.protocal.io.MarshallingStrategy;
 import net.buffalo.protocal.io.FastStreamWriter;
+import net.buffalo.protocal.io.MarshallingStrategy;
 
 public class BuffaloProtocal {
 
@@ -64,5 +66,9 @@ public class BuffaloProtocal {
 	
 	public BuffaloCall unmarshall(Reader reader) {
 		return marshallingStrategy.unmarshal(new FastStreamReader(reader), converterLookup);
+	}
+	
+	public BuffaloCall unmarshall(InputStream inputStream) {
+		return marshallingStrategy.unmarshal(new FastInputStreamReader(inputStream), converterLookup);
 	}
 }

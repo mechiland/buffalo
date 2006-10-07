@@ -77,6 +77,9 @@ function friendsToStr(arr) {
 	return str;
 }
 
+function timeoutDemo() {
+	buffalo.remoteCall("simpleService.timeoutTest", [], function(){});	
+}
 
 </script>
 
@@ -150,5 +153,9 @@ User[2] : {{&quot;Michael&quot;,&quot;J&quot;,&quot;Jordon&quot;}}, friends=[Use
     <td><textarea name="cuser_friends" rows="10" cols="80" wrap="VIRTUAL" id="cuser_friends"></textarea></td>
   </tr>
 </table>
+
+<h4>6 Time out </h4>
+<p>Buffalo 2.0 introduces the onTimeout event, default is 5 seconds</p>
+<br/> <input type="button" value="timeoutTest" onclick="timeoutDemo()" />
 
 <p>&nbsp;</p>

@@ -42,27 +42,28 @@ import org.apache.commons.logging.LogFactory;
  */
 public class BuffaloWorker extends AbstractRequestWorker implements RequestWorker {
 	
-	private static final Log LOG = LogFactory.getLog(BuffaloWorker.class);
+	private static final Log LOGGER = LogFactory.getLog(BuffaloWorker.class);
 	
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		
-		LOG.debug("invoking buffalo worker");
+		if (LOGGER.isDebugEnabled()) {
+			LOGGER.debug("invoking buffalo worker");
+		}
 		
 		String requestService = getWorkerRelativePath();
-		
 		ServiceRepository repository = ServiceRepositoryUtil.getServiceRepository(
 				RequestContext.getContext().getServletContext());
 		
 		Object service = repository.get(requestService);
 		response.setHeader("content-type", "text/xml;charset=utf-8");
-		
 		try {
-			BuffaloInvoker.getInstance().invoke(service, request.getReader(), response.getWriter());
+			BuffaloInvoker.getInstance().invoke(service, request.getInputStream(), response.getWriter());
 		} catch (Throwable ex) {
+			LOGGER.error("An exception occured when invoking a service: ", ex);
 			StringWriter writer = new StringWriter();
 			ex.printStackTrace(new PrintWriter(writer));
 			StringBuffer faultString = new StringBuffer();
-			faultString.append("An exception occured when invoke a service. \n");
+			faultString.append("An exception occured when invoking a service. \n");
 			faultString.append(writer.toString());
 			throw new ServiceInvocationException(faultString.toString(), ex);
 		}

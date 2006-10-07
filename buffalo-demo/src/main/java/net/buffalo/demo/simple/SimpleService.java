@@ -78,4 +78,9 @@ public class SimpleService {
 		return result;
 	}
 	
+	public void timeoutTest() throws Exception {
+		// just sleep
+		Thread.sleep(6000);
+	}
+	
 }

@@ -25,6 +25,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+/**
+ * 
+ * RequestContext encapuslate the request/session/application infomation in a thread-safe way. In buffalo services, 
+ * you don't need to inherit the {@link net.buffalo.servic.BuffaloService}. 
+ * 
+ * @author michael
+ * @since 1.2.4
+ */
 public class RequestContext {
 	
 	public static final String SESSION = "net.buffalo.request.RequestContext.session";
@@ -126,6 +134,7 @@ public class RequestContext {
 		
 		return context;
 	}
+	
 
 	public static void setContext(RequestContext context) {
 		requestContext.set(context);

@@ -58,12 +58,4 @@ public class ObjectSerializerTest extends TestCase {
 		assertEquals(1, context.getObjects().size());
 	}
 	
-	public void testSqlDate() throws Exception {
-		java.util.Date today = new java.util.Date(2006,10,1);
-		java.sql.Date sDate = new java.sql.Date(today.getTime());
-		ObjectConverter os = new ObjectConverter();
-		os.marshal(sDate, context, streamWriter);
-		System.out.println(stringWriter.getBuffer().toString());
-	}
-	
 }

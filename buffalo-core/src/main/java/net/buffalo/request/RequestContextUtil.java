@@ -32,20 +32,18 @@ public class RequestContextUtil {
 	
 	public static void createRequestContext(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) {
 		RequestContext context = new RequestContext(new HashMap());
+		context.setServletContext(servletContext);
+		context.setHttpRequest(request);
+		context.setHttpResponse(response);
+		RequestContext.setContext(context);
 		context.setApplication(createApplicationMap(servletContext));
 		context.setSession(createSessionMap(request));
 		context.setCookie(createCookieMap(request));
 		context.setParameter(request.getParameterMap());
-		
-		context.setHttpRequest(request);
-		context.setHttpResponse(response);
-		context.setServletContext(servletContext);
-		
-		RequestContext.setContext(context);
 	}
 
 	private static Map createCookieMap(HttpServletRequest request) {
-		Map map = new HashMap();
+		Map map = new SynchronizableMap.CookieMap();
 		
 		Cookie[] cookies = request.getCookies();
 		
@@ -59,8 +57,7 @@ public class RequestContextUtil {
 	}
 
 	private static Map createSessionMap(HttpServletRequest request) {
-		Map map = new HashMap();
-		
+		Map map = new SynchronizableMap.SessionMap();
 		HttpSession httpSession = request.getSession(true);
 		Enumeration attributeNames = httpSession.getAttributeNames();
 		while(attributeNames.hasMoreElements()) {
@@ -72,7 +69,7 @@ public class RequestContextUtil {
 	}
 
 	private static Map createApplicationMap(ServletContext servletContext) {
-		Map map = new HashMap();
+		Map map = new SynchronizableMap.ApplicationMap();
 		Enumeration attributeNames = servletContext.getAttributeNames();
 		while(attributeNames.hasMoreElements()) {
 			String attr = (String) attributeNames.nextElement();

@@ -17,6 +17,7 @@
  */
 package net.buffalo.service.invoker;
 
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
@@ -33,7 +34,7 @@ import net.buffalo.protocal.Signature;
 import net.buffalo.service.ServiceInvocationException;
 
 public class BuffaloInvoker implements ServiceInvoker {
-
+	
 	private Map methodCache;
 	private static BuffaloInvoker instance;
 	
@@ -46,6 +47,43 @@ public class BuffaloInvoker implements ServiceInvoker {
 			instance = new BuffaloInvoker();
 		}
 		return instance;
+	}
+	
+	/**
+	 * Invoke the service. Note: this method is for appserver
+	 * @param service
+	 * @param inputStream
+	 * @param outputStream
+	 */
+	public void invoke(Object service, InputStream inputStream, Writer writer) {
+		BuffaloCall call = BuffaloProtocal.getInstance().unmarshall(inputStream);
+		Signature signature = new Signature(service.getClass(), 
+				call.getMethodName(), call.getArgumentTypes());
+		
+		Method method = null;
+		if (methodCache.get(signature) != null) {
+			method = (Method) methodCache.get(signature);
+		} else {
+			method = lookupMethod(service, call, signature);
+		}
+
+		if (method == null) {
+			throw new ServiceInvocationException(("cannot find the method " + call + " for " 
+					+ service.getClass().getName()));
+		}
+
+		Object result = null;
+		try {
+			result = method.invoke(service, call.getArguments());
+		} catch (IllegalArgumentException e) {
+			throw new ServiceInvocationException(e);
+		} catch (IllegalAccessException e) {
+			throw new ServiceInvocationException(e);
+		} catch (InvocationTargetException e) {
+			result = e.getTargetException();
+		}
+
+		BuffaloProtocal.getInstance().marshall(result, writer);
 	}
 	
 	public void invoke(Object service, Reader reader, Writer writer) {
@@ -61,8 +99,8 @@ public class BuffaloInvoker implements ServiceInvoker {
 		}
 
 		if (method == null) {
-			throw new ServiceInvocationException("cannot find the method "
-					+ call + " for " + service.getClass().getName());
+			throw new ServiceInvocationException(("cannot find the method " + call + " for " 
+					+ service.getClass().getName()));
 		}
 
 		Object result = null;

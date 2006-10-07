@@ -50,6 +50,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ApplicationServlet extends HttpServlet {
 
+	private static final long serialVersionUID = 7531914733078063390L;
+
 	private static final Log LOG = LogFactory.getLog(ApplicationServlet.class);
 
 	private static final String LOCALE_COOKIE_NAME = "net.buffalo.web.locale";

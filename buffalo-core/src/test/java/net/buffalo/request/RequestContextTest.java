@@ -30,6 +30,19 @@ import org.springframework.mock.web.MockServletContext;
 
 public class RequestContextTest extends TestCase {
 	
+	private MockServletContext mockServletContext;
+	private MockHttpServletRequest mockRequest;
+	private HttpSession mockHttpSession;
+	private MockHttpServletResponse mockResponse;
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		mockServletContext = new MockServletContext();
+		mockRequest = new MockHttpServletRequest(mockServletContext);
+		mockHttpSession = mockRequest.getSession();
+		mockResponse = new MockHttpServletResponse();
+	}
+	
 	public void testShouldGetRequestContextHolder() throws Exception {
 		RequestContext context = new RequestContext(new HashMap());
 		RequestContext.setContext(context);
@@ -37,11 +50,7 @@ public class RequestContextTest extends TestCase {
 	}
 	
 	public void testShouldGetTheMapWhenCreateUsingUtil() throws Exception {
-		MockServletContext mockServletContext = new MockServletContext();
-		MockHttpServletRequest mockRequest = new MockHttpServletRequest(mockServletContext);
-		HttpSession mockHttpSession = mockRequest.getSession();
-		MockHttpServletResponse mockResponse = new MockHttpServletResponse();;
-		
+
 		Cookie cookie = new Cookie("c_name", "c_value");
 		mockServletContext.setAttribute("a", "appValue");
 		mockRequest.addParameter("parameterName", "parameterValue");
@@ -49,18 +58,29 @@ public class RequestContextTest extends TestCase {
 		mockHttpSession.setAttribute("s", "sessionValue");
 		
 		RequestContextUtil.createRequestContext(mockServletContext,	mockRequest, mockResponse);
-		
 		RequestContext context = RequestContext.getContext();
+		
 		assertNotNull(context);
+		assertEquals(mockServletContext, context.getServletContext());
 		assertEquals("appValue", context.getApplication().get("a"));
 		assertEquals(1, context.getSession().size());
-		assertEquals("appValue", context.getApplication().get("a"));
 		assertEquals("sessionValue", context.getSession().get("s"));
 		
 		assertEquals(mockRequest, context.getHttpRequest());
 		assertEquals(mockHttpSession, context.getHttpSession());
 		assertEquals(1, context.getParameter().size());
 		assertEquals(mockResponse, context.getHttpResponse());
-		
+	}
+	
+	public void testUpdateRequestVariables() throws Exception {
+		RequestContextUtil.createRequestContext(mockServletContext,	mockRequest, mockResponse);
+		RequestContext context = RequestContext.getContext();
+		context.getSession().put("s_key", "s_value");
+		assertEquals("s_value", mockHttpSession.getAttribute("s_key"));
+		context.getApplication().put("a_key", "a_value");
+		assertEquals("a_value", mockServletContext.getAttribute("a_key"));
+		Cookie cookie = new Cookie("c_name", "c_value");
+		context.getCookie().put(cookie.getName(), cookie);
+		assertEquals(cookie, mockResponse.getCookies()[0]);
 	}
 }

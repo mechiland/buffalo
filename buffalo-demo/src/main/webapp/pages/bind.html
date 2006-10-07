@@ -26,7 +26,8 @@ onchange="buffalo.bindReply('simpleService.provinceCities',[this.value],'sel_cit
 </SELECT>
 <SELECT NAME="sel_city" id="sel_city">
 </SELECT>
-<INPUT TYPE="button" NAME="" value="Get Select Value" onclick="alert($('sel_province').value)">
+<INPUT TYPE="button" NAME="" value="Get Select Value" 
+onclick="alert('You selected '+$F('sel_province') + ' - ' + $F('sel_city'))">
 <P>
 <H3>CheckBox</H3>
 <INPUT TYPE="checkbox" NAME="" id="testChk">

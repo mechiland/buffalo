@@ -26,6 +26,8 @@ package net.buffalo.service;
  */
 public class NoSuchServiceException extends RuntimeException {
 
+	private static final long serialVersionUID = 664802552465490277L;
+
 	public NoSuchServiceException() {
 		super();
 	}

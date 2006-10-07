@@ -33,14 +33,11 @@ public class SignatureTest extends TestCase {
 	public void testPutToCache() throws Exception {
 		HashMap cache = new HashMap();
 		Signature s1 = new Signature(SignatureTest.class, "dummy", new Class[]{Double.class});
-		System.out.println(s1.hashCode());
 		Signature s2 = new Signature(SignatureTest.class, "dummy", new Class[]{Double.class});
-		System.out.println(s2.hashCode());
+		assertEquals(s1.hashCode(), s2.hashCode());
 		cache.put(s1, new Integer(1));
 		cache.put(s2, new Integer(2));
-		
 		Signature s3 = new Signature(SignatureTest.class, "dummy", new Class[]{Double.class});
-		
-		System.out.println(cache.get(s3));
+		assertEquals(cache.get(s3), new Integer(2));
 	}
 }

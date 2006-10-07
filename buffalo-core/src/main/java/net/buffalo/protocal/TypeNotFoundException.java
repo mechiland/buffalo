@@ -19,6 +19,8 @@ package net.buffalo.protocal;
 
 public class TypeNotFoundException extends RuntimeException {
 
+	private static final long serialVersionUID = 6059732752519238966L;
+
 	public TypeNotFoundException() {
 		super();
 	}
