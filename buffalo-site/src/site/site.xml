@@ -6,16 +6,44 @@
     <href>index.html</href>
   </bannerLeft>
   
+  <bannerRight>
+    <src>http://sflogo.sourceforge.net/sflogo.php?group_id=178867&amp;type=1</src>
+	<href>http://sourceforge.net</href>
+  </bannerRight>
+  
   <body>
     <links>
-      <item name="Chinese Docs" href="http://www.amowa.net/buffalo" />
+      <item name="Chinese Docs" href="http://www.amowa.net/buffalo/zh" />
     </links>
 
     <menu name="Quick Start">
-      <item name="Download" href="http://sourceforge.net/project/showfiles.php?group_id=178867"/>
       <item name="1 Minute Tutorial" href="tutorial.html"/>
-      <item name="Features" href="features.html"/>      
+	  <item name="Demo" href="http://demo.amowa.net/buffalo-demo/"/>
+      <item name="Download" href="download.html"/>
+	  <item name="Features" href="features.html"/>
+	   <item name="FAQ" href="faq.html"/>
     </menu>
     
+	<menu name="Mastering Buffalo">
+      <item name="Best Practise" href="best-practice.html"/>
+      <item name="How to..." href="howto.html"/>
+    </menu>
+	
+	<menu name="Reference">
+	  <item name="JavaScript API" href="jsapi.html"/>
+	  <item name="JavaDoc" href="jsapi.html"/>
+      <item name="Buffalo Protocal" href="protocal.html"/>
+      <item name="History" href="history.html"/>
+    </menu>
+	
   </body>
+  
+  <!--
+  <skin>
+    <groupId>org.apache.maven.skins</groupId>
+    <artifactId>maven-classic-skin</artifactId>
+	<artifactId>maven-stylus-skin</artifactId>
+    <version>1.0</version>
+  </skin>
+  -->
 </project>

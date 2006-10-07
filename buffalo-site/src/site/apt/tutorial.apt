@@ -1,8 +1,10 @@
  --------
  1 Minute Tutorial
  --------
- 
-Prepare
+
+1 Minute Tutorial 
+
+* Prepare
 
   Please download the latest version of buffalo distribution. Create a directory structure as follows:
 
@@ -15,7 +17,7 @@ buffalo-example
 
   Copy burlap-2.1.2.jar, buffalo-<version>.jar to WEB-INF/lib, copy prototype.js, buffalo.js to script.
   
-Edit web.xml
+* Edit web.xml
 
   Create a web.xml in WEB-INF with content as follow:
 
@@ -35,7 +37,7 @@ Edit web.xml
 </web-app>
 +---------------------------------------------------------------------------------+
 
-Edit buffalo-service.properties
+* Edit buffalo-service.properties
 
   Create a text file buffalo-service.properties to WEB-INF/classes with content as follow:
 
@@ -44,7 +46,7 @@ Edit buffalo-service.properties
 helloService=example.HelloService
 +---------------------+
 
-Edit JSP file
+* Edit JSP file
 
   Create example.jsp in the web root:
 
@@ -78,7 +80,7 @@ function hello() {
 </html>
 +---------------------+
 
-Adding a Service
+* Adding a Service
 
 +---------------------+
 package example;
@@ -95,12 +97,13 @@ public String hello(String name) {
 }
 +---------------------+
 
-  compile it and copy the binary class file to WEB-INF/classes.
+  Compile it and copy the binary class file to WEB-INF/classes.
 
-Final step: run the application
+* Final step: run the application
 
-  Copy the whole buffalo-exmaple directory to TOMCAT_HOME/webapps, start tomcat, open browser and visit http://localhost:8080/buffalo-example/example.jsp, input your name and click ¡®Hello¡¯ buffalo, see your result.
+  Copy the whole buffalo-exmaple directory to TOMCAT_HOME/webapps, start tomcat, open browser and 
+  visit http://localhost:8080/buffalo-example/example.jsp, input your name and click "Hello" button, see the result.
 
-Further more
+* Further more
 
   Please read spring integration and best practice for more information

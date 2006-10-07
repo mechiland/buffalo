@@ -2,13 +2,20 @@
  Features
  ---------
 
-JavaScript implementation of a lightwight xml protocal
+Features
 
-  Buffalo is using a lightweight protocal(a subset of burlap with minor modification) and it is very good for web remoting, simple yet enough. Buffalo implementation is including seserializing and deserializing for javascript objects.
+* JavaScript implementation of a lightwight xml protocal
+
+  Buffalo is using a lightweight protocal(a subset of burlap with minor modification) and it is very good for 
+  web remoting, simple yet enough. Buffalo implementation is including seserializing and deserializing for 
+  javascript objects.
   
-Full support for java to javascript serializing/deserializing
+* Full support for java to javascript serializing/deserializing
 
-  Any method invokation result at java side, will be serialize to javascript side transparently, no matter how complicated of this object is. Burlap can serialize from primitive type (String, int, long, boolean, etc) and Object type(List, Map even your own business domain object). You can access the same property at the javascript side. This sophiscate feature has been proven in various real projects.
+  Any method invokation result at java side, will be serialize to javascript side transparently, no matter how 
+  complicated of this object is. Burlap can serialize from primitive type (String, int, long, boolean, etc) 
+  and Object type(List, Map even your own business domain object). You can access the same property at 
+  the javascript side. This sophiscate feature has been proven in various real projects.
 
   The client javascript:
 
@@ -19,7 +26,7 @@ buffalo.remoteCall("userService.listAll",[],function(reply){
 });
 +--------------------------------------------------------------+
 
-Callback based programming model
+* Callback based programming model
 
   Every remote call could be like below:
 
@@ -37,34 +44,41 @@ buffalo.remoteCall("userService.login",["username","password"], function(reply) 
 
   This kind of API is very easy to learn and use. Every user could use it in half an hour.
 
-Support asynchonize events
+* Support asynchonize events
 
-  Love the gmail-like loading? buffalo give you! When calling the remote method, a loading panel is shown on the top-right corner of the browser. You can also customize onLoad, onFinish, onError events to display your own infomation.
+  Love the gmail-like loading? buffalo give you! When calling the remote method, a loading panel is shown on the 
+  top-right corner of the browser. You can also customize onLoad, onFinish, onError events to display your own infomation.
 
-Straightforward, easy to use API
+* Straightforward, easy to use API
 
-  Buffalo developers try their best to make the API easy to use on both server side and client side. The buffalo users do not need to know the detail implementation.
+  Buffalo developers try their best to make the API easy to use on both server side and client side. The buffalo users 
+  do not need to know the detail implementation.
 
     * Server side. Every POJO can be exposed as a buffalo service. No need to write buffalo specified java file.
 
-    * Client side. What the users need is only one Buffalo Object with a couple of methods. It is so easy that every user could get used of it in less than half an hour.
+    * Client side. What the users need is only one Buffalo Object with a couple of methods. It is so easy that every 
+    user could get used of it in less than half an hour.
 
-Integrated with prototype javascript library
+* Integrated with prototype javascript library
 
-  Buffalo client scripts build on top of the famous prototype library, using its class facility and element selector. You can get the benefit directly from prototype provided convenient infrastructure.
+  Buffalo client scripts build on top of the famous prototype library, using its class facility and element selector. 
+  You can get the benefit directly from prototype provided convenient infrastructure.
 
-Spring integration
+* Spring integration
 
   Spring is the most popular IoC container. Every bean managed by spring can be used as buffalo service with simple configuration.
   
-Compatibility
+* Compatibility
 
   All features support IE/Firefox, remoting features support IE5.5+/Firefox1.0+/Safari/Opera9+.
 
-Browser back/forward support
+* Browser back/forward support
 
-  Most the AJAX applications does not support browser back/forward, such as MSN Live Mail. Buffalo solve this problem. What you need to do is add a reference of buffalo-blank.html as iframe, and use buffalo.switchView to navigate your page, you will find the navigation will work well on your browser. (Tested on IE/Firefox)
+  Most the AJAX applications does not support browser back/forward, such as MSN Live Mail. Buffalo solve this problem. 
+  What you need to do is add a reference of buffalo-blank.html as iframe, and use buffalo.switchView to navigate 
+  your page, you will find the navigation will work well on your browser. (Tested on IE/Firefox)
 
-Support data binding
+* Support data binding
 
-  For most common used elements in HTML, buffalo provide the binding feature, which can bind the javascript object to the element. Now we support text, checkbox, radio, textarea, select, span/div, table.
+  For most common used elements in HTML, buffalo provide the binding feature, which can bind the javascript object 
+  to the element. Now we support text, checkbox, radio, textarea, select, span/div, table.

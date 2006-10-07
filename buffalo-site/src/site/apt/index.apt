@@ -4,10 +4,30 @@
  Michael Chen
  -----
 
-What is Buffalo?
+Welcome to Buffalo
 
-  Buffalo is a lightweight J*EE AJAX framework using based on burlap protocal. It is simple, easy to use yet powerful. It solves most the common problems during j2ee ajax development. It promise bringing benifits for both developers and the end users. Buffalo does not want to provide tricky ways to hide the javascript creating, it exposes all the things to developer as concerns about javascript is important for web development.
+  Buffalo is an lightweight J*EE AJAX framework. It is opensource (Apache License 2.0), easy to use yet powerful. 
+  It solves most the common problems during j2ee ajax development. It promise bringing benifits for both developers 
+  and the end users. 
   
-Why Buffalo and Why Not?
+  Buffalo features include:
+  
+    * a lightweight protocal
+    
+    * sophiscated serializing/deserialing between java and javascript
+    
+    * straightforward, easy to use API 
+    
+    * support IE5.5+/Firefox1.0+/Safari/Opera8.5+
+    
+    * support OPOA(one page, one application)
+    
+    * build-in browser forward/back support
+    
+    * {{{features.html} more detail description...}}
 
-  If you are familiar with some other java based open source ajax products(such as DWR), skip this and move on. AJAX frameworks are straightforward and if not, it¡¯s a bad project. Also, if you want see features or history of buffalo.
+* Why Buffalo and Why Not?
+
+  If you are familiar with some other java based open source ajax products(such as DWR, JSON), skip this and move on. 
+  If you want to have another flavor of ajax framework, try this. If you have no idea about the AJAX framework, try this. 
+  Or if you want see {{{features.html} features }} or {{{history.html} history }} of buffalo.
