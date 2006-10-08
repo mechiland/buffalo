@@ -82,7 +82,8 @@ Buffalo.View.prototype = {
 			return ;
 		}
 
-		this.buffalo.transport = XmlHttp.create();
+		//this.buffalo.transport = XmlHttp.create();
+		this.transport = XmlHttp.create();
 		var nonCachedViewName = viewName;
 		try {
 			/*Fix for the IE cache*/
@@ -94,15 +95,15 @@ Buffalo.View.prototype = {
 					nonCachedViewName += "?" + bfViewHackKey;
 				}
 			}
-			this.buffalo.transport.open("GET", nonCachedViewName, this.buffalo.async);/*use get for static page*/
+			this.transport.open("GET", nonCachedViewName, this.buffalo.async);/*use get for static page*/
 		} catch (e) {
 			var msg = "Buffalo View Error: \n\n Cannot find view with name: " + "[" + viewName + "]";
 			alert(msg);	
 		}
 		
-		this.buffalo.transport.send(null);
+		this.transport.send(null);
 		if (this.buffalo.async) {
-			this.buffalo.transport.onreadystatechange = this._viewHandle.bind(this);
+			this.transport.onreadystatechange = this._viewHandle.bind(this);
 			this.buffalo.events["onLoading"](true);
 		} else { 
 			this._processView();
@@ -117,13 +118,13 @@ Buffalo.View.prototype = {
 	},
 
 	_processView : function() {
-		if (this.buffalo.transport.readyState == 4) {
-			if (this.buffalo.transport.status == '200') {
-				var data = this.buffalo.transport.responseText;
-				this.buffalo.events["onLoading"](false);
+		this.buffalo.events["onLoading"](false);
+		if (this.transport.readyState == 4) {
+			if (this.transport.status == '200') {
+				var data = this.transport.responseText;
 				this._showView(this.partId, this.viewName, data);
 			} else {
-				this.buffalo.events["onError"](this.buffalo.transport.responseText);
+				this.buffalo.events["onError"](this.transport);
 			}
 		}
 	},
