@@ -72,7 +72,7 @@ public class ApplicationServlet extends HttpServlet {
 	 * initialize the service repository
 	 * 
 	 */
-	private void initServiceRepository() {
+	protected void initServiceRepository() {
 		
 		if (getServletContext().getAttribute(ServiceRepository.WEB_CONTEXT_KEY) == null) {
 			LOG.info("initialize the service repository");
