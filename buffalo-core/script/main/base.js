@@ -37,6 +37,7 @@ Buffalo.prototype = {
 		this.transport = XmlHttp.create();
 		try {
 			this.transport.open("POST", url, this.async);
+			this.transport.setRequestHeader("X-Buffalo-Version", Buffalo.VERSION);
 			this.transport.send(buffaloCall.xml());
 		} catch (e) {
 			this.events.onError(this.transport);
@@ -95,9 +96,9 @@ Buffalo.prototype = {
 	
 	response : function() {
 		this.timeoutHandle.stop();
+		this.events["onLoading"](false);
 		if (this.transport.status == '200') {
 			var reply = new Buffalo.Reply(this.transport);
-			this.events["onLoading"](false);
 			if (reply.isFault()) {
 				this.events["onException"](reply.getResult());
 			}
@@ -107,11 +108,9 @@ Buffalo.prototype = {
 			this.nextRemoteCall();
 		} else {
 			this.events["onError"](this.transport);
-			this.events["onLoading"](false);
 			this.requesting = false;
 		}
 	}
-
 }
 
 Buffalo.Default = {

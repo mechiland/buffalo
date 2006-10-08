@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -57,7 +58,8 @@ public class BuffaloWorker extends AbstractRequestWorker implements RequestWorke
 		Object service = repository.get(requestService);
 		response.setHeader("content-type", "text/xml;charset=utf-8");
 		try {
-			BuffaloInvoker.getInstance().invoke(service, request.getInputStream(), response.getWriter());
+			ServletInputStream inputStream = request.getInputStream();
+			BuffaloInvoker.getInstance().invoke(service, inputStream, response.getWriter());
 		} catch (Throwable ex) {
 			LOGGER.error("An exception occured when invoking a service: ", ex);
 			StringWriter writer = new StringWriter();

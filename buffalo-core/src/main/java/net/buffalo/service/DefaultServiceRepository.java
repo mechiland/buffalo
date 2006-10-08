@@ -32,7 +32,7 @@ import org.apache.commons.logging.LogFactory;
 import net.buffalo.service.defaults.DefaultServiceFactory;
 import net.buffalo.service.defaults.ServiceHolder;
 import net.buffalo.service.spring.SpringServiceFactory;
-import net.buffalo.service.spring.SpringUtils;
+import net.buffalo.service.spring.SpringUtil;
 
 /**
  * Default service repository implentation
@@ -175,7 +175,7 @@ public class DefaultServiceRepository implements ServiceRepository {
 		if (!springAvailable()) return;
 		
 		LOG.info("Found spring, load services from spring");
-		Map serviceNames = SpringUtils.getConfigedBeanNames(this.context);
+		Map serviceNames = SpringUtil.getConfigedBeanNames(this.context);
 		
 		registerAll(serviceNames, ServiceFactory.SPRING);
 		LOG.info("Load service from spring finished.");

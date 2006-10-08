@@ -59,18 +59,23 @@ public class FastStreamReader implements StreamReader {
 	public final static int TAG_FAULT_END = TAG_FAULT + 100;
 	public final static int TAG_METHOD_END = TAG_METHOD + 100;
 
-	private static HashMap tagCache;
-	private final Reader in;
-	private int peek;
-	private int peekTag;
-	private StringBuffer sbuf = new StringBuffer();
+	protected static HashMap tagCache;
+	protected int peek;
+	protected int peekTag;
+	protected StringBuffer sbuf = new StringBuffer();
 	protected StringBuffer entityBuffer = new StringBuffer();
 	
-	private Stack stack  = new Stack();
+	private final Reader in;
 	
-	private int depth = 0;
+	protected Stack stack  = new Stack();
 	
-	private Tag currentTag;
+	protected int depth = 0;
+	
+	protected Tag currentTag;
+	
+	protected FastStreamReader() {
+		this.in = null;
+	}
 	
 	public FastStreamReader(Reader in) {
 		this.in = in;
@@ -83,7 +88,7 @@ public class FastStreamReader implements StreamReader {
 		try {
 			in.close();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new StreamException(e);
 		}
 	}
 
@@ -246,9 +251,9 @@ public class FastStreamReader implements StreamReader {
 		if (ch == '/') {
 			endTagDelta = 100;
 			try {
-				ch = in.read();
+				ch = readSingleChar();
 			} catch (IOException e) {
-				throw new RuntimeException(e);
+				throw new StreamException(e);
 			}
 		}
 
@@ -260,6 +265,10 @@ public class FastStreamReader implements StreamReader {
 		if (value == null) throw new ProtocolException("Unknown tag <" + sbuf + ">");
 
 		return value.intValue() + endTagDelta;
+	}
+
+	protected int readSingleChar() throws IOException {
+		return in.read();
 	}
 
 	private boolean isTagChar(int ch) {
@@ -280,9 +289,9 @@ public class FastStreamReader implements StreamReader {
 			return value;
 		}
 		try {
-			return in.read();
+			return readSingleChar();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			throw new StreamException(e);
 		}
 	}
 

@@ -56,7 +56,14 @@ public class BuffaloInvoker implements ServiceInvoker {
 	 * @param outputStream
 	 */
 	public void invoke(Object service, InputStream inputStream, Writer writer) {
-		BuffaloCall call = BuffaloProtocal.getInstance().unmarshall(inputStream);
+		invoke0(service, writer, BuffaloProtocal.getInstance().unmarshall(inputStream));
+	}
+
+	public void invoke(Object service, Reader reader, Writer writer) {
+		invoke0(service, writer, BuffaloProtocal.getInstance().unmarshall(reader));
+	}
+
+	private void invoke0(Object service, Writer writer, BuffaloCall call) {
 		Signature signature = new Signature(service.getClass(), 
 				call.getMethodName(), call.getArgumentTypes());
 		
@@ -66,12 +73,12 @@ public class BuffaloInvoker implements ServiceInvoker {
 		} else {
 			method = lookupMethod(service, call, signature);
 		}
-
+		
 		if (method == null) {
 			throw new ServiceInvocationException(("cannot find the method " + call + " for " 
 					+ service.getClass().getName()));
 		}
-
+		
 		Object result = null;
 		try {
 			result = method.invoke(service, call.getArguments());
@@ -82,41 +89,10 @@ public class BuffaloInvoker implements ServiceInvoker {
 		} catch (InvocationTargetException e) {
 			result = e.getTargetException();
 		}
-
+		
 		BuffaloProtocal.getInstance().marshall(result, writer);
 	}
 	
-	public void invoke(Object service, Reader reader, Writer writer) {
-		BuffaloCall call = BuffaloProtocal.getInstance().unmarshall(reader);
-		Signature signature = new Signature(service.getClass(), 
-				call.getMethodName(), call.getArgumentTypes());
-		
-		Method method = null;
-		if (methodCache.get(signature) != null) {
-			method = (Method) methodCache.get(signature);
-		} else {
-			method = lookupMethod(service, call, signature);
-		}
-
-		if (method == null) {
-			throw new ServiceInvocationException(("cannot find the method " + call + " for " 
-					+ service.getClass().getName()));
-		}
-
-		Object result = null;
-		try {
-			result = method.invoke(service, call.getArguments());
-		} catch (IllegalArgumentException e) {
-			throw new ServiceInvocationException(e);
-		} catch (IllegalAccessException e) {
-			throw new ServiceInvocationException(e);
-		} catch (InvocationTargetException e) {
-			result = e.getTargetException();
-		}
-
-		BuffaloProtocal.getInstance().marshall(result, writer);
-	}
-
 	private Method lookupMethod(Object service, BuffaloCall call, Signature signature) {
 		Method[] methods = service.getClass().getMethods();
 		List matchedResults = new ArrayList();

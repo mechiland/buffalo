@@ -17,6 +17,7 @@
  */ 
 package net.buffalo.protocal.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 
 import junit.framework.TestCase;
@@ -203,6 +204,13 @@ public class FastStreamReaderTest extends TestCase {
 		travelReader(streamReader,0);
 	}
 	
+	public void testChineseChar() throws Exception {
+		String str = "<string>中文</string>";
+		ByteArrayInputStream in = new ByteArrayInputStream(str.getBytes("utf-8"));
+		FastInputStreamReader reader = new FastInputStreamReader(in);
+		assertEquals("中文", reader.getValue());
+	}
+	
 	private void travelReader(FastStreamReader reader, int depth) {
 		String empthstr = "";
 		for (int i = 0; i < depth; i++) {
@@ -217,5 +225,7 @@ public class FastStreamReaderTest extends TestCase {
 		} 
 		depth--;
 	}
+	
+	
 	
 }

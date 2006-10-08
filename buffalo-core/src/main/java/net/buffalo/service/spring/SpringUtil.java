@@ -34,7 +34,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
  * @author michael
  *
  */
-public class SpringUtils {
+public class SpringUtil {
 
 	/**
 	 * get configed buffalo bean names from servlet context 
