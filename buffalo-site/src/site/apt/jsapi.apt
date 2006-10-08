@@ -1,0 +1,148 @@
+ ---------
+ JavaScript API
+ ---------
+
+JavaScript API Reference
+
+* Buffalo
+
+  Buffalo class is the only one for most cases. 
+  
+** Buffalo(gateway, async, events, options) 
+
+*--------------------+--------------------+----------------+------------+-----------------+
+| <<Parameter name>> | <<Parameter type>> | <<Description>> | <<Required?>> | <<Default>>
+*--------------------+--------------------+----------------+------------+-----------------+
+| gateway | string | the address of bfapp servlet | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+| async | boolean | if it's a asynchronous call | false | true
+*--------------------+--------------------+----------------+------------+-----------------+
+| events | object | the events handler | false | see {{{howto.html#6} howto}}
+*--------------------+--------------------+----------------+------------+-----------------+
+| options | object | other options | false | timeout=10000
+*--------------------+--------------------+----------------+------------+-----------------+
+
+  This is the constructor for Buffalo, exmple use: 
+  
++-------------------------------------------+
+var buffalo = new Buffalo("/bfapp/buffalo");
++-------------------------------------------+
+
+  To make a synchronized call: 
+
++-------------------------------------------+
+var buffalo = new Buffalo("/bfapp/buffalo", false);
++-------------------------------------------+
+
+** remoteCall(service, params, callback)
+
+  remoteCall will make a remote call using the service with params. It will use callback 
+  function to handle the result. 
+
+*--------------------+--------------------+----------------+------------+-----------------+
+| <<Parameter name>> | <<Parameter type>> | <<Description>> | <<Required?>> | <<Default>>
+*--------------------+--------------------+----------------+------------+-----------------+
+| service | string | the service name and method name, format is "serviceName.methodName" | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+| params | Array | the parameter for the remote call | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+| callback | function | the call back function, will take Buffalo.Reply as parameter | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+
+  Code demo: 
+  
++--------------------------------+
+buffalo.remoteCall("helloService.hello", ['Michael'], function(reply) {
+    alert(reply.getResult());
+})
++--------------------------------+
+
+  The reply.getResult() will give you exactly the same object model defined in Java in a javascript way.   
+
+  Or: 
+  
++-------------------------------+
+buffalo.remoteCall("helloService.hello", ['Michael'], myfunc);
+function myfunc(reply) {
+  alert(reply.getResult());
+}
++-------------------------------+
+
+** setEvents(events)
+
+  setEvents will customize the event handler for the buffalo instance. 
+  
+*--------------------+--------------------+----------------+------------+-----------------+
+| <<Parameter name>> | <<Parameter type>> | <<Description>> | <<Required?>> | <<Default>>
+*--------------------+--------------------+----------------+------------+-----------------+
+| events | object | the event hanlders | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+
++-------------------------+
+buffalo.setEvents({onLoading:myloading}})
+function myloading(state) {
+  if (state) {window.status = "loading..."; } 
+  else {window.status = "load completed."; }
+}
++-------------------------+
+
+  Or you can just like this: 
+  
++-------------------------+
+buffalo.events["onLoading"] = myloading;
++-------------------------+
+
+** bindReply(service, params, elementId)
+
+  bindReply will make a remote call and bind the result to the element. 
+  
+*--------------------+--------------------+----------------+------------+-----------------+
+| <<Parameter name>> | <<Parameter type>> | <<Description>> | <<Required?>> | <<Default>>
+*--------------------+--------------------+----------------+------------+-----------------+
+| service | string | the service name and method name, format is "serviceName.methodName" | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+| params | Array | the parameter for the remote call | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+| elementId | string | the element which you need bind value to | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+
+  For example: call the simpleService.provincesNames and bind the result to id=select_provinde form select element
+
++--------------------------------------+
+buffalo.bindReply("simpleService.provincesNames",[],"select_province");
++--------------------------------------+
+
+** switchView(viewName)
+
+  switchView will get the <viewName> page and load the content to div(id=body). This operation will be added to 
+  browser history so that the back/forward button can be used. 
+  
+*--------------------+--------------------+----------------+------------+-----------------+
+| <<Parameter name>> | <<Parameter type>> | <<Description>> | <<Required?>> | <<Default>>
+*--------------------+--------------------+----------------+------------+-----------------+
+| viewName | string | the view url | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+
++-----------------------------------+
+buffalo.switchView("help.html");
++-----------------------------------+
+
+** switchPart(viewName, partId, addToHistory)
+
+  switchPart will get the <viewName> page and load the content to element(id=<partId>), if <addToHistory> is true, 
+  it will add this operation to browser history so that the back/forward button can be used. 
+  
+*--------------------+--------------------+----------------+------------+-----------------+
+| <<Parameter name>> | <<Parameter type>> | <<Description>> | <<Required?>> | <<Default>>
+*--------------------+--------------------+----------------+------------+-----------------+
+| viewName | string | the view url | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+| partId | string | the div id which will be replaced | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+| addToHistory | boolean | if this operation add to browser history? | true | N/A
+*--------------------+--------------------+----------------+------------+-----------------+
+
+
+
+
+

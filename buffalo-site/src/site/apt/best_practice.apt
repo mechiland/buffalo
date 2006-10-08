@@ -1,0 +1,53 @@
+ ---------
+ Best Practice
+ ---------
+
+Best Practice
+
+  Here we have some best practice come from real projects. These practice suggest that do 
+  ajax in a *right* way. Please consider them in you project.
+  
+* Use DTO instead of domain object directly
+
+  Most ORM tools bring us convenience especially dealing with object relationship. In a traditional java project, 
+  we can define a consistency domain model which can be used among the tiers. This is good even in a clustered 
+  application, because they in a same JVM and the inner state of object could be stored. But, in buffalo applications, 
+  you'd better not use this as it is *really* remote call. You should consider about the band width issue. 
+  
+  Let's take an example: userService.listUser, which will returns an user list, and at the same time, User have 
+  AddressInfo, have Roles, and may belongs to Department. in a traditional JSP programming, it's fine. But in buffalo, 
+  it's too bad. If you don't handle any of this situation, buffalo will try to serialize <<every>> property connected 
+  with this user, even the one to many, many to many reference data. That's a huge waste of time and band width as we 
+  don't need too much data to display.
+  
+  So when desining buffalo service, please use DTO(or ViewHelper) to narrow the output for use on page only. 
+  
+* Define the remoting service interface carefully
+  
+  Please desine the remoting service method really for remoting call. If a client start a remote call, the service 
+  should reply the enough infomation at once. The client need not call other method. 
+  
+* Adopt the browser forward/back feature
+
+  Many end users including me, are confused when a web application cannot use the browser foward/back button to 
+  navigate the view. A good example is google, and bad is...MSN Live Mail. From version 1.2, buffalo introduce this 
+  feature. Please consider adopting this feature to improve user experience. 
+  
+* Design more interactive user interface
+
+  This is a general requirement for all ajax products. When user click a button or link, you should provide a 
+  significant tip noticing user what is happenning. In traditional web development, those actions will cause a 
+  page refresh or page swtich. In ajax, you should provide more. 
+  
+* In small/medium applications, adopt OPOA
+
+  {{{http://michael.nona.name/archives/117}OPOA(Chinese)}} defines a type of web application. Small, operation based 
+  applications always have less pages and require better interaction, such as mail application, system monitor etc. 
+  For these applications, you can use OPOA to simplify the development and provide better experience. 
+ 
+* For medium/large applications, use OPOA carefully
+
+  Because the limitation of browser capacity, large applications (which has hundreds of views) that adopting OPOA 
+  find that CPU or memory is in a high usage after running for a while. For this case, you need split the whole 
+  system into modules if you still want to use OPOA. when user switch module, will really relocate to a new page so 
+  that the browser have a chance to clean memory and have a rest.  

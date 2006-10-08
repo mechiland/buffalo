@@ -24,6 +24,8 @@
         <artifactId>maven-site-plugin</artifactId>
         <configuration>
           <locales>en</locales>
+		  <inputEncoding>utf-8</inputEncoding>
+		  <outputEncoding>utf-8</outputEncoding>
         </configuration>
       </plugin>
     </plugins>

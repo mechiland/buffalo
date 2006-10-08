@@ -1,0 +1,163 @@
+ ---------
+ Howto
+ ---------
+
+How to...
+
+  * {{{#1}Start a new buffalo project}}
+  
+  * {{{#2}Add buffalo feature to existing project}}
+  
+  * {{{#3}Upgrade from former versions}}
+  
+  * {{{#4}Integrated with Spring}}
+  
+  * {{{#5}Serializing a form on web page to an object}}
+  
+  * {{{#6}Customize events}}
+  
+  * {{{#7}Data binding}}
+  
+  * {{{#8}Browser forward/back}}
+  
+* {1} Start a new buffalo project}
+  
+  Please follow the {{{tutorial.html}tutorial}} to create a new application, or download the 
+  binary distribution and copy to have a skeleton. 
+  
+* {2} Add buffalo feature to existing project
+  
+  If you want to use the web remoting feature, just copy the buffalo-<version>.jar (and
+  commons-logging.jar if not supplied) and buffalo.js. Please refer other documents using buffalo. 
+  If you need buffalo delegate you page flow, please split the page as the demo application. Please 
+  not miss the {{{best-practice.html} best practice}} to see if your application suitable for OPOA.
+  
+* {3} Upgrade from former versions
+  
+  To uprage is quite easy. 
+  
+** If you upgrade from version 1.1: 
+
+  * remove the burlap*.jar, replace with buffalo-<version>.jar
+  
+  * replace the buffalo.js with the lastest version
+  
+  * remove the endpoint servlet definition in spring. we need only one servlet now
+  
+  * Change the code: 
+  
+    * JavaScript: endpoint change to "yourappname/bfapp";
+  
+    * Server: No need to change
+  
+** If you upgrade from version 1.2.x:
+
+  * remove the burlap*.jar, replace with buffalo-<version>.jar
+  
+  * replace the buffalo.js with the lastest version
+  
+  * If possible, change the java code which is inherited from BuffaloService. Replace the 
+    corrosponding method to RequestContext.getContext().getXXX. We still have backward compatibility anyway. 
+  
+  * that's it. 
+
+* {4} Integrated with Spring
+
+  To integrated with Spring is quite simple. First you need to make sure spring can be 
+  loaded successfully (using config servlet or context listener). Please refer Spring related 
+  documents for further infomation. After that, add a config bean into any of the spring configruation 
+  files like below: 
+  
++--------------------------------------------------------------------------------------+
+<bean name="buffaloConfigBean" class="net.buffalo.service.BuffaloServiceConfigurer">
+    <property name="services">
+    <map>
+        <entry key="testSpringService1"><ref bean="yourBeanId"/></entry>
+        <!-- oterh entries... -->
+    </map>
+    </property>
+</bean>
++--------------------------------------------------------------------------------------+
+
+  That's it. When the application is started, buffalo will find this bean and load all services defined in the 
+  services property. There is no difference between the service comes from buffalo-service.properties and spring. 
+  buffalo client cook them the same way. :) 
+  
+* {5} Serializing a form on web page to an object
+
+  There is a Buffalo.Form.formToBean method from buffalo version 1.2.1, which can serialize a form to an object 
+  directly. You can see the Form demo in the demo application. Here we have a simple example showing how we transform 
+  a form to a net.buffalo.demo.form.User object. 
+  
++------------------------------------------------------------+
+var userObj = Buffalo.Form.formToBean("form1", "net.buffalo.demo.form.User");
+buffalo.remoteCall("userService.createUser", [userObj], function(reply){
+    alert(reply.getResult().username);
+})
++------------------------------------------------------------+
+
+  The serializing principal: 
+  
+  * For simple fields like text, password, radio, select-one, will add a fieldName=fieldValue property to the object.
+  
+  * For select-many, checkbox, will add a fieldName=List<String> to the object.
+  
+* {6} Customize events
+
+  Buffalo support customized event when doing remoting call:
+
+*-----------+--------------+----------------+----------------+
+| <<Event>> | <<Description>> | <<Parameter>> | <<Default Impl>>
+*-----------+--------------+----------------+----------------+
+|onLoading  | when loading a request | true or false | a buffalo loading div will appear on top right of the screen
+*-----------*--------------+----------------+-----------------+
+|onFinished | when finished the request    | nothing | empty function
+*-----------*--------------+----------------+-----------------+
+|onError    | when there is an error (normally is 500 or 404 error) | xmlhttp object | a red div will displayed
+*-----------*--------------+----------------+-----------------+
+|onException| when invoking a service, throws exception | Buffalo.Fault object | a yellow div will displayed
+*-----------*--------------+----------------+-----------------+
+|onTimeout  | when timeout, default is 10 seconds    | nothing | alert("timeout")
+*-----------*--------------+----------------+-----------------+
+
+  If you want to customize the events, You can 
+  
++-----------------------------------+
+var buffalo = new Buffalo(endpoint, async, {onLoading: yourLoadingFunction, onError: yourErrorHanlder ...})
++-----------------------------------+
+
+  Or 
+
++-----------------------------------+
+buffaloInstance.events["onLoading"] = function(state) {
+	if (state) { //displaying message
+		...
+	}
+}
++-----------------------------------+ 
+ 
+* {7} Data binding
+  
+  Buffalo support on way binding, which is, bind the javascript object value to html elements.
+ 
++---------+
+buffalo.bindReply(service, params, elementId)
++---------+
+
+  Above code will try to make a remote call, and bind the reply result to the element directly. 
+  Or you can try Buffalo.Bind.bind(elementId, bindValue). 
+
+* {8} Browser forward/back
+
+  You need the buffalo-blank.html to enable this feature. The download binary contains this file. 
+  
++-------------------------------------+
+<iframe src="buffalo-blank.html" 
+id="buffalo-view-history-iframe" width="0" height="0" 
+style="display:none;"></iframe>
++-------------------------------------+
+
+  When you want to swtich the view, use buffalo.switchView(viewName), buffalo will remember the 
+  history automatically. If you don't need this feature for some specified view, use 
+  buffalo.switchPart(...) to exculde. Please reade the {{{jsapi.html}JavaScript API}} for more. 
+  

@@ -6,4 +6,3 @@ cmd /C mvn clean package site
 @echo off
 cmd /C ant
 @echo on
-@echo Release sucessfully, See <target> directory
