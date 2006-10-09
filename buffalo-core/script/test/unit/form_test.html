@@ -13,7 +13,7 @@
 
 <body>
 <div id="testlog"> </div>
-<xmp id="aaa"></xmp>
+<h3>form1</h3>
 <form id="form1" name="form1" method="get" action="" onsubmit="return testFormToBean();">
   <label for="textfield">Username</label>
   <input type="text" name="username" id="username" value="JoshSmith">
@@ -48,6 +48,15 @@ Interest:
 <input type="submit" name="submit" value="submit" id="Submit">
 </form>
 
+<h3>form2</h2>
+<form id="form2">
+checkBox1: <input type="checkbox" name="checkBox1" value="checkBox1Value" checked /> <br/>
+checkBox2: <input type="checkbox" name="checkBox2" value="checkBox2Value" />
+<fieldset name="fieldset1">
+  <legend name="legend">test fieldset</legend>
+</fieldset>
+</form>
+
 <script type="text/javascript" language="javascript" charset="utf-8">
 var testCase = new Test.Unit.Runner({
 	
@@ -78,13 +87,23 @@ var testCase = new Test.Unit.Runner({
 		assertEqual(domainObject, object[Buffalo.BOCLASS]);
 	}},
 
-	testFormBeanToCall: function(){with(this){
-		var domainObject = "yourdomain.app.User";
-		var object = Buffalo.Form.formToBean("form1", domainObject, true);
-		var call = new Buffalo.Call("test");
-		call.addParameter(object);
-		call.xml();
-	}}
+	testShouldConverterOneCheckBoxToString: function(){with(this){
+		var domainObject = "yourdomain.app.Domain";
+		var object = Buffalo.Form.formToBean("form2", domainObject, true);
+		assertEqual(domainObject, object[Buffalo.BOCLASS]);
+    assertEqual("checkBox1Value", object.checkBox1);
+    assertType(String, object.checkBox1);
+    assertEqual("", object.checkBox2);
+    assertType(String, object.checkBox2);
+    
+	}},
+  
+  testFieldSetShouldBeExculded: function(){with(this){
+    var domainObject = "yourdomain.app.Domain";
+		var object = Buffalo.Form.formToBean("form2", domainObject, true);
+    assertNull($('form1')["fieldset1"]);
+    assertNull(object.fieldset1);
+  }}
 
 }, "testlog");
 </script>
