@@ -33,4 +33,5 @@ public class DeserializerFunctionalTest extends TestCase {
 		assertEquals(2, call.getArguments().length);
 		assertTrue(call.getArguments()[0] instanceof Double);
 	}
+	
 }

@@ -15,7 +15,7 @@ buffalo-example
   script
 +---------------------+
 
-  Copy burlap-2.1.2.jar, buffalo-<version>.jar to WEB-INF/lib, copy prototype.js, buffalo.js to script.
+  Copy commons-logging.jar, buffalo-<version>.jar to WEB-INF/lib, copy prototype.js, buffalo.js to script.
   
 * Edit web.xml
 
@@ -106,4 +106,4 @@ public String hello(String name) {
 
 * Further more
 
-  Please read spring integration and best practice for more information
+  Please read {{{howto.html#4}spring integration}} and {{{best_practice.html}best practice}} for more information

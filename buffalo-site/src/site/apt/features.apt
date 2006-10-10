@@ -13,7 +13,7 @@ Features
 * Full support for java to javascript serializing/deserializing
 
   Any method invokation result at java side, will be serialize to javascript side transparently, no matter how 
-  complicated of this object is. Burlap can serialize from primitive type (String, int, long, boolean, etc) 
+  complicated of this object is. Buffalo can serialize from primitive type (String, int, long, boolean, etc) 
   and Object type(List, Map even your own business domain object). You can access the same property at 
   the javascript side. This sophiscate feature has been proven in various real projects.
 

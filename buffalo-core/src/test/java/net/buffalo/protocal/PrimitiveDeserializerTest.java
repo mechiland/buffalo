@@ -96,4 +96,6 @@ public class PrimitiveDeserializerTest extends TestCase {
 		assertNull(nd.unmarshal(TestUtils.createStreamReader("<null></null>"), null));
 	}
 	
+	
+	
 }

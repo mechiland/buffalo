@@ -1,5 +1,6 @@
 package net.buffalo.protocal.converters.map;
 
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -36,6 +37,8 @@ public class MapConverter extends AbstractMapConverter implements Converter {
 		
 		if (type.equals("java.sql.Date")) {
 			return dealWithSqlDate(reader, unmarshallingContext);
+		} else if (type.equals("java.math.BigDecimal")) {
+			return dealWithBigDecimal(reader, unmarshallingContext);
 		}
 		
 		if (type.equals("") || type.equals("java.util.Map")) type = "java.util.HashMap";
@@ -54,6 +57,16 @@ public class MapConverter extends AbstractMapConverter implements Converter {
 		}
 		
 		return obj;
+	}
+
+	private Object dealWithBigDecimal(StreamReader reader, UnmarshallingContext unmarshallingContext) {
+		reader.moveDown();
+		reader.moveUp();
+		reader.moveDown();
+		BigDecimal number = new BigDecimal(reader.getValue());
+		unmarshallingContext.addObject(number);
+		reader.moveUp();
+		return number;
 	}
 
 	private Object dealWithSqlDate(StreamReader reader, UnmarshallingContext unmarshallingContext) {

@@ -17,6 +17,8 @@
  */ 
 package net.buffalo.protocal.converters;
 
+import java.math.BigDecimal;
+
 import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.map.AbstractMapConverter;
 import net.buffalo.protocal.io.MarshallingContext;
@@ -24,14 +26,14 @@ import net.buffalo.protocal.io.StreamReader;
 import net.buffalo.protocal.io.StreamWriter;
 import net.buffalo.protocal.io.UnmarshallingContext;
 
-public class SqlDateConverter extends AbstractMapConverter implements Converter {
+public class BigDecimalConverter extends AbstractMapConverter implements Converter {
 
 	public boolean canConvert(Class type) {
 		if (type == null) {
 			return false;
 		}
 		
-		return java.sql.Date.class.equals(type);
+		return BigDecimal.class.equals(type);
 	}
 	
 	public Object unmarshal(StreamReader reader,
@@ -40,11 +42,11 @@ public class SqlDateConverter extends AbstractMapConverter implements Converter 
 	}
 	
 	protected void marshalMapObject(Object value, MarshallingContext context, StreamWriter streamWriter) {
-		java.sql.Date date = (java.sql.Date) value;
+		BigDecimal number = (BigDecimal) value;
 		streamWriter.startNode(ProtocalTag.TAG_STRING);
 		streamWriter.setValue("value");
 		streamWriter.endNode();
-		context.convertAnother(new java.util.Date(date.getTime()));
+		context.convertAnother(number.toString());
 	}
 
 }

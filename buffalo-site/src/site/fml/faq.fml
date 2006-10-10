@@ -5,9 +5,9 @@
       <question>Where did Buffalo come from?</question>
       <answer>
         <p>
-          Buffalo was created by a Michael Chen a developer from China, who was trying to bring 
+          Buffalo was created by a Michael Chen and the <a href="team.html">contributors</a> from China, who was trying to bring 
           better user experience on web in a OLAP project in late 2003. If you wish, read the 
-          {{{history.html} history}} to learn more.
+          <a href="history.html">history</a> to learn more.
         </p>
       </answer>
     </faq>

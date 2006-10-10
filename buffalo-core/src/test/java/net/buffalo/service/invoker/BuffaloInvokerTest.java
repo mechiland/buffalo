@@ -20,6 +20,8 @@ package net.buffalo.service.invoker;
 import java.io.StringReader;
 import java.io.StringWriter;
 
+import net.buffalo.service.ServiceInvocationException;
+
 import junit.framework.TestCase;
 
 public class BuffaloInvokerTest extends TestCase {
@@ -79,8 +81,21 @@ public class BuffaloInvokerTest extends TestCase {
 		BuffaloInvoker.getInstance().invoke(new DummySubClass(), reader, writer);
 		buffaloReply = "<buffalo-reply><int>103</int></buffalo-reply>";
 		assertEquals(buffaloReply, writer.getBuffer().toString());
-		
-		
+	}
+	
+	public void testNoSuchMethod() throws Exception {
+		try {
+			String buffaloCall = "<buffalo-call><method>lock</method><string>door</string><double>123</double></buffalo-call>";
+			StringReader reader = new StringReader(buffaloCall);
+			StringWriter writer = new StringWriter();
+			BuffaloInvoker.getInstance().invoke(new DummySubClass(), reader, writer);
+			
+			fail();
+		} catch (ServiceInvocationException ex) {
+			assertTrue(ex.getMessage().indexOf("lock") > 0);
+			assertTrue(ex.getMessage().indexOf("java.lang.String") > 0);
+			assertTrue(ex.getMessage().indexOf("java.lang.Double") > 0);
+		}
 	}
 	
 	class DummyClass {

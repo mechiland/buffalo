@@ -36,18 +36,24 @@ public class ClassUtil {
 	public static Object newInstanceOfType(String className) {
 		Object result = null;
 		try {
-			result = Class.forName(className).newInstance();
+			result = getClassFor(className).newInstance();
 		} catch (InstantiationException e) {
 			throw new InitializeObjectFailedException(
 					"fail to initialize type: " + className, e);
 		} catch (IllegalAccessException e) {
 			throw new InitializeObjectFailedException(
 					"fail to initialize type: " + className, e);
-		} catch (ClassNotFoundException e) {
-			throw new TypeNotFoundException("no such type: " + className, e);
-		}
-		return result;
+		} 
 		
+		return result;
+	}
+	
+	public static Class getClassFor(String className) {
+		try {
+			return ClassUtil.class.getClassLoader().loadClass(className);
+		} catch (ClassNotFoundException e) {
+			throw new TypeNotFoundException(e);
+		}
 	}
 	
 	public static void setFieldValue(Object obj, String property, Object value) {

@@ -17,8 +17,8 @@ import net.buffalo.protocal.converters.basic.LongConverter;
 import net.buffalo.protocal.converters.basic.NullConverter;
 import net.buffalo.protocal.converters.basic.StringConverter;
 import net.buffalo.protocal.io.DefaultMarshallingContext;
-import net.buffalo.protocal.io.MarshallingContext;
 import net.buffalo.protocal.io.FastStreamWriter;
+import net.buffalo.protocal.io.MarshallingContext;
 
 public class PrimitiveTypeSerializerTest extends TestCase {
 	
@@ -127,5 +127,5 @@ public class PrimitiveTypeSerializerTest extends TestCase {
 		Date d = cal.getTime();
 		assertEquals("<date>20060801T175421Z</date>", marshal(ds, d));
 	}
-	
+		
 }

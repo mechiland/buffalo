@@ -27,15 +27,13 @@
 	<menu name="Mastering Buffalo">
       <item name="Best Practise" href="best_practice.html"/>
       <item name="How to..." href="howto.html"/>
-    </menu>
-	
-	
-	<menu name="Reference">
 	  <item name="JavaScript API" href="jsapi.html"/>
-	<!--  <item name="JavaDoc" href="jsapi.html"/>
-      <item name="Buffalo Protocal" href="protocal.html"/>
-      <item name="History" href="history.html"/>-->
     </menu>
+	
+	<menu name="About">
+		<item name="Team" href="team.html"/>
+		<!--<item name="History" href="history.html"/>-->
+	</menu>
 	
   </body>
   

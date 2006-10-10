@@ -8,6 +8,6 @@ public class BuffaloCallTest extends TestCase {
 		assertEquals("method()", call.toString());
 		
 		call = new BuffaloCall("method", new Object[]{new Long(1), "str"});
-		assertEquals("method(1,str)", call.toString());
+		assertEquals("method(java.lang.Long[1], java.lang.String[str])", call.toString());
 	}
 }

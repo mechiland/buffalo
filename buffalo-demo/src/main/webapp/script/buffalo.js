@@ -1003,10 +1003,13 @@ Buffalo.Form = {
 					} 
 					break;
 				case "checkbox" : 
-					if (!object[element.name]) {object[element.name] = new Array()};
-					if (element.checked) {
-						object[element.name].push(element.value);
-					}
+          if (!form[element.name].length) {
+            if (element.checked) object[element.name]=element.value ;
+            else object[element.name]="";
+          } else {
+              if (!object[element.name]) {object[element.name] = new Array()};
+    					if (element.checked) {object[element.name].push(element.value);}
+          }
 					break;
 				case "select-one" : 
 					var value = '', opt, index = element.selectedIndex;

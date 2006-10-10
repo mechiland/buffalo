@@ -117,7 +117,6 @@ public class ApplicationServlet extends HttpServlet {
 		}
 		
 		worker.processRequest(request, response);
-		RequestContextUtil.updateRequestContext(getServletContext(), request, response);
 	}
 
 	protected Locale getLocaleFromRequest()

@@ -50,10 +50,10 @@ public class BuffaloCall {
 		if (arguments.length == 0) return methodName + "()";
 		StringBuffer buffer = new StringBuffer();
 		for (int i = 0; i < arguments.length; i++) {
-			buffer.append(",");
-			buffer.append(arguments[i]);
+			buffer.append(", ");
+			buffer.append(argumentTypes[i].getName()+"["+arguments[i]+"]");
 		}
-		return methodName+"("+buffer.toString().substring(1)+")";
+		return methodName+"("+buffer.toString().substring(2)+")";
 	}
 	
 }
