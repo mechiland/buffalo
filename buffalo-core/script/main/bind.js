@@ -34,6 +34,8 @@ Buffalo.Bind = {
 			case "SPAN":
 				elem.innerHTML = bindValue;
 				break;
+			case "Form":
+				Buffalo.BindFactory.bindForm(elem, bindValue);
 			//TODO: add more bindings here for 
 		}
 	}
@@ -80,6 +82,10 @@ Buffalo.BindFactory = {
 			}
 			elem.options.add(option);
 		}
+	},
+	
+	bindForm: function(elem, value) {
+		Buffalo.Form.bindForm(elem, value);
 	},
 
 	bindTable: function(elem, value) {
