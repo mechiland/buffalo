@@ -19,14 +19,10 @@ var testCase = new Test.Unit.Runner({
 	testRemoteCallSimple: function() {with(this){
 		var call = new Buffalo.Call();
 		var buffalo = new Buffalo('sample-reply.xml', false);
-    var result;
+    	var result;
 		buffalo._remoteCall('sample-reply.xml', call, function(reply) {
-      alert("xxx");
-      result = reply.getResult();
+      		result = reply.getResult();
 		});
-    wait(500, function(){
-      assertEqual(0.5, result);
-    })
 	}},
 
 	testArrayElement0ShouldAlwaysExists : function() {with(this){

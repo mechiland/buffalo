@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<title>test bind</title>
+<link rel="stylesheet" href="../lib/test.css" type="text/css" />
+<script language="javascript" src="../lib/prototype.js"></script>
+<script language="javascript" src="../lib/unittest.js"></script>
+<script language="javascript" src="../../main/base.js"></script>
+<script language="javascript" src="../../main/bind.js"></script>
+</head>
+
+<body>
+<h1>Bind Test</h1>	
+<div id="testlog"> </div>
+
+<form id="form1">
+<select id="sel1" jvalue="value" jtext="text"></select>&nbsp;
+<select id="sel2" jvalue="value" jtext="text"></select>
+</form>
+
+<script type="text/javascript" language="javascript" charset="utf-8">
+var testCase = new Test.Unit.Runner({
+	
+	testBindSelect: function() {with(this){
+		var data = [
+			{value:'value1', text:'text1'},
+			{value:'value2', text:'text2'}
+		];
+		
+		Buffalo.BindFactory.bindSelect($("sel1"), data);
+		assertEqual("value1", $("sel1").value);
+	}},
+	
+	testBindSelectAndSelectSecond: function(){with(this){
+		var data = [
+			{value:'value1', text:'text1'},
+			{value:'value2', text:'text2', selected:true}
+		];
+		
+		Buffalo.BindFactory.bindSelect($("sel2"), data);
+		assertEqual("value2", $("sel2").value);
+	}}
+
+}, "testlog");
+</script>
+</body>
+</html>

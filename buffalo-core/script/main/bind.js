@@ -32,7 +32,6 @@ Buffalo.Bind = {
 				break; 
 			case "DIV":
 			case "SPAN":
-				alert(bindValue);
 				elem.innerHTML = bindValue;
 				break;
 			//TODO: add more bindings here for 
@@ -50,14 +49,7 @@ Buffalo.BindFactory = {
 	},
 	
 	bindRadioOrCheckbox: function(elem, value) {
-		var ret = false;
-		switch (typeof(value)) {
-			case 'boolean': ret = value; break;
-			case 'string': ret = (value == "1" || value == "true" || value == "yes"); break;
-			case 'number': ret = (parseInt(value) == 1); break;
-			default: ret = false;
-		}
-		elem.checked = ret;
+		elem.checked = Buffalo.BindFactory.checkTrue(value);
 	},
 
 	bindSelect : function(elem, value) {
@@ -76,16 +68,15 @@ Buffalo.BindFactory = {
 			var option = document.createElement("OPTION");
 			
 			var data = value[i];
-			if (data == null || typeof(data) == "undefined") {
-				option.value = "";
-				option.text = "";
-			}
 			if (typeof(data) != 'object') {
 				option.value = data;
 				option.text = data;
 			} else {
 				option.value = data[elem.getAttribute("jvalue")];
-				option.text = data[elem.getAttribute("jtext")];	
+				option.text = data[elem.getAttribute("jtext")];
+				if (Buffalo.BindFactory.checkTrue(data.selected)) {
+					option.selected = true;	
+				}
 			}
 			elem.options.add(option);
 		}
@@ -210,7 +201,16 @@ Buffalo.BindFactory = {
 	
 	bindRepeater:function(elem, value) {
 		//TODO: implementation will be added.
+	},
+	
+	checkTrue: function(value) {
+		switch (typeof(value)) {
+			case 'boolean': ret = value; break;
+			case 'string': ret = (value == true || value == "1" || value == "true" || value == "yes"); break;
+			case 'number': ret = (parseInt(value) == 1); break;
+			default: ret = false;
+		}
+		return ret; 
 	}
-
 }
 Buffalo.bind = Buffalo.Bind.bind; /*capable with the old version, deprecated*/

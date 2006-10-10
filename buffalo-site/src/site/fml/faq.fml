@@ -2,7 +2,7 @@
 <faqs id="General FAQ">
   <part id="General">
     <faq id="where">
-      <question>Where did Buffalo come from?</question>
+      <question>Where does Buffalo come from?</question>
       <answer>
         <p>
           Buffalo was created by a Michael Chen and the <a href="team.html">contributors</a> from China, who was trying to bring 
@@ -15,8 +15,8 @@
       <question>Why choosing buffalo?</question>
       <answer>
         <p>
-          No it's NOT a new born baby. Its sophisticated java to javascript (and js to java) serializing and deserializing 
-          mechanism has been proven in many real projects. The API is so straightforward that every user could 
+          Buffalo is NOT a new born baby. Its sophisticated java to javascript (and js to java) serializing and deserializing 
+          mechanism has been proven in many real projects in past two years. The API is so straightforward that every user could 
           get started with in less than half an hour.
         </p>
       </answer>

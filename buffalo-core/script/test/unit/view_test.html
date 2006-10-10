@@ -23,9 +23,6 @@ var testCase = new Test.Unit.Runner({
     var orginalTransport = buffalo.transport;
     view.switchPart('changeme', 'dump.html', false);
 	assertIdentical(orginalTransport, buffalo.transport);
-	wait(500, function(){
-		assertEqual("Dump Text", $("changeme").innerHTML);		
-	});
   }}
 }, "testlog");
 </script>
