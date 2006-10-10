@@ -201,7 +201,6 @@ function getXmlHttpPrefix() {
 	var o;
 	for (var i = 0; i < prefixes.length; i++) {
 		try {
-			// try to create the objects
 			o = new ActiveXObject(prefixes[i] + ".XmlHttp");
 			return getXmlHttpPrefix.prefix = prefixes[i];
 		}
@@ -215,7 +214,6 @@ function XmlHttp() {}
 
 XmlHttp.create = function () {
 	try {
-		// NS & MOZ
 		if (window.XMLHttpRequest) {
 			var req = new XMLHttpRequest();
 			if (req.readyState == null) {
@@ -229,13 +227,11 @@ XmlHttp.create = function () {
 			
 			return req;
 		}
-		// IE
 		if (window.ActiveXObject) {
 			return new ActiveXObject(getXmlHttpPrefix() + ".XmlHttp");
 		}
 	}
 	catch (ex) {}
-	// Fail
 	throw new Error("Your browser does not support XmlHttp objects");
 };
 
@@ -618,10 +614,10 @@ Buffalo.Bind = {
 				break; 
 			case "DIV":
 			case "SPAN":
-				alert(bindValue);
 				elem.innerHTML = bindValue;
 				break;
-			//TODO: add more bindings here for 
+			case "FORM":
+				Buffalo.Form.bindForm(elem, bindValue);
 		}
 	}
 }
@@ -636,14 +632,7 @@ Buffalo.BindFactory = {
 	},
 	
 	bindRadioOrCheckbox: function(elem, value) {
-		var ret = false;
-		switch (typeof(value)) {
-			case 'boolean': ret = value; break;
-			case 'string': ret = (value == "1" || value == "true" || value == "yes"); break;
-			case 'number': ret = (parseInt(value) == 1); break;
-			default: ret = false;
-		}
-		elem.checked = ret;
+		elem.checked = Buffalo.BindFactory.checkTrue(value);
 	},
 
 	bindSelect : function(elem, value) {
@@ -651,7 +640,6 @@ Buffalo.BindFactory = {
 		if (typeof(value) != "object" || value.constructor != Array) {
 			this.reportError(elem,value,"Array Type Needed for binding select!");
 		}
-		// delete all the nodes.
 		while (elem.childNodes.length > 0) {
 			elem.removeChild(elem.childNodes[0]);
 		}
@@ -662,16 +650,15 @@ Buffalo.BindFactory = {
 			var option = document.createElement("OPTION");
 			
 			var data = value[i];
-			if (data == null || typeof(data) == "undefined") {
-				option.value = "";
-				option.text = "";
-			}
 			if (typeof(data) != 'object') {
 				option.value = data;
 				option.text = data;
 			} else {
 				option.value = data[elem.getAttribute("jvalue")];
-				option.text = data[elem.getAttribute("jtext")];	
+				option.text = data[elem.getAttribute("jtext")];
+				if (Buffalo.BindFactory.checkTrue(data.selected)) {
+					option.selected = true;	
+				}
 			}
 			elem.options.add(option);
 		}
@@ -794,10 +781,15 @@ Buffalo.BindFactory = {
 		
 	},
 	
-	bindRepeater:function(elem, value) {
-		//TODO: implementation will be added.
+	checkTrue: function(value) {
+		switch (typeof(value)) {
+			case 'boolean': ret = value; break;
+			case 'string': ret = (value == true || value == "1" || value == "true" || value == "yes"); break;
+			case 'number': ret = (parseInt(value) == 1); break;
+			default: ret = false;
+		}
+		return ret; 
 	}
-
 }
 Buffalo.bind = Buffalo.Bind.bind; /*capable with the old version, deprecated*/
 Buffalo.View = Class.create();
@@ -823,7 +815,6 @@ Buffalo.View.iframeLoaded = function(loc) {
 	if (Buffalo.View.CURRENT_VIEW != null) {
 		Buffalo.View.CURRENT_VIEW.doSwitchPart(viewName);
 	}
-	
 }
 
 Buffalo.View.prototype = {
@@ -884,7 +875,6 @@ Buffalo.View.prototype = {
 			return ;
 		}
 
-		//this.buffalo.transport = XmlHttp.create();
 		this.transport = XmlHttp.create();
 		var nonCachedViewName = viewName;
 		try {
@@ -974,10 +964,6 @@ Object.extend(Buffalo.prototype, {
 	
 	switchPart : function(partId, viewName, addToHistory) {		
 		new Buffalo.View(this).switchPart(partId, viewName, addToHistory);
-	}, 
-	
-	changeLayout : function(newLayout) {
-		/* // TODO */
 	}
 });
 Buffalo.Form = {
@@ -997,58 +983,83 @@ Buffalo.Form = {
 		for (var i = 0; i < elements.length;i++) {
 			var element = elements[i];
 			switch (element.type) {
-				case "radio" : 
-					if (element.checked) { 
-						object[element.name]=element.value
-					} 
-					break;
-				case "checkbox" : 
-          if (!form[element.name].length) {
-            if (element.checked) object[element.name]=element.value ;
-            else object[element.name]="";
-          } else {
-              if (!object[element.name]) {object[element.name] = new Array()};
-    					if (element.checked) {object[element.name].push(element.value);}
-          }
-					break;
-				case "select-one" : 
-					var value = '', opt, index = element.selectedIndex;
-					if (index >= 0) {
-						opt = element.options[index];
-						value = opt.value;
-						if (!value && !('value' in opt)) value = opt.text;
-					}
-					object[element.name] = value;
-				    break;
-				case "select-multiple" :
+			case "radio" : 
+				if (element.checked) { 
+					object[element.name]=element.value
+				} 
+				break;
+			case "checkbox" : 
+				if (!form[element.name].length) {
+					if (element.checked) object[element.name]=element.value ;
+					else object[element.name]="";
+				} else {
 					if (!object[element.name]) {object[element.name] = new Array()};
-					for (var j = 0; j < element.options.length; j++) {
-						var opt = element.options[j];
-						if (opt.selected) {
-							var optValue = opt.value;
-							if (!optValue && !('value' in opt)) optValue = opt.text;
-							object[element.name].push(optValue);
-				      	}
-				    }
-				    break;
-				default : 
-					if (ignoreButton) {
-						if (element.type != "submit" && element.type != "button" 
-							&& element.type != "reset") {
-							object[element.name] = element.value;
-						}
-					} else {
+    				if (element.checked) {object[element.name].push(element.value);}
+				}
+				break;
+			case "select-one" : 
+				var value = '', opt, index = element.selectedIndex;
+				if (index >= 0) {
+					opt = element.options[index];
+					value = opt.value;
+					if (!value && !('value' in opt)) value = opt.text;
+				}
+				object[element.name] = value;
+				break;
+			case "select-multiple" :
+				if (!object[element.name]) {object[element.name] = new Array()};
+				for (var j = 0; j < element.options.length; j++) {
+					var opt = element.options[j];
+					if (opt.selected) {
+						var optValue = opt.value;
+						if (!optValue && !('value' in opt)) optValue = opt.text;
+						object[element.name].push(optValue);
+					}
+			    }
+			    break;
+			default : 
+				if (ignoreButton) {
+					if (element.type != "submit" && element.type != "button" 
+						&& element.type != "reset") {
 						object[element.name] = element.value;
 					}
-					break;
+				} else {
+					object[element.name] = element.value;
+				}
+				break;
 			}
 		}
 		
 		return object;
 	},
 	
-	validate : function(formId) {
-		
+	bindForm: function(form, data) {
+		form = $(form);
+		for (var i = 0; i < form.elements.length;i++) {
+			var element = form.elements[i];
+			if (!data[element.name]) continue;
+			var val = data[element.name];
+			switch (element.type) {
+			case "text": ;
+			case "hidden": ;
+			case "password": element.value = val; break;
+			case "radio" : 
+			case "checkbox" : 
+				if (val instanceof Array) element.checked = (val.indexOf(element.value) > -1);
+				else element.checked = (element.value ==val);
+				break;
+			case "select-one" : 
+			case "select-multiple" : 
+				for (var j = 0; j < element.options.length; j++) {
+					var option = element.options[j];
+					if (val instanceof Array) {
+						option.selected = (val.indexOf(option.value) > -1);
+					} else {
+						option.selected = (option.value == val);
+					}
+				}
+				break;
+			}
+		}
 	}
-	
 }

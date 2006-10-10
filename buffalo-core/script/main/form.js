@@ -93,9 +93,5 @@ Buffalo.Form = {
 				break;
 			}
 		}
-	},
-	
-	validate : function(formId) {
-		
 	}
 }

@@ -201,7 +201,6 @@ function getXmlHttpPrefix() {
 	var o;
 	for (var i = 0; i < prefixes.length; i++) {
 		try {
-			// try to create the objects
 			o = new ActiveXObject(prefixes[i] + ".XmlHttp");
 			return getXmlHttpPrefix.prefix = prefixes[i];
 		}
@@ -215,7 +214,6 @@ function XmlHttp() {}
 
 XmlHttp.create = function () {
 	try {
-		// NS & MOZ
 		if (window.XMLHttpRequest) {
 			var req = new XMLHttpRequest();
 			if (req.readyState == null) {
@@ -229,13 +227,11 @@ XmlHttp.create = function () {
 			
 			return req;
 		}
-		// IE
 		if (window.ActiveXObject) {
 			return new ActiveXObject(getXmlHttpPrefix() + ".XmlHttp");
 		}
 	}
 	catch (ex) {}
-	// Fail
 	throw new Error("Your browser does not support XmlHttp objects");
 };
 

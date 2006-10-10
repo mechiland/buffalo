@@ -34,9 +34,8 @@ Buffalo.Bind = {
 			case "SPAN":
 				elem.innerHTML = bindValue;
 				break;
-			case "Form":
-				Buffalo.BindFactory.bindForm(elem, bindValue);
-			//TODO: add more bindings here for 
+			case "FORM":
+				Buffalo.Form.bindForm(elem, bindValue);
 		}
 	}
 }
@@ -59,7 +58,6 @@ Buffalo.BindFactory = {
 		if (typeof(value) != "object" || value.constructor != Array) {
 			this.reportError(elem,value,"Array Type Needed for binding select!");
 		}
-		// delete all the nodes.
 		while (elem.childNodes.length > 0) {
 			elem.removeChild(elem.childNodes[0]);
 		}
@@ -82,10 +80,6 @@ Buffalo.BindFactory = {
 			}
 			elem.options.add(option);
 		}
-	},
-	
-	bindForm: function(elem, value) {
-		Buffalo.Form.bindForm(elem, value);
 	},
 
 	bindTable: function(elem, value) {
@@ -203,10 +197,6 @@ Buffalo.BindFactory = {
 			}	
 		}
 		
-	},
-	
-	bindRepeater:function(elem, value) {
-		//TODO: implementation will be added.
 	},
 	
 	checkTrue: function(value) {

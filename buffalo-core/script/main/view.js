@@ -21,7 +21,6 @@ Buffalo.View.iframeLoaded = function(loc) {
 	if (Buffalo.View.CURRENT_VIEW != null) {
 		Buffalo.View.CURRENT_VIEW.doSwitchPart(viewName);
 	}
-	
 }
 
 Buffalo.View.prototype = {
@@ -82,7 +81,6 @@ Buffalo.View.prototype = {
 			return ;
 		}
 
-		//this.buffalo.transport = XmlHttp.create();
 		this.transport = XmlHttp.create();
 		var nonCachedViewName = viewName;
 		try {
@@ -172,9 +170,5 @@ Object.extend(Buffalo.prototype, {
 	
 	switchPart : function(partId, viewName, addToHistory) {		
 		new Buffalo.View(this).switchPart(partId, viewName, addToHistory);
-	}, 
-	
-	changeLayout : function(newLayout) {
-		/* // TODO */
 	}
 });
