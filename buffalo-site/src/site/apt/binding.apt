@@ -1,0 +1,260 @@
+ -----
+ Binding
+ -----
+ 
+Binding
+  
+  Buffalo support binding value to the DOM elements, including form elments (text, password, hidden, radio, checkbox, 
+  select, textarea), table, form, div/span, and it can also convert a form to a object with specified java type. 
+  It provides only one convenient method which can binding all kind of values  to the different elements.
+  
+  Simply you can just use binding facility like this:
+  
++----------------------------------------+
+buffalo.bindReply("yourService.method", [parameters], "elementId")
++----------------------------------------+
+
+  Above will try to make a remote call to "yourService.method" with "parameters", and bind the result to the 
+  "elementId". 
+  
+  If you don't want to make a remote call, you can also use binding: 
+  
++----------------------------------------+
+Buffalo.Bind.bind(elementId, bindValue)
++----------------------------------------+
+
+  It will bind the "bindValue" to the "elementId". 
+  
+      [Note:] No need to care about the different type of element. buffalo will check the type and then make the 
+      correct binding behavior.
+
+* Binding to form elements
+
+** Binding to text, hidden, password, textarea
+
+  * <<Required bindValue type:>> primitive types such as string, int, long, float...
+  
+  * <<Behaviour:>> element.value=bindValue 
+  
+** Binding to checkbox, radio
+  
+  * <<Required bindValue type:>> checked if the value are ("true"|"yes"|"1"|true|1)
+  
+  * <<Behaviour:>> element.checked=bindValue==("true"|"yes"|"1"|true|1) 
+  
+** Binding to select
+
+  * <<Required bindValue type:>> Array of objects
+  
+  * <<Behaviour:>> each item in the array data will add a new option, the select should supply extra <jtext> and 
+  <jvalue> attributes to let the binding know which field should be binding to the option text/value. 
+  
+  * <<Special Requirement:>> <jtext> and <jvalue> attribute should be added in the select element to tell which field 
+  of the object should bind to.
+  
++------------------------------+
+<!-- HTML -->
+<select id="provinces" jtext="name" jvalue="value"></select>
+  
+/* Data */
+
+var data = [
+	{name: "Hu Bei", value:"HB"},
+	{name: "Shan Xi", value:"SX"}
+] 
+
+/* Binding */
+  
+Buffalo.Bind.bind("provinces", data);
+
++-------------------------------+
+
+  When this example runs, it will add 2 options to the select, with text = data["name"] and value=data["value"]. 
+  
+* Binding to table
+
+  Binding to table is a bit complicated. There are 3 different way of binding value to table.  You need to specified 
+  <jheight> attribute for the <table> element and <jtext> attribute for the <td> element. <jheight> will tell buffalo 
+  how to copy the style, <jtext> tells buffalo which field of the bindValue will be used for display. 
+  
+  * <<Required bindValue type:>> Array of objects
+  
+  * <<Behaviour:>> differs by the <jheight> attribute value
+  
+    * if <jheight>=0, it will remove all the table rows and add expose all the object field values to display
+    
+    * if <jheight>=1, it will use the first row as table header and remove all other rows and add new one using 
+    object[<jtext>] value to display
+    
+    * if <jheight>=2, it will use the first row as table header, and use the second one as style,  and remove all 
+    other rows and add new one using object[<jtext>] value to display
+    
+    * if <jheight>=3, it will use the first row as table header, and use the second one as odd style the third one as 
+    even style,  and remove all other rows and add new one using object[<jtext>] value to display
+    
+  * <<Special requirement:>> <jheight> to the table and <jtext> to the td
+
+  Examples: 
+      
++--------------------------------------+
+<table id="table" jheight="0"></table>
++--------------------------------------+
+ 
+  jheight=0, Will populate all the values the bindValue has to the table.
+
++--------------------------------------+
+<table id="locales" jheight="1">
+<tr bgcolor="#FFCC00">
+	<td jtext="language">Language</td>
+	<td width="300" bgcolor="#FFCC00" jtext="country">Country</td>
+	<td jtext="variant">variant</td>
+	<td jtext="hashcode">Hashcode</td>
+</tr>
+</table>
++--------------------------------------+ 
+
+  jheight=1, Will use the first row as table header and populate the values defined in <jtext>. 
+  
++----------------------------------------+
+<table id="locales" jheight="2">
+<tr bgcolor="#FFCC00">
+	<td jtext="language">Language</td>
+	<td width="300" bgcolor="#FFCC00" jtext="country">Country</td>
+	<td jtext="variant">variant</td>
+	<td jtext="hashcode">Hashcode</td>
+</tr>
+<tr bgcolor="#ffff66">
+	<td>a</td>
+	<td width="300">d</td>
+	<td>c</td>
+	<td>d</td>
+</tr>
+</table>
++----------------------------------------+
+  
+  jheight=2, will use the first row as table header, the second as style and puplate the values defined in <jtext>
+  
++----------------------------------------+
+<table id="locales" jheight="3">
+<tr bgcolor="#FFCC00">
+	<td jtext="language">Language</td>
+	<td width="300" bgcolor="#FFCC00" jtext="country">Country</td>
+	<td jtext="variant">variant</td>
+	<td jtext="hashcode">Hashcode</td>
+</tr>
+<tr bgcolor="#ffff66">
+	<td>a</td>
+	<td width="300">d</td>
+	<td>c</td>
+	<td>d</td>
+</tr>
+
+<tr bgcolor="#66ff66">
+	<td>a</td>
+	<td width="300">d</td>
+	<td>c</td>
+	<td>d</td>
+</tr>
+</table>
++----------------------------------------+
+  
+  jheight=3, will use the first row as table header, the second as odd style, the third as even style 
+  and puplate the values defined in <jtext>
+	 
+* Binding to form
+
+  Buffalo can bind object value to form directly. 
+  
+  * <<Required bindValue type:>> object
+  
+  * <<Behaviour:>> when there is a same name element also exists in the object, the value will be bind to the element. 
+  for checkbox/select-multiply, a array type value will try to check/select all the checkboxes/options.
+  
+  <<Example:>> 
+  
++------------------+
+/* Data */
+var data = {
+	username: "Michael",
+	password: "newpass",
+	gendor: "boy",
+	interest: ["B","C"],
+	option1: ["1","3"],
+	option2: "3"
+}
+
+<!-- HTML -->
+<form id="form3" name="form3">
+  <label>Username</label>
+  <input type="text" name="username" id="username">
+  <br>
+  <label>Password</label>
+<input type="text" name="password" id="label">
+<br>
+Gendor: 
+<input type="radio" name="gendor" value="boy" id="radiobutton">
+<label>Boy</label>
+<input type="radio" name="gendor" value="girl" id="radio">
+<label>Girl</label>
+<br>
+Interest: 
+<input type="checkbox" name="interest" value="A" id="interest">
+<label>A</label>
+<input type="checkbox" name="interest" value="B" id="interest">
+<label>B</label>
+<input type="checkbox" name="interest" value="C" id="interest">
+<label>C</label>
+<br>
+
+<label>Option</label>
+<select name="option1" size="3" multiple="true">
+  <option value="1" selected>Option1</option>
+  <option value="2" selected>Option2</option>
+  <option value="3">Option3</option>
+</select>
+
+<select name="option2">
+  <option value="1">Option1</option>
+  <option value="2" selected=true>Option2</option>
+  <option value="3">Option3</option>
+</select>
+
+<label></label>
+<input type="submit" name="submit" value="submit" id="Submit">
+</form> 
+
+/* Binding */
+Buffalo.Bind.bind("form3", data);
+or Buffalo.Form.bindForm("form3", data);
+
++---------------------------------------+
+
+  Binding result: the form3 
+
+[images/form-binding.jpg]  
+
+* Convert form to bean
+
+  Many user hate to construct many parameters from form when making a remote call. Buffalo.Form.formToBean will make 
+  it easier. 
+  
++-----------------------------+
+Buffalo.Form.formToBean(form, buffaloObjectClass, ignoreButton)
++-----------------------------+
+
+  Will convert a form to bean with buffaloObjectClass. 
+  
+  * form: the form id or form element, required
+  
+  * buffaloObjectClass: the class you want to convert to, not required If not supplied, it's java.util.HashMap
+  
+  * ignoreButton: should the convertion ignore the buttons in form? Not required, default is true. 
+  
+  
+  Converttion strategy: 
+  
+  * all values are string, or list of string
+  
+  * single value will be convert to string, multiple values will be convert to List of string. The server side can 
+  use java.util.List to have a String list. 
+

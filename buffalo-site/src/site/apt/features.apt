@@ -17,6 +17,8 @@ Features
   and Object type(List, Map even your own business domain object). You can access the same property at 
   the javascript side. This sophiscate feature has been proven in various real projects.
 
+[images/Class_Diagram__username.png] Figure caption
+	
   The client javascript:
 
 +--------------------------------------------------------------+

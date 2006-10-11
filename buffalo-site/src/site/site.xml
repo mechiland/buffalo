@@ -28,6 +28,7 @@
       <item name="Best Practise" href="best_practice.html"/>
       <item name="How to..." href="howto.html"/>
 	  <item name="JavaScript API" href="jsapi.html"/>
+	  <item name="Binding" href="binding.html"/>
     </menu>
 	
 	<menu name="About">

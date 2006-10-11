@@ -106,7 +106,8 @@ buffalo.events["onLoading"] = myloading;
 | elementId | string | the element which you need bind value to | true | N/A
 *--------------------+--------------------+----------------+------------+-----------------+
 
-  For example: call the simpleService.provincesNames and bind the result to id=select_provinde form select element
+  For example: call the simpleService.provincesNames and bind the result to id=select_provinde form select element. 
+  You can read {{{binding.html}more about binding}}. 
 
 +--------------------------------------+
 buffalo.bindReply("simpleService.provincesNames",[],"select_province");
