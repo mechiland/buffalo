@@ -1,0 +1,176 @@
+ -----
+ Protocal
+ -----
+ 
+Buffalo Protocal
+  
+  Before buffalo 2.0, buffalo is using the burlap protocal from caucho. From 2.0 version, buffalo have a new protocal 
+  definition and implementation which is proper for web and faster. Buffalo is using this xml based lightweight 
+  protocal to serialize java object. The javascript client will deserialize  the xml to javascript objects. 
+  When making a remote call, buffalo client will serialize the remote call to xml, and 
+  the java side will deserialize it. This document will cover the protocal specification. 
+  
+* Overview of the protocal
+
+  Buffalo protocal is utf-8 protocal. The xml encoding support utf-8 only, otherwise an ProtocalExcption will be thrown
+  during parsing. 
+
+*----------------+-----------------+-----------------------+------------------------------+
+| <<Tag>>        | <<Description>> | <<Mapped Java Class>> | <<Mapped Javascript Class>>
+*----------------+-----------------+-----------------------+------------------------------+
+| boolean        | the boolean value, 1 means true and 0 means false | java.lang.Boolean , boolean.class | boolean 
+*----------------+-----------------+-----------------------+------------------------------+
+| date           | date, ISO8609 format, for example 20061011T230201Z means Oct 11 2006, 23:02:01| java.util.Date        | Date
+*----------------+-----------------+-----------------------+------------------------------+
+| int            | int value       | java.lang.Integer, java.lang.Short, java.lang.Byte and their primitive types | int
+*----------------+-----------------+-----------------------+------------------------------+
+| long           | long value      | java.lang.Long and its primitive type | int
+*----------------+-----------------+-----------------------+------------------------------+
+| null           | null value      | null                  | null or undefined
+*----------------+-----------------+-----------------------+------------------------------+
+| string         | string          | java.lang.String, java.lang.Character, char.class | String
+*----------------+-----------------+-----------------------+------------------------------+
+| type           | indicate the type of the list or map | N/A | N/A
+*----------------+-----------------+-----------------------+------------------------------+
+| length           | indicate the length of the list | N/A | N/A
+*----------------+-----------------+-----------------------+------------------------------+
+| list           | list or array data structure | java.util.Collection capatible or Array | Array
+*----------------+-----------------+-----------------------+------------------------------+
+| map            | map or object data structure | java.util.Map assignable or java bean | object
+*----------------+-----------------+-----------------------+------------------------------+
+| double         | double          | java.lang.Double, java.lang.Float and their primitive types | float
+*----------------+-----------------+-----------------------+------------------------------+
+| ref            | reference of an object | N/A | N/A
+*----------------+-----------------+-----------------------+------------------------------+
+| fault          | exception | will NOT convert from client side as throw an exception from client side make no sense | Buffalo.Fault
+*----------------+-----------------+-----------------------+------------------------------+
+| buffalo-call   | the root element of client remote call | N/A | N/A
+*----------------+-----------------+-----------------------+------------------------------+
+| method         | the method client want to call | N/A | N/A
+*----------------+-----------------+-----------------------+------------------------------+
+| buffalo-reply  | the root element of the server reply | N/A | N/A 
+*----------------+-----------------+-----------------------+------------------------------+
+
+  A sample request from client to server is: 
+ 
++---------------------------+
+<buffalo-call>
+  <method>sum</method>
+  <double>1</double>
+  <double>2</double>
+</buffalo-call>
++---------------------------+
+
+  and the response: 
+  
++------------------------------+
+<buffalo-reply>
+  <double>3.0</double>
+</buffalo-call>
++------------------------------+
+
+* list
+
+  Array or java.util.Collection assignable value will be convert to list. 
+  
++-----------------------------------+
+List list = new ArrayList();
+list.add("String#1");
+list.add("String#2");
++-----------------------------------+
+
+  will serialize to 
+  
++-----------------------------------+
+<list>
+  <type>java.util.ArrayList</type>
+  <length>2</length>
+  <string>String#1</string>
+  <string>String#2</string>
+</list>
++-----------------------------------+
+  
+  For array: 
+  
++-----------------------------------+
+String[] strings = new String[]{"String#1", "String#2"}
++-----------------------------------+
+
+  will serialize to 
+  
++------------------------------------+
+<list>
+  <type>[java.lang.String</type>
+  <length>2</length>
+  <string>String#1</string>
+  <string>String#2</string>
+</list>
++------------------------------------+
+
+* map
+  
+  map indicate a map-liked data structure. the java.util.Map assignable value or POJO will use this tag. 
+  
++------------------------------------+
+Map map = new HashMap()
+map.put("key1", "value1");
+map.put(new Integer(1), new Double(2.0));
++------------------------------------+
+
+  will serialize to 
+
++-------------------------------------+
+<map>
+  <type>java.util.HashMap</type>
+  <string>key1</string>
+  <string>value1</string>
+  <int>1</int>
+  <double>2.0</double>
+</map>
++--------------------------------------+
+
+  For POJO
+
++-------------------------------------+
+package domain;
+class User {
+  String name;
+  int age;
+  boolean gendor;
+  
+  //getters & setters... 
+}
+
+User u = new User("John Smith", 30, true);
++-------------------------------------+
+
+  Will convert to 
+  
++-------------------------------------+
+<map>
+  <type>domain.user</type>
+  <string>name</string>
+  <string>John Smith</string>
+  <string>age</string>
+  <int>age</int>
+  <string>gendor</string>
+  <boolean>1</boolean>
+</map>
++-------------------------------------+
+
+* TO BE CONTINUED...
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

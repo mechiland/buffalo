@@ -23,7 +23,7 @@
       <plugin>
         <artifactId>maven-site-plugin</artifactId>
         <configuration>
-          <locales>en</locales>
+          <locales>en,zh_CN</locales>
 		  <inputEncoding>utf-8</inputEncoding>
 		  <outputEncoding>utf-8</outputEncoding>
         </configuration>

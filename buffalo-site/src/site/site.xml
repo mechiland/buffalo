@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="utf-8"?>
 <project name="Buffalo AJAX">
   <bannerLeft>
     <name>Buffalo AJAX Framework</name>
@@ -13,7 +13,7 @@
   
   <body>
     <links>
-      <item name="Chinese Docs" href="http://www.amowa.net/buffalo/zh" />
+      <item name="1.2.x(Chinese)" href="http://www.amowa.net/buffalo/zh" />
     </links>
 
     <menu name="Quick Start">
@@ -29,10 +29,12 @@
       <item name="How to..." href="howto.html"/>
 	  <item name="JavaScript API" href="jsapi.html"/>
 	  <item name="Binding" href="binding.html"/>
+	  <item name="Protocal" href="protocal.html"/>
     </menu>
 	
 	<menu name="About">
 		<item name="Team" href="team.html"/>
+		<item name="Help" href="help.html"/>
 		<!--<item name="History" href="history.html"/>-->
 	</menu>
 	
