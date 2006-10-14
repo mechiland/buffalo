@@ -1,0 +1,26 @@
+body{padding: 20px;background: #FFF;color: #333;text-align: center;
+    font:85%/1.45 "Lucida Sans Unicode","Lucida Grande",Arial,sans-serif}
+h1,h2,p{margin: 0;padding: 0 10px}
+p{padding: 0 10px 1em}
+h1,h2{letter-spacing: -1px;font-weight:100;color: #111}
+h1{font-size: 200%}
+h2{font-size: 140%;line-height:1.05}
+div#container{width:700px;margin: 0 auto;padding:10px 0;text-align:left; 
+	background-image:url(images/buffalo120.jpg); background-repeat:no-repeat}
+div#spacer{height:10px}
+div#content{float:left;width:500px;margin-left:5px;padding:10px 0;background: #E5FDBB}
+div#subnav{float:right;width:182px;padding:10px 0;background:#F4EDA0 }
+div#subnav div{padding:10px; display:none}
+div#header{margin-left:120px;margin-top:15px;}
+div#menu{width: 100%;padding-top:10px; margin-left:120px; height:25px;}
+ul#nav,ul#nav li{list-style-type:none;margin:0;padding:0;background-color:transparent}
+ul#nav{width:612px}
+ul#nav li{float:left;margin-right: 3px;text-align: center}
+ul#nav a{float:left;width: 7em;padding: 4px 0;background: #C8FC94;text-decoration:none;color: #666}
+ul#nav a:hover{color: #FFF}
+ul#nav li a.activelink,ul#nav li a.activelink:hover{background: #C2FA62;color: #003; font-weight:bold}
+
+input.big-textfield{width:100px;height:30px; font-size:26px; font-family:"Times New Roman", Times, serif}
+input.big-button {width:30px; height:30px; font-size:26px; font-family:"Times New Roman", Times, serif;font-weight:bold}
+
+div#demo-show { padding:10px; }

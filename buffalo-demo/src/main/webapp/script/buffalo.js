@@ -958,8 +958,9 @@ Buffalo.View.prototype = {
 
 Object.extend(Buffalo.prototype, {
 
-	switchView: function(viewName) {
-		this.switchPart("body", viewName, true);
+	switchView: function(viewName, container) {
+		container = container ? container : "body";
+		this.switchPart(container, viewName, true);
 	},
 	
 	switchPart : function(partId, viewName, addToHistory) {		

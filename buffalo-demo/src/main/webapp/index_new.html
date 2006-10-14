@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Buffalo Demo</title>
+<link rel="stylesheet" href="main.css"></link>
+<script type="text/javascript" src="script/prototype.js"></script>
+<script type="text/javascript" src="script/effects.js"></script>
+<script type="text/javascript" src="script/moo.fx.js"></script>
+<script type="text/javascript" src="script/buffalo.js"></script>
+<script type="text/javascript" src="script/template.js"></script>
+<script type="text/javascript" src="script/niftycube.js"></script>
+<script type="text/javascript" src="script/demo-app.js" charset="utf-8"></script>
+
+<script language="JavaScript">
+var endPoint="/buffalo-demo/bfapp";
+var pageBuffalo = new Buffalo(endPoint);
+function switchPage(page) {	
+	pageBuffalo.switchView("/buffalo-demo/pages/"+page);
+}
+
+Event.observe(window, "load", function(){
+	new DemoApp(endPoint, "en");
+})
+
+</script>
+
+</head>
+
+<body>
+<div id="container">
+
+<div id="header">
+	<h2>Buffalo: J2EE AJAX could be more natural</h2>
+</div>
+
+<div id="menu">
+    <ul id="nav">
+        <li><a id="home" href="pages/home.html" class="activelink" onclick="return false;">Home</a></li>
+        <li><a id="basic" href="pages/basic.html" onclick="return false;">Basic</a></li>
+        <li><a id="object" href="pages/object.html" onclick="return false;">Object</a></li>
+        <li><a id="binding" href="pages/binding.html" onclick="return false;">Binding</a></li>
+        <li><a id="chat" href="pages/chat.html" onclick="return false;">Chat</a></li>
+        <li><a id="board" href="pages/home.html" onclick="return false;">Board</a></li>
+    </ul>
+</div>
+
+<div id="spacer"></div>
+
+<div id="content">
+	<div id="maincontent">
+	<h1>Welcome to Buffalo Demo Site!</h1>
+	<p>Buffalo is an lightweight AJAX framework for java web projects. 
+	It is opensource (Apache License 2.0), easy to use yet powerful. 
+	It solves most the common problems during j2ee ajax development. 
+	It promise bringing benifits for both developers and the end users.</p>
+	
+	<p>Buffalo features include:
+	<ul>
+		<li>a lightweight protocal</li>
+		<li>sophiscated serializing/deserialing between java and javascript</li>
+		<li>straightforward, easy to use API</li>
+		<li>support IE5.5+/Firefox1.0+/Safari/Opera8.5+</li>
+		<li>support OPOA(one page, one application)</li>
+		<li>build-in browser forward/back support</li>
+	</ul>
+    </p>
+	
+	<p>Buffalo could be download at sourceforge: 
+	<a href="http://buffalo.sourceforge.net">http://buffalo.sourceforge.net</a></p>
+	</div>
+</div>
+
+<div id="subnav">
+	<div id="subnav-home" style="display:block">Click other tab to see more demos</div>
+	<div id="subnav-basic">
+		Basic Demos: 
+		<ul>
+			<li><a href="pages/divider.html" onclick="return false">Divider</a></li>
+			<li><a href="pages/servertime.html" onclick="return false">Server Time</a></li>
+		</ul>
+	</div>
+	
+	<div id="subnav-object">Click other tab to see more demos</div>
+	<div id="subnav-binding">Click other tab to see more demos</div>
+	<div id="subnav-chat">Click other tab to see more demos</div>
+	<div id="subnav-board">Click other tab to see more demos</div>
+</div>
+	
+</div>
+<iframe src="buffalo-blank.html" id="buffalo-view-history-iframe" width="0" height="0" style="display:none;"></iframe>
+</body>
+</html>
