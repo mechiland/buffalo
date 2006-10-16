@@ -20,6 +20,8 @@ How to...
   
   * {{{#8}Browser forward/back}}
   
+  * {{{#9}Access/Update Session}}
+  
 * {1} Start a new buffalo project}
   
   Please follow the {{{tutorial.html}tutorial}} to create a new application, or download the 
@@ -160,4 +162,34 @@ style="display:none;"></iframe>
   When you want to swtich the view, use buffalo.switchView(viewName), buffalo will remember the 
   history automatically. If you don't need this feature for some specified view, use 
   buffalo.switchPart(...) to exculde. Please reade the {{{jsapi.html}JavaScript API}} for more. 
+  
+* {9} Access/Update Session/Cookie/ServletContext
+
+  From 2.0, You can get/set the session/cookie/context value very conveniently. Use the class RequestContext, you can 
+  have full control of those lifecycle values in a easier way. 
+  
++-----------------------+
+// Get a thread-safe request context
+context = net.buffalo.request.RequestContext.getContext();
+
+// Get session value
+Map session = context.getSession();
+String username = (String)session.get("username");
+// Update the session value, will refresh the session immediately
+session.put("username", "newUsername");
+
+// cookie
+Map cookieMap = context.getCookie();
+Cookie cookie = cookieMap.get("cookieName");
+// update cookie
+Cookie c = new Cookie("name", "value");
+cookieMap.put(c.getName(), c);
+
+// ServletContext
+Map application = context.getApplication();
+Object value = application.get("key");
+...
++---------------------------+
+
+
   
