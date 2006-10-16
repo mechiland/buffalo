@@ -4,14 +4,15 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Buffalo Demo</title>
-<link rel="stylesheet" href="main.css"></link>
+<link type="text/css" rel="stylesheet" href="main.css"></link>
+<link type="text/css" rel="stylesheet" href="SyntaxHighlighter.css"></link>
 <script type="text/javascript" src="script/prototype.js"></script>
 <script type="text/javascript" src="script/effects.js"></script>
 <script type="text/javascript" src="script/moo.fx.js"></script>
 <script type="text/javascript" src="script/buffalo.js"></script>
 <script type="text/javascript" src="script/template.js"></script>
 <script type="text/javascript" src="script/niftycube.js"></script>
-<script type="text/javascript" src="script/demo-app.js" charset="utf-8"></script>
+<script type="text/javascript" src="script/demo-app.js"></script>
 
 <script language="JavaScript">
 var endPoint="/buffalo-demo/bfapp";
@@ -89,6 +90,14 @@ Event.observe(window, "load", function(){
 </div>
 	
 </div>
+
+<script class="javascript" src="script/shCore.js"></script>
+<script class="javascript" src="script/shBrushJScript.js"></script>
+<script class="javascript" src="script/shBrushJava.js"></script>
+<script class="javascript" src="script/shBrushXml.js"></script>
+<script class="javascript">
+dp.SyntaxHighlighter.HighlightAll('code');
+</script>
 <iframe src="buffalo-blank.html" id="buffalo-view-history-iframe" width="0" height="0" style="display:none;"></iframe>
 </body>
 </html>

@@ -1,8 +1,11 @@
 ﻿var DemoApp = Class.create();
 
+var pageBuffalo = null;
+var demoBuffalo = null;
+
 var demoInstance = null;
 var processing = false;
-var pageBuffalo = null;
+
 var lastMenu = null;
 var loadingEffect = null;
 
@@ -30,6 +33,8 @@ DemoApp.prototype = {
 			});
 		})
 		pageBuffalo = new Buffalo(endPoint, true, {onLoading:this.onPageLoading.bind(this)});
+		demoBuffalo = new Buffalo(endPoint, true);
+		
 		Nifty("div#content,div#subnav");
 		Nifty("ul#nav a","small transparent top");
 	},
@@ -61,7 +66,7 @@ DemoApp.prototype = {
 		loadingEffect = new fx.Opacity($('content'), {duration:300});
 		
 		if (!state) {
-			loadingEffect.custom(0.2,1);			
+			loadingEffect.custom(0.2,1);		
 		} else {
 			loadingEffect.custom(1,0.2);	
 		}

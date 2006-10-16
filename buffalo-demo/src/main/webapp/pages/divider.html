@@ -1,18 +1,55 @@
-<h2>Divider</h2>
+<script type="text/javascript">
+Event.observe("divider-calc-btn", "click", function(){
+	demoBuffalo.remoteCall("simpleService.divide", 
+		[parseFloat($F("divider-1")), parseFloat($F("divider-2"))],	function(reply){
+		$("divider-result").value = reply.getResult();
+	});
+});
+dp.SyntaxHighlighter.HighlightAll('code');
+</script>
 
-<div class="demo-show" style="padding-left:30px;">
+<h1>Divider</h1>
+
+<div class="demo-show">
 	<input type="text" id="divider-1" class="big-textfield" value="200" onfocus="this.select()"/> 
 	<span style="font-size:26px;font-weight:bold">/</span> 
 	<input type="text" id="divider-2" class="big-textfield" value="300" onfocus="this.select()"/> 
 	<input type="button" id="divider-calc-btn" class="big-button" value="="/> 
-	<input type="text" id="divider-result" class="big-textfield" value=""/> 
+	<input type="text" id="divider-result" class="big-textfield" style="width:150px" value=""/> 
 </div>
 
 <div class="demo-desc">
 	<h2>What happen in this demo?</h2>
-	<p>When click the "=" button, buffalo will send a request to buffalo gateway, with the </p>
+	<p>When click the "=" button, buffalo will send a request to buffalo gateway, with the parameter you input in 
+	the text boxes. </p>
 </div>
 
-<div class="javascript-code">
-	
+<div class="demo-jscode">
+	<h2>JavaScript Code</h2>
+	<textarea name="code" class="js">Event.observe("divider-calc-btn", "click", function(){
+	demoBuffalo.remoteCall("simpleService.divide", 
+		[parseFloat($F("divider-1")), parseFloat($F("divider-2"))],	function(reply){
+		$("divider-result").value = reply.getResult();
+	});
+});</textarea>
+</div>
+
+<div class="demo-javacode">
+	<h2>Java Code</h2>
+	<textarea name="code" class="java">public double divide(double a, double b) {
+		System.out.println("Calling Divide...,a="+a+", b="+b);
+		try {
+			Thread.sleep(1000);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return a/b;
+	}</textarea>
+</div>
+
+<div class="demo-more">
+	<ul>
+		<li>Go to chat room</li>
+		<li>Leave a message on board</li>
+	</ul>
 </div>

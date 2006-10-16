@@ -23,4 +23,9 @@ ul#nav li a.activelink,ul#nav li a.activelink:hover{background: #C2FA62;color: #
 input.big-textfield{width:100px;height:30px; font-size:26px; font-family:"Times New Roman", Times, serif}
 input.big-button {width:30px; height:30px; font-size:26px; font-family:"Times New Roman", Times, serif;font-weight:bold}
 
-div#demo-show { padding:10px; }
+div#maincontent {padding:10px;}
+div.demo-show {padding:10px; }
+
+div.demo-desc {margin-top:10px; }
+div.demo-more {padding:10px; margin-top:-30px;}
+div.demo-more li {float:left; list-style:none; margin:0; padding:0;margin-left:10px;}
