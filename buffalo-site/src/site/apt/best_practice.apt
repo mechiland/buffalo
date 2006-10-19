@@ -20,7 +20,7 @@ Best Practice
   with this user, even the one to many, many to many reference data. That's a huge waste of time and band width as we 
   don't need too much data to display.
   
-  So when desining buffalo service, please use DTO(or ViewHelper) to narrow the output for use on page only. 
+  So when designing buffalo service, please use DTO(or ViewHelper) to narrow the output for use on page only. 
   
 * Define the remoting service interface carefully
   

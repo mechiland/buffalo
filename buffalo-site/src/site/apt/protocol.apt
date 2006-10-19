@@ -1,18 +1,18 @@
  -----
- Protocal
+ Protocol
  -----
  
-Buffalo Protocal
+Buffalo Protocol
   
-  Before buffalo 2.0, buffalo is using the burlap protocal from caucho. From 2.0 version, buffalo have a new protocal 
+  Before buffalo 2.0, buffalo is using the burlap protocol from caucho. From 2.0 version, buffalo have a new protocol 
   definition and implementation which is proper for web and faster. Buffalo is using this xml based lightweight 
-  protocal to serialize java object. The javascript client will deserialize  the xml to javascript objects. 
+  protocol to serialize java object. The javascript client will deserialize  the xml to javascript objects. 
   When making a remote call, buffalo client will serialize the remote call to xml, and 
-  the java side will deserialize it. This document will cover the protocal specification. 
+  the java side will deserialize it. This document will cover the protocol specification. 
   
-* Overview of the protocal
+* Overview of the protocol
 
-  Buffalo protocal is utf-8 protocal. The xml encoding support utf-8 only, otherwise an ProtocalExcption will be thrown
+  Buffalo protocol is utf-8 protocol. The xml encoding support utf-8 only, otherwise an ProtocolExcption will be thrown
   during parsing. 
 
 *----------------+-----------------+-----------------------+------------------------------+
@@ -158,7 +158,86 @@ User u = new User("John Smith", 30, true);
 </map>
 +-------------------------------------+
 
-* TO BE CONTINUED...
+* ref
+
+  <ref> means a reference to another object. This tag is really useful dealling with the circular reference, otherwise 
+  a StackOverflowException could be easily thrown. Let's have an example. 
+    
++-----------------------+
+class People...
+  
+  People getFriend() ...
+  // Other fields ommited
+  
+People john = new People("John");
+People michael = new People("Michael");
+
+john.setFriend(michael);
+michael.setFriend(josh);
+
+List friends = new ArrayList();
+friends.add(john);
+friends.add(smith);
++------------------------+
+
+  The result of serializing <friends> is like this: 
+  
++------------------------+
+<list>
+  <type>java.util.ArrayList</type>
+  <length>2</length>
+  <map>
+    <type>domain.People</type>
+    <string>friend</string>
+    <map>
+      <type>domain.People</type>
+      <string>friend</friend>
+      <ref>1</ref>
+    </map>
+  </map>
+</list>
++------------------------+
+  
+  ref=1 means that will reference object #1 as its value. each <list>, <map> will treat as an object and have a 
+  reference id. 
+  
+* fault
+
+  <fault> will have the infomation when there is an exception when invoking the service method. <fault> is like map but 
+  has 3 property only: code, message, detail. code is the exception class name, message is the exception.getMessage(), 
+  if applicable, detail will have the exception.getCause().getMessage(). We design this because the web UI will never 
+  want to show the stacktrace to the end user. 
+  
+* Exceptional class types
+
+  There are some types which has difference serializing method. 
+  
+  * <<java.sql.Date>>: As the <java.sql.Date> override most of the java.util.Date method, this object will 
+  be serialized like this:
+  
++--------------------+
+<map>
+  <type>java.sql.Date</type>
+  <string>value</string>
+  <date>20061018T211400Z</date>
+</map>
++---------------------+
+  
+  * <<java.math.BigDecimal>> and <<java.math.BigInteger>>. These two types has really complicated internal fields that 
+  not useful for the web client. So we serialize them like this
+  
++----------------------+
+<map>
+  <type>java.math.BigDecimal</type> <!-- or java.math.BigInteger--> 
+  <string>value</string>
+  <string>1234567890</string>
+</map>
++-----------------------+
+  You can use object.value to get the real value of those objects. When deserializing, it will use the 
+  constructor BigDecimal(String) or BigInteger(String) to create a new one. 
+  
+  [Note:] we don't encourage serialize those data types to the web client. 
+
 
 
 
