@@ -13,6 +13,7 @@
 
 <body>
 <div id="testlog"> </div>
+<textarea id="call" cols="60" rows="10"></textarea>
 <script type="text/javascript" language="javascript" charset="utf-8">
 var testCase = new Test.Unit.Runner({
 
@@ -22,7 +23,6 @@ var testCase = new Test.Unit.Runner({
 		var a;
 		call.addParameter(a);
 		assertEqual(true, call.xml().indexOf("undefined") == -1)
-		
 	}},
 	
 	testNullValue: function(){with(this){
@@ -48,6 +48,56 @@ var testCase = new Test.Unit.Runner({
 		var callXml = call.xml();
 		assertEqual(true, callXml.indexOf("1986") > -1);
 		assertEqual(true, callXml.indexOf("2006") > -1);
+		
+	}},
+	
+	test2DimArray: function(){with(this){
+		var call = new Buffalo.Call("test");
+		var a = [
+			["a","b","c"],
+			["d","e","f"]
+		];
+		
+		call.addParameter(a);
+		var callXml = call.xml();
+		assert(callXml.indexOf("<type>[[string</type>") > 0);
+		assert(callXml.indexOf("<type>[string</type>") > 0);
+	}},
+	
+	testArrayType: function(){with(this){
+		var call = new Buffalo.Call("test");
+		var a = ["a","b","c"];
+		var b = ["d","e","f"];
+		var c = [a, b];
+		
+		assertEqual(true, call.isArray(a));
+		assertEqual(true, call.isArray(b));
+		assertEqual(true, call.isArray(c[0]));
+		assertEqual(true, call.isArray(c[1]));
+		
+		assertEqual("[string", call.arrayType(a));
+		assertEqual("[string", call.arrayType(b));
+		assertEqual("[[string", call.arrayType(c));
+	}},
+	
+	testObjectArray: function(){with(this){
+		var call = new Buffalo.Call("test");
+		
+		var a = [
+			{name:"A", balance:100,_BUFFALO_OBJECT_CLASS_:"domain.Account"},
+			{name:"B", balance:200,_BUFFALO_OBJECT_CLASS_:"domain.Account"}
+		];
+		
+		var b = [
+			"string", 
+			123
+		]
+		
+		assertEqual(true, call.isArray(a));
+		
+		
+		assertEqual("[domain.Account", call.arrayType(a));
+		assertEqual("", call.arrayType(b));
 		
 	}}
 

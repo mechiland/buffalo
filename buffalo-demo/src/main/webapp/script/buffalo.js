@@ -351,7 +351,9 @@ Buffalo.Call.prototype = {
 	
 	doArrayXML : function(data){
 		var xml = "<list>\n";
-		xml += "<type>" +""+ "</type>\n";
+		var boClass = data[Buffalo.BOCLASS];
+		var boType = boClass ? boClass : this.arrayType(data);
+		xml += "<type>" +boType+ "</type>\n";
 		xml += "<length>" +data.length+ "</length>\n";
 		for (var i = 0; i < data.length; i++){
 			xml += this.getParamXML(this.dataTypeOf(data[i]),data[i]) + "\n";
@@ -360,9 +362,40 @@ Buffalo.Call.prototype = {
 		return xml;
 	},
 	
+	arrayType: function(arr) {
+		var type = "";
+		var obj = arr;
+		while(this.isArray(obj)) {
+			var canBeArray = true;
+			for(var i = 0; i < obj.length; i++) {
+				if (typeof(obj[i]) != typeof(obj[0])) {
+					if (obj[0][Buffalo.BOCLASS]) {
+						if (obj[0][Buffalo.BOCLASS] != obj[i][Buffalo.BOCLASS]) {
+							canBeArray = false;
+							break;
+						}
+					}
+					canBeArray = false;
+					break;
+				}
+			}
+			if (canBeArray) {
+				type+="[";	
+				obj = obj[0];
+			} else {
+				break;
+			}
+		}
+		if (type.indexOf("[") == -1) return "";
+		return type+(obj[Buffalo.BOCLASS] || typeof(obj));
+	},
+	
+	isArray: function(obj) {
+		return typeof(obj) == 'object' && obj.constructor == Array; 
+	},
+	
 	doStructXML : function(data){
-		var boClass = data[Buffalo.BOCLASS];
-		var boType = boClass ? boClass : "java.util.HashMap";
+		var boType = data[Buffalo.BOCLASS] || "java.util.HashMap";
 		var xml = "<map>\n";
 		xml += "<type>" +boType+ "</type>\n";
 
