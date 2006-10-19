@@ -182,7 +182,7 @@ $$("#submenu li").each(function(item) {
   })
   Event.observe(item, "mouseover", function(){
     item.style.textDecoration="underline";
-    item.style.cursor="hand"
+    item.style.cursor="pointer"
   });
   Event.observe(item, "mouseout", function(){
     item.style.textDecoration="none";

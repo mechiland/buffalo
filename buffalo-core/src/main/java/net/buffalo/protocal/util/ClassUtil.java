@@ -20,6 +20,7 @@ package net.buffalo.protocal.util;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -113,6 +114,10 @@ public class ClassUtil {
 			}
 			
 			return array;
+		}
+		
+		if (Collection.class.isAssignableFrom(targetType) && value.getClass().isArray()) {
+			return Arrays.asList((Object[]) value);
 		}
 		
 		throw new IllegalArgumentException("Cannot convert from "+value.getClass().getName() + " to " + targetType);
