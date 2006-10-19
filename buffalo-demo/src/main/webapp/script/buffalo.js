@@ -960,7 +960,7 @@ Object.extend(Buffalo.prototype, {
 
 	switchView: function(viewName, container) {
 		container = container ? container : "body";
-		this.switchPart(container, viewName, true);
+		this.switchPart("body", viewName, true);
 	},
 	
 	switchPart : function(partId, viewName, addToHistory) {		

@@ -17,7 +17,9 @@
  */ 
 package net.buffalo.protocal.io;
 
-public class StreamException extends RuntimeException {
+import net.buffalo.protocal.ProtocolException;
+
+public class StreamException extends ProtocolException {
 
 	private static final long serialVersionUID = -1262255394454503153L;
 

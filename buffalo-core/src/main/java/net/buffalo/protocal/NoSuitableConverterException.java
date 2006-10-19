@@ -1,6 +1,6 @@
 package net.buffalo.protocal;
 
-public class NoSuitableConverterException extends RuntimeException {
+public class NoSuitableConverterException extends ProtocolException {
 
 	private static final long serialVersionUID = 792613973952907011L;
 

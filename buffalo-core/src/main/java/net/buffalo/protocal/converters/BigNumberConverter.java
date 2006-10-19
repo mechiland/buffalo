@@ -18,6 +18,7 @@
 package net.buffalo.protocal.converters;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import net.buffalo.protocal.ProtocalTag;
 import net.buffalo.protocal.converters.map.AbstractMapConverter;
@@ -26,27 +27,24 @@ import net.buffalo.protocal.io.StreamReader;
 import net.buffalo.protocal.io.StreamWriter;
 import net.buffalo.protocal.io.UnmarshallingContext;
 
-public class BigDecimalConverter extends AbstractMapConverter implements Converter {
+public class BigNumberConverter extends AbstractMapConverter implements Converter {
 
 	public boolean canConvert(Class type) {
 		if (type == null) {
 			return false;
 		}
-		
-		return BigDecimal.class.equals(type);
+		return BigDecimal.class.equals(type) || BigInteger.class.equals(type);
 	}
 	
-	public Object unmarshal(StreamReader reader,
-			UnmarshallingContext unmarshallingContext) {
+	public Object unmarshal(StreamReader reader, UnmarshallingContext unmarshallingContext) {
 		throw new UnsupportedOperationException("done in the MapConverter");
 	}
 	
 	protected void marshalMapObject(Object value, MarshallingContext context, StreamWriter streamWriter) {
-		BigDecimal number = (BigDecimal) value;
 		streamWriter.startNode(ProtocalTag.TAG_STRING);
 		streamWriter.setValue("value");
 		streamWriter.endNode();
-		context.convertAnother(number.toString());
+		context.convertAnother(value.toString());
 	}
 
 }

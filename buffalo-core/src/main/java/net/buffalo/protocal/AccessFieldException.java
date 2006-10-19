@@ -1,6 +1,6 @@
 package net.buffalo.protocal;
 
-public class AccessFieldException extends RuntimeException {
+public class AccessFieldException extends ProtocolException {
 
 	private static final long serialVersionUID = -4727126214195136992L;
 

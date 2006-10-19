@@ -86,7 +86,7 @@ public class DefaultConverterLookup implements ConverterLookup {
 		MapConverter mapConverter = new MapConverter();
 		ArrayConverter arrayConverter = new ArrayConverter();
 		SqlDateConverter sqlDateConverter = new SqlDateConverter();
-		BigDecimalConverter bigDecimalConverter = new BigDecimalConverter();
+		BigNumberConverter bigNumberConverter = new BigNumberConverter();
 		ExceptionConverter exceptionConverter = new ExceptionConverter();
 		ObjectConverter objectConverter = new ObjectConverter();
 
@@ -101,7 +101,7 @@ public class DefaultConverterLookup implements ConverterLookup {
 		converters.add(mapConverter);
 		converters.add(arrayConverter);
 		converters.add(sqlDateConverter);
-		converters.add(bigDecimalConverter);
+		converters.add(bigNumberConverter);
 		converters.add(exceptionConverter);
 		// Should be last one
 		converters.add(objectConverter);
@@ -135,7 +135,8 @@ public class DefaultConverterLookup implements ConverterLookup {
 		converterCache.put(HashMap.class, mapConverter);
 		converterCache.put(TreeMap.class, mapConverter);
 		converterCache.put(java.sql.Date.class, sqlDateConverter);
-		converterCache.put(java.math.BigDecimal.class, bigDecimalConverter);
+		converterCache.put(java.math.BigDecimal.class, bigNumberConverter);
+		converterCache.put(java.math.BigInteger.class, bigNumberConverter);
 	}
 	
 	

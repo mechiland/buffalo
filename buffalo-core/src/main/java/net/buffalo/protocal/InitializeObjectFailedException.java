@@ -17,7 +17,7 @@
  */ 
 package net.buffalo.protocal;
 
-public class InitializeObjectFailedException extends RuntimeException {
+public class InitializeObjectFailedException extends ProtocolException {
 
 	private static final long serialVersionUID = -6552359894410145874L;
 
