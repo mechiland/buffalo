@@ -90,14 +90,15 @@ Buffalo.Call.prototype = {
 			var canBeArray = true;
 			for(var i = 0; i < obj.length; i++) {
 				if (typeof(obj[i]) != typeof(obj[0])) {
-					if (obj[0][Buffalo.BOCLASS]) {
+					canBeArray = false;
+					break;
+				} else {
+					if (typeof(obj[i]) == 'object') {
 						if (obj[0][Buffalo.BOCLASS] != obj[i][Buffalo.BOCLASS]) {
 							canBeArray = false;
 							break;
 						}
-					}
-					canBeArray = false;
-					break;
+					} 
 				}
 			}
 			if (canBeArray) {
@@ -108,7 +109,9 @@ Buffalo.Call.prototype = {
 			}
 		}
 		if (type.indexOf("[") == -1) return "";
-		return type+(obj[Buffalo.BOCLASS] || typeof(obj));
+		var componentType = obj[Buffalo.BOCLASS] || typeof(obj);
+		if (componentType == 'object') return "";
+		return type+componentType;
 	},
 	
 	isArray: function(obj) {

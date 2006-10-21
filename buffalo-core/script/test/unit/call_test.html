@@ -91,13 +91,28 @@ var testCase = new Test.Unit.Runner({
 		var b = [
 			"string", 
 			123
+		];
+		
+		var c = [
+			{name:"A", _BUFFALO_OBJECT_CLASS_:"domainA"},
+			{name:"B", _BUFFALO_OBJECT_CLASS_:"domainB"}
+		]
+		
+		var d = [
+			{name:"A", _BUFFALO_OBJECT_CLASS_:"domainA"},
+			{name:"B"}
+		]
+		
+		var e = [
+			{name:"A"}, {name:"B"}
 		]
 		
 		assertEqual(true, call.isArray(a));
-		
-		
 		assertEqual("[domain.Account", call.arrayType(a));
 		assertEqual("", call.arrayType(b));
+		assertEqual("", call.arrayType(c));
+		assertEqual("", call.arrayType(d));
+		assertEqual("", call.arrayType(e));
 		
 	}}
 
