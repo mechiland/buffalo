@@ -15,7 +15,7 @@ Buffalo.prototype = {
 		this.setEvents(events);
 		this.queue = [];
 		this.requesting = false;
-		this.options = {timeout:10000};
+		this.options = {timeout:30000};
 		Object.extend(this.options, options || {});
 	},
 	
@@ -27,7 +27,7 @@ Buffalo.prototype = {
 			onFinish: new Function(),
 			onException: Buffalo.Default.showException,
 			onError: Buffalo.Default.showError,
-			onTimeout: Buffalo.Default.showTimeout
+			onTimeout: new Function()
 		};
 		Object.extend(this.events, events || {});
 	},

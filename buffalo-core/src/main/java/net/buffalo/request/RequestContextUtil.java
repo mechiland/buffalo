@@ -58,7 +58,10 @@ public class RequestContextUtil {
 
 	private static Map createSessionMap(HttpServletRequest request) {
 		Map map = new SynchronizableMap.SessionMap();
-		HttpSession httpSession = request.getSession(true);
+		HttpSession httpSession = request.getSession();
+		if (httpSession == null) {
+			httpSession = request.getSession(true);
+		}
 		Enumeration attributeNames = httpSession.getAttributeNames();
 		while(attributeNames.hasMoreElements()) {
 			String attr = (String) attributeNames.nextElement();
