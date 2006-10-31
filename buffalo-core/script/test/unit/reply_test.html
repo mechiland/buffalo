@@ -9,11 +9,13 @@
 <script language="javascript" src="../lib/unittest.js"></script>
 <script language="javascript" src="../../main/base.js"></script>
 <script language="javascript" src="../../main/reply.js"></script>
+<script language="javascript" src="../../main/call.js"></script>
 </head>
 
 <body>
 <div id="testlog"> </div>
 <script type="text/javascript" language="javascript" charset="utf-8">
+var gObj;
 var testCase = new Test.Unit.Runner({
 	
 	testConstructReplyFromXmlObject: function() {with(this){
@@ -30,6 +32,23 @@ var testCase = new Test.Unit.Runner({
 		assertEqual(replyString, reply.getSource());
 		assertEqual(0.5, reply.getResult());
 		
+	}},
+  
+	testShouldRemainTheType: function(){with(this){
+		var xmlhttp = XmlHttp.create();
+		xmlhttp.open("get", "bug18.xml", false);
+		xmlhttp.send(null);
+		var reply = new Buffalo.Reply(xmlhttp);
+		var obj = reply.getResult();
+    gObj = obj;
+    assertEqual("cn.com.carnegietech.User", obj[Buffalo.BOCLASS]);
+    assertEqual(1, obj.roles.length);
+    assertIdentical(1, obj.id);
+    assertEqual("java.util.HashSet", obj.roles[Buffalo.BOCLASS]);
+    
+    var call = new Buffalo.Call("saveUser");
+    call.addParameter(obj);
+    
 	}},
 
 	testForChineseCharacter: function(){with(this){

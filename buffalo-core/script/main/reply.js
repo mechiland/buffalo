@@ -98,7 +98,9 @@ Buffalo.Reply.prototype = {
 	doList: function (dataNode) {
 		var arr = new Array();
 		this._objects[this._objects.length] = arr;
-		var children = dataNode.childNodes;
+    
+    var children = dataNode.childNodes;
+    arr[Buffalo.BOCLASS] = this.getNodeText(children[0]);
 		for (var i=2; i < children.length; i++) {
 			arr[arr.length] = this.deserialize(children[i]);
 		}
