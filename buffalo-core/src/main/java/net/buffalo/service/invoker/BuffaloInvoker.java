@@ -31,6 +31,7 @@ import java.util.Map;
 import net.buffalo.protocal.BuffaloCall;
 import net.buffalo.protocal.BuffaloProtocal;
 import net.buffalo.protocal.Signature;
+import net.buffalo.protocal.util.ClassUtil;
 import net.buffalo.service.ServiceInvocationException;
 
 public class BuffaloInvoker implements ServiceInvoker {
@@ -133,8 +134,8 @@ public class BuffaloInvoker implements ServiceInvoker {
 	private int parameterAssignable(Class targetType, Class sourceType) {
 		if (targetType.equals(sourceType)) return 6;
 		if (targetType.isPrimitive()) {
-			if (getWrapperClass(targetType).equals(sourceType)) return 5;
-			else if (Number.class.isAssignableFrom(getWrapperClass(targetType)) && 
+			if (ClassUtil.getWrapperClass(targetType).equals(sourceType)) return 5;
+			else if (Number.class.isAssignableFrom(ClassUtil.getWrapperClass(targetType)) && 
 					 Number.class.isAssignableFrom(sourceType)) {
 				return 4;
 			}
@@ -142,13 +143,6 @@ public class BuffaloInvoker implements ServiceInvoker {
 		if (targetType.isAssignableFrom(sourceType)) return 3;
 		
 		return 0;
-	}
-
-	private Class getWrapperClass(Class primitiveClass) {
-		Map map = new HashMap();
-		map.put(int.class, Integer.class);
-		map.put(double.class, Double.class);
-		return (Class) map.get(primitiveClass);
 	}
 
 }

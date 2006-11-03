@@ -18,6 +18,7 @@
 package net.buffalo.protocal.util;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -30,8 +31,13 @@ import net.buffalo.protocal.AccessFieldException;
 import net.buffalo.protocal.InitializeObjectFailedException;
 import net.buffalo.protocal.TypeNotFoundException;
 
-public class ClassUtil {
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
+public class ClassUtil {
+	
+	private static final Log LOGGER = LogFactory.getLog(ClassUtil.class);
+	
 	private static Map fieldCache = new HashMap();
 
 	public static Object newInstanceOfType(String className) {
@@ -102,8 +108,26 @@ public class ClassUtil {
 		return fieldMap;
 	}
 	
-	private static Object convertValue(Object value, Class targetType) {
+	public static Object convertValue(Object value, Class targetType) {
+		
 		if (value.getClass().equals(targetType)) return value;
+		
+		if (targetType.isPrimitive()) {
+			targetType = getWrapperClass(targetType);
+		}
+		
+		if (targetType.isAssignableFrom(value.getClass())) return value;
+		
+		if (value instanceof String && Number.class.isAssignableFrom(targetType)) {
+			try {
+				Constructor ctor = targetType.getConstructor(new Class[]{String.class});
+				return ctor.newInstance(new Object[] { value });
+			} catch (Exception e) {
+				LOGGER.error("convert type error", e);
+				throw new RuntimeException("Cannot convert from "+value.getClass().getName() + " to " + targetType, e);
+			}
+		}
+		
 		if (targetType.isArray() && Collection.class.isAssignableFrom(value.getClass())) {
 			Collection collection = (Collection)value;
 			Object array = Array.newInstance(targetType.getComponentType(), collection.size());
@@ -121,5 +145,11 @@ public class ClassUtil {
 		}
 		
 		throw new IllegalArgumentException("Cannot convert from "+value.getClass().getName() + " to " + targetType);
+	}
+
+	public static Class getWrapperClass(Class primitiveClass) {
+		return primitiveClass == int.class ? Integer.class : 
+			   primitiveClass == double.class ? Double.class : 
+			   primitiveClass;
 	}
 }

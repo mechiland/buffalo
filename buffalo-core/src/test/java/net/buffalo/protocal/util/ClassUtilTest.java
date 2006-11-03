@@ -29,4 +29,30 @@ public class ClassUtilTest extends TestCase {
 		assertEquals("Michael Chen", p.getName());
 		assertEquals(p2, p.getFriend());
 	}
+	
+	public void testCanConvertStringToNumber() throws Exception {
+		String value = "100";
+		Object output = ClassUtil.convertValue(value, Integer.class);
+		assertEquals(new Integer(value), output);
+		output = ClassUtil.convertValue(value, int.class);
+		assertEquals(new Integer(value), output);
+		output = ClassUtil.convertValue(value, Float.class);
+		assertEquals(new Float(value), output);
+		output = ClassUtil.convertValue(value, Double.class);
+		assertEquals(new Double(value), output);
+		output = ClassUtil.convertValue(value, Short.class);
+		assertEquals(new Short(value), output);
+		output = ClassUtil.convertValue(value, Byte.class);
+		assertEquals(new Byte(value), output);
+		
+		value = "100.1";
+		try {
+			output = ClassUtil.convertValue(value, Integer.class);
+			fail();
+		} catch (RuntimeException ex) {
+			assertEquals(NumberFormatException.class, ex.getCause().getCause().getClass());
+		}
+		
+	}
+
 }
