@@ -65,6 +65,7 @@ public class RequestContextTest extends TestCase {
 		assertEquals("appValue", context.getApplication().get("a"));
 		assertEquals(1, context.getSession().size());
 		assertEquals("sessionValue", context.getSession().get("s"));
+		assertEquals(cookie, RequestContext.getContext().getCookie().get("c_name"));
 		
 		assertEquals(mockRequest, context.getHttpRequest());
 		assertEquals(mockHttpSession, context.getHttpSession());
@@ -82,5 +83,27 @@ public class RequestContextTest extends TestCase {
 		Cookie cookie = new Cookie("c_name", "c_value");
 		context.getCookie().put(cookie.getName(), cookie);
 		assertEquals(cookie, mockResponse.getCookies()[0]);
+	}
+	
+	public void testShouldDeleteContextValueWhenDeleteFromMap() throws Exception {
+		mockRequest.setCookies(new Cookie[]{new Cookie("cookie", "cookieValue")});
+		RequestContextUtil.createRequestContext(mockServletContext, mockRequest, mockResponse);
+		RequestContext.getContext().getSession().put("name", "value");
+		RequestContext.getContext().getApplication().put("app", "appValue");
+		
+		assertEquals("value", RequestContext.getContext().getSession().get("name"));
+		assertEquals("value", mockRequest.getSession().getAttribute("name"));
+		RequestContext.getContext().getSession().remove("name");
+		assertNull(RequestContext.getContext().getSession().get("name"));
+		assertNull(mockRequest.getSession().getAttribute("name"));
+		
+		RequestContext.getContext().getCookie().remove("cookie");
+		RequestContext.getContext().getApplication().remove("app");
+		
+		assertNull(RequestContext.getContext().getApplication().get("app"));
+		assertNull(mockServletContext.getAttribute("app"));
+		assertNull(RequestContext.getContext().getCookie().get("cookie"));
+		Cookie cookie = mockResponse.getCookies()[0];
+		assertEquals(0, cookie.getMaxAge());
 	}
 }
