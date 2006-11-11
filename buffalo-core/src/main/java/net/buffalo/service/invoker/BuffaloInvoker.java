@@ -82,7 +82,7 @@ public class BuffaloInvoker implements ServiceInvoker {
 		
 		Object result = null;
 		try {
-			result = method.invoke(service, call.getArguments());
+			result = ClassUtil.invokeMethod(service, method, call.getArguments());
 		} catch (IllegalArgumentException e) {
 			throw new ServiceInvocationException(e);
 		} catch (IllegalAccessException e) {
@@ -133,14 +133,19 @@ public class BuffaloInvoker implements ServiceInvoker {
 	
 	private int parameterAssignable(Class targetType, Class sourceType) {
 		if (targetType.equals(sourceType)) return 6;
+		
+		if (targetType.isAssignableFrom(sourceType)) return 5;
+
 		if (targetType.isPrimitive()) {
-			if (ClassUtil.getWrapperClass(targetType).equals(sourceType)) return 5;
-			else if (Number.class.isAssignableFrom(ClassUtil.getWrapperClass(targetType)) && 
-					 Number.class.isAssignableFrom(sourceType)) {
-				return 4;
-			}
+			targetType = ClassUtil.getWrapperClass(targetType);
 		}
-		if (targetType.isAssignableFrom(sourceType)) return 3;
+		
+		if (targetType.equals(sourceType)) {
+			return 4;
+		} else if (Number.class.isAssignableFrom(targetType) && 
+				 Number.class.isAssignableFrom(sourceType)) {
+			return 3;
+		}		
 		
 		return 0;
 	}

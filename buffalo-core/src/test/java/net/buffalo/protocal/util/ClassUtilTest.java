@@ -17,8 +17,11 @@
  */ 
 package net.buffalo.protocal.util;
 
+import java.lang.reflect.Method;
+
 import junit.framework.TestCase;
 import net.buffalo.protocal.People;
+import net.buffalo.protocal.acceptance.Calculator;
 
 public class ClassUtilTest extends TestCase {
 	public void testShouldSetFieldValue() throws Exception {
@@ -53,6 +56,12 @@ public class ClassUtilTest extends TestCase {
 			assertEquals(NumberFormatException.class, ex.getCause().getCause().getClass());
 		}
 		
+	}
+	
+	public void testCanInvokeNumberInsteadOfConcreteNumber() throws Exception {
+		Method method = Calculator.class.getMethod("longSum", new Class[]{Long.class, Long.class});
+		Object result = ClassUtil.invokeMethod(new Calculator(), method, new Object[]{new Integer(1), new Integer(2)});
+		assertEquals(new Long(3), result);
 	}
 
 }

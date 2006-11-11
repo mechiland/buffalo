@@ -16,4 +16,9 @@ public class Calculator {
 	public Object nullResult() {
 		return null;
 	}
+	
+	public Long longSum(Long long1, Long long2) {
+		return new Long(long1.longValue() + long2.longValue());
+	}
+	
 }

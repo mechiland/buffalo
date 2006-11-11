@@ -98,30 +98,5 @@ public class BuffaloInvokerTest extends TestCase {
 		}
 	}
 	
-	class DummyClass {
-		
-		public int sum(int a, int b) {
-			return a+b;
-		}
-		
-		public double sum(double a, double b) {
-			return a+b;
-		}
-		
-		public String ex() {
-			throw new RuntimeException("just throw out");
-		}
-		
-		public void voidFunc() {
-			System.out.println("Called void Func");
-		}
-	}
-	
-	class DummySubClass extends DummyClass {
-		public int sum(int a, int b) {
-			return 100+a+b;
-		}
-	}
-	
 }
 

@@ -20,6 +20,8 @@ package net.buffalo.protocal.util;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
@@ -118,10 +120,10 @@ public class ClassUtil {
 		
 		if (targetType.isAssignableFrom(value.getClass())) return value;
 		
-		if (value instanceof String && Number.class.isAssignableFrom(targetType)) {
+		if ((value instanceof String || value instanceof Number) && Number.class.isAssignableFrom(targetType)) {
 			try {
 				Constructor ctor = targetType.getConstructor(new Class[]{String.class});
-				return ctor.newInstance(new Object[] { value });
+				return ctor.newInstance(new Object[] { value.toString() });
 			} catch (Exception e) {
 				LOGGER.error("convert type error", e);
 				throw new RuntimeException("Cannot convert from "+value.getClass().getName() + " to " + targetType, e);
@@ -151,5 +153,16 @@ public class ClassUtil {
 		return primitiveClass == int.class ? Integer.class : 
 			   primitiveClass == double.class ? Double.class : 
 			   primitiveClass;
+	}
+	
+	public static Object invokeMethod(Object instance, Method method, Object[] arguments) throws 
+									IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+		Class[] parameterTypes = method.getParameterTypes();
+		for (int i = 0; i < parameterTypes.length; i++) {
+			if (!parameterTypes[i].isAssignableFrom(arguments[i].getClass())) {
+				arguments[i] = convertValue(arguments[i], parameterTypes[i]);
+			}
+		}
+		return method.invoke(instance, arguments);
 	}
 }
