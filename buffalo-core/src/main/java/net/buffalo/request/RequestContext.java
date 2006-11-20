@@ -102,7 +102,11 @@ public class RequestContext {
 	}
 	
 	public HttpSession getHttpSession() {
-		return getHttpRequest().getSession(true);
+		HttpSession session = getHttpRequest().getSession();
+		if (session == null) { 
+			session = getHttpRequest().getSession(true);
+		}
+		return session;
 	}
 	
 	public void setApplication(Map applicationMap) {

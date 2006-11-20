@@ -9,6 +9,10 @@ public class DummyClass {
 		return a+b;
 	}
 	
+	public boolean boolMethod(int a, boolean b) {
+		return !b;
+	}
+	
 	public String ex() {
 		throw new RuntimeException("just throw out");
 	}

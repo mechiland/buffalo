@@ -106,4 +106,10 @@ public class RequestContextTest extends TestCase {
 		Cookie cookie = mockResponse.getCookies()[0];
 		assertEquals(0, cookie.getMaxAge());
 	}
+	
+	public void testShouldRequestTheSameSession() throws Exception {
+		RequestContextUtil.createRequestContext(mockServletContext, mockRequest, mockResponse);
+		HttpSession session = RequestContext.getContext().getHttpSession();
+		assertTrue(mockRequest.getSession() == session);
+	}
 }

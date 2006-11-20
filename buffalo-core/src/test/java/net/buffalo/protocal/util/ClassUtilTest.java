@@ -63,5 +63,15 @@ public class ClassUtilTest extends TestCase {
 		Object result = ClassUtil.invokeMethod(new Calculator(), method, new Object[]{new Integer(1), new Integer(2)});
 		assertEquals(new Long(3), result);
 	}
-
+	
+	public void testGetPrimitiveType() throws Exception {
+		assertEquals(Boolean.class, ClassUtil.getWrapperClass(boolean.class));
+		assertEquals(Byte.class, ClassUtil.getWrapperClass(byte.class));
+		assertEquals(Short.class, ClassUtil.getWrapperClass(short.class));
+		assertEquals(Integer.class, ClassUtil.getWrapperClass(int.class));
+		assertEquals(Long.class, ClassUtil.getWrapperClass(long.class));
+		assertEquals(Float.class, ClassUtil.getWrapperClass(float.class));
+		assertEquals(Double.class, ClassUtil.getWrapperClass(double.class));
+	}
+	
 }

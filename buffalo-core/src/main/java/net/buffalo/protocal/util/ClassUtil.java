@@ -151,7 +151,12 @@ public class ClassUtil {
 
 	public static Class getWrapperClass(Class primitiveClass) {
 		return primitiveClass == int.class ? Integer.class : 
+			   primitiveClass == long.class ? Long.class : 
+			   primitiveClass == short.class ? Short.class :
+               primitiveClass == byte.class ? Byte.class :
+			   primitiveClass == float.class ? Float.class :
 			   primitiveClass == double.class ? Double.class : 
+			   primitiveClass == boolean.class ? Boolean.class :
 			   primitiveClass;
 	}
 	

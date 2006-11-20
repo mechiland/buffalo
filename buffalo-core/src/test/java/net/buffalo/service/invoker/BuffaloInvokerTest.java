@@ -65,6 +65,15 @@ public class BuffaloInvokerTest extends TestCase {
 		assertEquals(buffaloReply, writer.getBuffer().toString());
 	}
 	
+	public void testBooleanMethod() throws Exception {
+		String buffaloCall = "<buffalo-call><method>boolMethod</method><int>1</int><boolean>1</boolean></buffalo-call>";
+		StringReader reader = new StringReader(buffaloCall);
+		StringWriter writer = new StringWriter();
+		BuffaloInvoker.getInstance().invoke(new DummyClass(), reader, writer);
+		String buffaloReply = "<buffalo-reply><boolean>0</boolean></buffalo-reply>";
+		assertEquals(buffaloReply, writer.getBuffer().toString());
+	}
+	
 	public void testParentClassMethod() throws Exception {
 		// inhrenced method
 		String buffaloCall = "<buffalo-call><method>sum</method><double>1</double><double>2</double></buffalo-call>";
