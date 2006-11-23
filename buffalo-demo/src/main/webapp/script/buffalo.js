@@ -1,6 +1,6 @@
 var Buffalo = Class.create();
 Buffalo.BOCLASS="_BUFFALO_OBJECT_CLASS_";
-Buffalo.VERSION="2.0-alpha2";
+Buffalo.VERSION="2.0-alpha3";
 
 Buffalo.prototype = {
 	initialize: function(gateway, async, events, options) {
@@ -619,15 +619,15 @@ Buffalo.Fault.prototype = {
 	}
 }
 Object.extend(Buffalo.prototype, {
-	bindReply : function(service, params, bindElemId) {
+	bindReply : function(service, params, bindElemId, options) {
 		this.remoteCall(service, params, function(reply) {
-			Buffalo.Bind.bind(bindElemId, reply.getResult());
+			Buffalo.Bind.bind(bindElemId, reply.getResult(), options);
 		})
 	}
 });
 
 Buffalo.Bind = {
-	bind : function(elementId, bindValue) {
+	bind : function(elementId, bindValue, options) {
 		var elem = $(elementId);
 		switch(elem.tagName) {
 			case "INPUT": 
@@ -648,7 +648,7 @@ Buffalo.Bind = {
 				Buffalo.BindFactory.bindTable(elem, bindValue);
 				break; 
 			case "SELECT": 
-				Buffalo.BindFactory.bindSelect(elem, bindValue);
+				Buffalo.BindFactory.bindSelect(elem, bindValue, options);
 				break; 
 			case "DIV":
 			case "SPAN":
@@ -673,7 +673,7 @@ Buffalo.BindFactory = {
 		elem.checked = Buffalo.BindFactory.checkTrue(value);
 	},
 
-	bindSelect : function(elem, value) {
+	bindSelect : function(elem, value, options) {
 		//TODO: Check the data type
 		if (typeof(value) != "object" || value.constructor != Array) {
 			this.reportError(elem,value,"Array Type Needed for binding select!");
@@ -687,17 +687,22 @@ Buffalo.BindFactory = {
 			
 			var option = document.createElement("OPTION");
 			
-			var data = value[i];
-			if (typeof(data) != 'object') {
-				option.value = data;
-				option.text = data;
-			} else {
-				option.value = data[elem.getAttribute("jvalue")];
-				option.text = data[elem.getAttribute("jtext")];
-				if (Buffalo.BindFactory.checkTrue(data.selected)) {
-					option.selected = true;	
-				}
-			}
+            if (options && options.binder) {
+                options.binder(value, option, i);
+            } else {
+                var data = value[i];
+    			if (typeof(data) != 'object') {
+    				option.value = data;
+    				option.text = data;
+    			} else {
+    				option.value = data[elem.getAttribute("jvalue")];
+    				option.text = data[elem.getAttribute("jtext")];
+    				if (Buffalo.BindFactory.checkTrue(data.selected)) {
+    					option.selected = true;	
+    				}
+    			}
+            }
+  		
 			elem.options.add(option);
 		}
 	},
@@ -998,7 +1003,7 @@ Object.extend(Buffalo.prototype, {
 
 	switchView: function(viewName, container) {
 		container = container ? container : "body";
-		this.switchPart("body", viewName, true);
+		this.switchPart(container, viewName, true);
 	},
 	
 	switchPart : function(partId, viewName, addToHistory) {		

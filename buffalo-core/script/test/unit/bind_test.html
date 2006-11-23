@@ -17,6 +17,7 @@
 <form id="form1">
 <select id="sel1" jvalue="value" jtext="text"></select>&nbsp;
 <select id="sel2" jvalue="value" jtext="text"></select>
+<select id="sel3"></select>
 </form>
 
 <script type="text/javascript" language="javascript" charset="utf-8">
@@ -24,13 +25,28 @@ var testCase = new Test.Unit.Runner({
 	
 	testBindSelect: function() {with(this){
 		var data = [
-			{value:'value1', text:'text1'},
-			{value:'value2', text:'text2'}
+			{value:'value1', text:'text1', addProp: '#1', addVal: 'Val1'},
+			{value:'value2', text:'text2', addProp: '#2', addVal: 'Val2'}
 		];
 		
 		Buffalo.BindFactory.bindSelect($("sel1"), data);
 		assertEqual("value1", $("sel1").value);
 	}},
+    
+    testCustomizeBinderSelect: function() {with(this){
+        var data = [
+			{value:'value1', text:'text1', addProp: '#1', addVal: 'Val1'},
+			{value:'value2', text:'text2', addProp: '#2', addVal: 'Val2'}
+		];
+        
+        Buffalo.BindFactory.bindSelect($("sel3"), data, {binder: function(data, option, index){
+            var v = data[index];
+            option.text = v.text + "-" + v.addProp;
+            option.value = v.value + "|" + v.addVal;
+        }});
+        
+		assertEqual("value1|Val1", $("sel3").value);
+    }},
 	
 	testBindSelectAndSelectSecond: function(){with(this){
 		var data = [
