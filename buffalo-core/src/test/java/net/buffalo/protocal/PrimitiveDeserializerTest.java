@@ -68,6 +68,10 @@ public class PrimitiveDeserializerTest extends TestCase {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(d);
 		assertEquals(2006, cal.get(Calendar.YEAR));
+		assertEquals(Calendar.AUGUST, cal.get(Calendar.MONTH));
+		assertEquals(3, cal.get(Calendar.DAY_OF_MONTH));
+		assertEquals(9, cal.get(Calendar.HOUR_OF_DAY));
+		assertEquals(1, cal.get(Calendar.MINUTE));
 		assertEquals(27, cal.get(Calendar.SECOND));
 	}
 	

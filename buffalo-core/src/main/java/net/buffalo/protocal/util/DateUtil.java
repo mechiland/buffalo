@@ -50,7 +50,7 @@ public class DateUtil {
 		}
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.YEAR, Integer.valueOf(string.substring(0,4)).intValue());
-		cal.set(Calendar.MONTH, Integer.valueOf(string.substring(4,6)).intValue());
+		cal.set(Calendar.MONTH, Integer.valueOf(string.substring(4,6)).intValue() - 1);
 		cal.set(Calendar.DAY_OF_MONTH, Integer.valueOf(string.substring(6,8)).intValue());
 		cal.set(Calendar.HOUR_OF_DAY, Integer.valueOf(string.substring(9,11)).intValue());
 		cal.set(Calendar.MINUTE, Integer.valueOf(string.substring(11,13)).intValue());
