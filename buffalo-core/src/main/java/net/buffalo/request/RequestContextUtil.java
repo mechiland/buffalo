@@ -17,9 +17,7 @@
  */ 
 package net.buffalo.request;
 
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -30,7 +28,8 @@ import javax.servlet.http.HttpSession;
 
 public class RequestContextUtil {
 	
-	public static void createRequestContext(ServletContext servletContext, HttpServletRequest request, HttpServletResponse response) {
+	public static void createRequestContext(ServletContext servletContext, HttpServletRequest request, 
+			HttpServletResponse response) {
 		RequestContext context = new RequestContext(new HashMap());
 		context.setServletContext(servletContext);
 		context.setHttpRequest(request);
@@ -43,71 +42,26 @@ public class RequestContextUtil {
 	}
 
 	private static Map createCookieMap(HttpServletRequest request) {
-		Map map = new SynchronizableMap.CookieMap();
-		
+		SynchronizableMap.CookieMap map = new SynchronizableMap.CookieMap();
 		Cookie[] cookies = request.getCookies();
-		
-		if (cookies == null) return map;
- 		
-		for (int i = 0; i < cookies.length; i++) {
-			map.put(cookies[i].getName(), cookies[i]);
-		}
-		
+		map.copyCookies(cookies);
 		return map;
 	}
 
 	private static Map createSessionMap(HttpServletRequest request) {
-		Map map = new SynchronizableMap.SessionMap();
+		SynchronizableMap.SessionMap map = new SynchronizableMap.SessionMap();
 		HttpSession httpSession = request.getSession();
 		if (httpSession == null) {
 			httpSession = request.getSession(true);
 		}
-		Enumeration attributeNames = httpSession.getAttributeNames();
-		while(attributeNames.hasMoreElements()) {
-			String attr = (String) attributeNames.nextElement();
-			map.put(attr, httpSession.getAttribute(attr));
-		}
-		
+		map.copySessionVariables(httpSession);
 		return map;
 	}
 
 	private static Map createApplicationMap(ServletContext servletContext) {
-		Map map = new SynchronizableMap.ApplicationMap();
-		Enumeration attributeNames = servletContext.getAttributeNames();
-		while(attributeNames.hasMoreElements()) {
-			String attr = (String) attributeNames.nextElement();
-			map.put(attr, servletContext.getAttribute(attr));
-		}
+		SynchronizableMap.ApplicationMap map = new SynchronizableMap.ApplicationMap();
+		map.copyServletContextVariables(servletContext);
 		return map;
 	}
 
-	public static void updateRequestContext(ServletContext servletContext, 
-								HttpServletRequest request, HttpServletResponse response) {
-		RequestContext context = RequestContext.getContext();
-		
-		// application
-		for (Iterator iter = context.getApplication().keySet().iterator(); iter.hasNext();) {
-			String key = (String) iter.next();
-			servletContext.setAttribute(key, context.getApplication().get(key));
-		}
-		
-		// session
-		for (Iterator iter = context.getSession().keySet().iterator(); iter.hasNext();) {
-			String key = (String) iter.next();
-			request.getSession().setAttribute(key, context.getSession().get(key));
-		}
-		
-		// cookie
-		for (Iterator iter = context.getCookie().keySet().iterator(); iter.hasNext();) {
-			String key = (String) iter.next();
-			Cookie[] cookies = request.getCookies();
-			if (cookies != null) {
-				for (int i = 0; i < cookies.length; i++) {
-					if (!cookies[i].getName().equals(key)) {
-						response.addCookie((Cookie) context.getCookie().get(key));
-					}
-				}				
-			}
-		}
-	}
 }

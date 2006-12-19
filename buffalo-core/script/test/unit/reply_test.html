@@ -58,6 +58,15 @@ var testCase = new Test.Unit.Runner({
 		
 		var reply = new Buffalo.Reply(xmlhttp);
 		assertEqual("张三丰", reply.getResult());
+	}},
+	
+	testLargeData: function(){with(this){
+		var xmlhttp = XmlHttp.create();
+		xmlhttp.open("get", "large-reply.xml", false);
+		xmlhttp.send(null);
+		
+		var reply = new Buffalo.Reply(xmlhttp);
+		assert(reply.getResult().length > 4096)
 	}}
 
 }, "testlog");

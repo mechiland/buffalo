@@ -69,14 +69,10 @@ Buffalo.prototype = {
 		this._remoteCall(command.url, command.call, command.callback);
 	},
 
-	remoteCall: function(service, params, callback) {	
-		var idx = service.indexOf(".");
-		
-		var serviceId = service.substring(0,idx);
-		var method = service.substring(idx+1,service.length);
-		var newUrl = this.gateway+"/buffalo/"+serviceId;
-		
-		var call = new Buffalo.Call(method);
+	remoteCall: function(service, params, callback) {
+		var serviceMethodPair = this._splitServiceMethod(service);
+		var newUrl = this.gateway+"/buffalo/"+serviceMethodPair[0];
+		var call = new Buffalo.Call(serviceMethodPair[1]);
 		for (var i = 0; i < params.length; i++) {
 			call.addParameter(params[i]);
 		}
@@ -86,6 +82,15 @@ Buffalo.prototype = {
 		if (!this.requesting) {
 			this.nextRemoteCall();
 		}
+	},
+	
+	_splitServiceMethod: function(service) {
+		var idx = service.lastIndexOf(".");
+		
+		var serviceId = service.substring(0,idx);
+		var method = service.substring(idx+1,service.length);
+
+		return [serviceId, method];
 	},
 	
 	onStateChange: function(){

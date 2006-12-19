@@ -1,9 +1,12 @@
 package net.buffalo.request;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 
 public class SynchronizableMap {
 	
@@ -14,11 +17,19 @@ public class SynchronizableMap {
 			RequestContext.getContext().getHttpSession().setAttribute((String) key, value);
 			return super.put(key, value);
 		}
+		
+		public void copySessionVariables(HttpSession httpSession) {
+			Enumeration attributeNames = httpSession.getAttributeNames();
+			while(attributeNames.hasMoreElements()) {
+				String attr = (String) attributeNames.nextElement();
+				super.put(attr, httpSession.getAttribute(attr));
+			}
+		}
+		
 		public Object remove(Object key) {
 			RequestContext.getContext().getHttpSession().removeAttribute((String) key);
 			return super.remove(key);
 		}
-		
 	}
 	
 	public static class ApplicationMap extends HashMap implements Map {
@@ -34,6 +45,14 @@ public class SynchronizableMap {
 			RequestContext.getContext().getServletContext().removeAttribute((String) key);
 			return super.remove(key);
 		}
+
+		public void copyServletContextVariables(ServletContext servletContext) {
+			Enumeration attributeNames = servletContext.getAttributeNames();
+			while(attributeNames.hasMoreElements()) {
+				String attr = (String) attributeNames.nextElement();
+				super.put(attr, servletContext.getAttribute(attr));
+			}
+		}
 	}
 	
 	public static class CookieMap extends HashMap implements Map {
@@ -45,6 +64,13 @@ public class SynchronizableMap {
 			if (!(value instanceof Cookie)) throw new IllegalArgumentException("Should be a cookie!");
  			RequestContext.getContext().getHttpResponse().addCookie((Cookie) value);
 			return super.put(key, value);
+		}
+		
+		public void copyCookies(Cookie[] cookies) {
+			if (cookies == null) return;
+			for (int i = 0; i < cookies.length; i++) {
+				super.put(cookies[i].getName(), cookies[i]);
+			}
 		}
 		
 		public Object remove(Object key) {

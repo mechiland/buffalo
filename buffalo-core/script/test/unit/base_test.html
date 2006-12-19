@@ -30,6 +30,21 @@ var testCase = new Test.Unit.Runner({
 		assertEqual(1, arr.shift());
 		assertEqual(2, arr.length);
 		assertEqual(2, arr[0]);
+	}},
+	
+	testSplitServiceMethod: function(){with(this){
+		var service = "simpleService.divide";
+		var buffalo = new Buffalo('');
+		var pair = buffalo._splitServiceMethod(service);
+		assertEqual(2, pair.length);
+		assertEqual('simpleService', pair[0]);
+		assertEqual('divide', pair[1]);
+		
+		service = "a.b.cService.method";
+		pair = buffalo._splitServiceMethod(service);
+		assertEqual(2, pair.length);
+		assertEqual('a.b.cService', pair[0]);
+		assertEqual('method', pair[1]);
 	}}
 }, "testlog");
 </script>

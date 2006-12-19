@@ -60,10 +60,15 @@ Buffalo.Reply.prototype = {
 	},
 	
 	getNodeText :function(dataNode) {
-		if (dataNode.childNodes.length == 0) {
+		if (dataNode && dataNode.hasChildNodes()) {
+			var s = "";
+			for (var i = 0; i < dataNode.childNodes.length; i++) {
+				s += new String(dataNode.childNodes.item(i).nodeValue);
+			}
+			return s;
+		} else {
 			return null;
-		} else 
-			return dataNode.firstChild.nodeValue;
+		}
 	},
 
 	doBoolean : function (dataNode) {
