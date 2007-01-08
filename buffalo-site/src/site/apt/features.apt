@@ -70,7 +70,7 @@ buffalo.remoteCall("userService.login",["username","password"], function(reply) 
 
   Spring is the most popular IoC container. Every bean managed by spring can be used as buffalo service with simple configuration.
   
-* Compatibility
+* Browser Compatibility
 
   All features support IE/Firefox, remoting features support IE5.5+/Firefox1.0+/Safari/Opera9+.
 
