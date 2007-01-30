@@ -18,6 +18,7 @@
 package net.buffalo.service;
 
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -43,6 +44,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class BuffaloWorker extends AbstractRequestWorker implements RequestWorker {
 	
+	private static final String OUTPUT_ENCODING = "utf-8";
 	private static final Log LOGGER = LogFactory.getLog(BuffaloWorker.class);
 	
 	public void processRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -56,10 +58,10 @@ public class BuffaloWorker extends AbstractRequestWorker implements RequestWorke
 				RequestContext.getContext().getServletContext());
 		
 		Object service = repository.get(requestService);
-		response.setHeader("content-type", "text/xml;charset=utf-8");
+		response.setHeader("content-type", "text/xml;charset=" + OUTPUT_ENCODING);
 		try {
 			ServletInputStream inputStream = request.getInputStream();
-			BuffaloInvoker.getInstance().invoke(service, inputStream, response.getWriter());
+			BuffaloInvoker.getInstance().invoke(service, inputStream, new OutputStreamWriter(response.getOutputStream(), OUTPUT_ENCODING));
 		} catch (Throwable ex) {
 			LOGGER.error("An exception occured when invoking a service: ", ex);
 			StringWriter writer = new StringWriter();
