@@ -1,6 +1,6 @@
 var Buffalo = Class.create();
 Buffalo.BOCLASS="_BUFFALO_OBJECT_CLASS_";
-Buffalo.VERSION="2.0-alpha3";
+Buffalo.VERSION="2.0-alpha4";
 
 Buffalo.prototype = {
 	initialize: function(gateway, async, events, options) {
