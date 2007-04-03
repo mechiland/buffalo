@@ -80,6 +80,15 @@ var testCase = new Test.Unit.Runner({
 		assertEqual("[[string", call.arrayType(c));
 	}},
 	
+	testEmptyArray: function() {with(this){
+		var call = new Buffalo.Call("test");
+		var a = [];
+		call.addParameter(a);
+		assert(call.xml().indexOf("<list>") > 0);
+		assert(call.xml().indexOf("<type>") > 0);
+		assert(call.xml().indexOf("<length>") > 0);
+	}},
+	
 	testObjectArray: function(){with(this){
 		var call = new Buffalo.Call("test");
 		

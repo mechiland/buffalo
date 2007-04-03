@@ -81,4 +81,8 @@ public class SimpleService {
 		Thread.sleep(6000);
 	}
 	
+	public int testArrayParameter(List l, String xh) {
+		return 1;
+	}
+	
 }

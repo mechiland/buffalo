@@ -138,9 +138,9 @@ function openObj(obj) {
 }
 
 function cmdDivide() {
-	var double1 = parseFloat(Buffalo.getElementById("double1").value);
-	var double2 = parseFloat(Buffalo.getElementById("double2").value);
-	var d3Handle = Buffalo.getElementById("double3");
+	var double1 = parseFloat($("double1").value);
+	var double2 = parseFloat($("double2").value);
+	var d3Handle = $("double3");
 	
 	buffalo.remoteCall("simpleService.divide",[double1,double2], function(reply) {
 		$("result").value = reply.getSource();
@@ -149,7 +149,7 @@ function cmdDivide() {
 }
 
 function cmdServerTime() {
-	var dtObj = Buffalo.getElementById("datetime");
+	var dtObj = $("datetime");
 	buffalo.remoteCall("simpleService.now",[], function(reply){
 		dtObj.value = reply.getResult();
 	})
@@ -170,11 +170,11 @@ function reportFault(f) {
 function cmdRandomUser() {
 	buffalo.remoteCall("simpleService.randomUser",[], function(reply) {
 		var obj = reply.getResult();
-		Buffalo.getElementById("user_id").value=obj.id;
-		Buffalo.getElementById("user_name").value=obj.name;
-		Buffalo.getElementById("user_age").value=obj.age;
-		Buffalo.getElementById("user_sex").value=obj.sex;
-		Buffalo.getElementById("user_memo").value=obj.memo;
+		$("user_id").value=obj.id;
+		$("user_name").value=obj.name;
+		$("user_age").value=obj.age;
+		$("user_sex").value=obj.sex;
+		$("user_memo").value=obj.memo;
 	});
 }
 
@@ -183,9 +183,9 @@ function cmdRandomComplexUser() {
 	buffalo.remoteCall("simpleService.randomComplexUser",[], function(reply) {
 		var obj = reply.getResult();
 		
-		Buffalo.getElementById("cuser_name").value=obj.name;
-		Buffalo.getElementById("cuser_fullname").value=obj.name.firstName+" " + obj.name.middleName+" " +obj.name.familyName;
-		Buffalo.getElementById("cuser_friends").value=friendsToStr(obj.friends);
+		$("cuser_name").value=obj.name;
+		$("cuser_fullname").value=obj.name.firstName+" " + obj.name.middleName+" " +obj.name.familyName;
+		$("cuser_friends").value=friendsToStr(obj.friends);
 
 	});
 }

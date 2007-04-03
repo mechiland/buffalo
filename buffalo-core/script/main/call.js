@@ -84,6 +84,7 @@ Buffalo.Call.prototype = {
 	},
 	
 	arrayType: function(arr) {
+		if (arr.length == 0) return "";
 		var type = "";
 		var obj = arr;
 		while(this.isArray(obj)) {
