@@ -30,5 +30,15 @@
         </p>
       </answer>
     </faq>
+    <faq id="limitation">
+      <question>Current limitation?</question>
+      <answer>
+        <p>
+          Some user reported that there is some problem when using the session 
+          feature under resin 2.1. If you can reproduce this problem, leave a 
+          thread on the buffalo forum.
+        </p>
+      </answer>
+    </faq>
   </part>
 </faqs>

@@ -1,5 +1,81 @@
  ---------
  History
  ---------
+
+2007/4/25, 2.0 release
   
-  TBD...
+  * performance improvement: +30%
+  
+  * new protocal implementation
+
+2006/1/20, 1.2.1 release
+
+  * add Buffalo.Form.formToBean method
+  
+  * add resin server(2.x, 3.x) support
+  
+  * verify bea weblogic (8.0.15) support
+  
+  * move project to java.net, now you can visit https://buffalo.dev.java.net for more info.
+
+2005/12/26, 1.2 release
+
+  * support browser back/forward
+  
+  * rewrite the whole service module
+  
+  * rewrite the spring integration
+  
+  * rewrite the burlap dependencies, remove the burlap-fix.jar, You can use the original burlap jar now.
+
+  * update trimpath template.js to 1.0.38 (bug fix)
+  
+  * upgrade prototype to 1.4
+
+2005/11/16 1.2alpha1 release
+
+  * integrate prototype
+  
+  * refactor and rewrite whole code into prototype-like.
+  
+  * split javascript source into 4 parts: core, call, reply, bind
+  
+  * modify build.xml, concat the 4 parts into one js in the dist target.
+  
+  * modify the event system, change to buffalo.events["onLoading"]...
+  
+  * some bugfix
+
+2005/7/18 1.1 develop release
+
+  * Spring integration
+  
+  * capable with burlap call
+  
+  * add sync. call
+  
+  * can custom event
+
+  * binding(in very alpha state, just show demo only) 
+
+  * checkbox, select...
+  
+  * table
+
+  * improve demo UI
+
+  * buffalo rewrite j2ee blueprints ajax demo
+
+2005/06/03 1.0beta:
+
+  * add ServiceRepository support
+
+  * add ajax-autocomplete demo
+
+  * add bing-test.html to show the buffalo-bind power
+
+  * add LISENCE
+
+2005/4/16 1.0alpha
+
+  * initial release

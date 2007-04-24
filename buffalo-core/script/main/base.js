@@ -102,7 +102,7 @@ Buffalo.prototype = {
 	response : function() {
 		this.timeoutHandle.stop();
 		this.events["onLoading"](false);
-		if (this.transport.status == '200') {
+		if (this.transport.responseText && this.transport.status == '200') {
 			var reply = new Buffalo.Reply(this.transport);
 			if (reply.isFault()) {
 				this.events["onException"](reply.getResult());

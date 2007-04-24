@@ -4,7 +4,7 @@
 
 Features
 
-* JavaScript implementation of a lightwight xml protocal
+* JavaScript implementation of a lightweight xml protocal
 
   Buffalo is using a lightweight protocal(a subset of burlap with minor modification) and it is very good for 
   web remoting, simple yet enough. Buffalo implementation is including seserializing and deserializing for 
