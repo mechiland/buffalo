@@ -29,7 +29,7 @@ DemoApp.prototype = {
 		});
 		$$("#subnav a").each(function(item){
 			Event.observe(item, "click", function(e){
-				pageBuffalo.switchView(item.href, "maincontent");
+				pageBuffalo.switchView(item.href, "content");
 			});
 		})
 		pageBuffalo = new Buffalo(endPoint, true, {onLoading:this.onPageLoading.bind(this)});
@@ -54,7 +54,7 @@ DemoApp.prototype = {
 				effect.toggle();
 				opened = true;	
 				processing = false;
-				pageBuffalo.switchView(target, "maincontent");
+				pageBuffalo.switchView(target, "content");
 			}
 		  }
 		});

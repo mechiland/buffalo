@@ -1037,6 +1037,7 @@ Buffalo.Form = {
 		var elements = form.elements;
 		for (var i = 0; i < elements.length;i++) {
 			var element = elements[i];
+			if (!element.type) continue;
 			switch (element.type) {
 			case "radio" : 
 				if (element.checked) { 
@@ -1072,7 +1073,7 @@ Buffalo.Form = {
 					}
 			    }
 			    break;
-			default : 
+			default :
 				if (ignoreButton) {
 					if (element.type != "submit" && element.type != "button" 
 						&& element.type != "reset") {

@@ -50,10 +50,10 @@ Interest:
 
 <h3>form2</h2>
 <form id="form2">
-checkBox1: <input type="checkbox" name="checkBox1" value="checkBox1Value" checked /> <br/>
-checkBox2: <input type="checkbox" name="checkBox2" value="checkBox2Value" />
 <fieldset name="fieldset1">
   <legend name="legend">test fieldset</legend>
+  checkBox1: <input type="checkbox" name="checkBox1" value="checkBox1Value" checked /> <br/>
+  checkBox2: <input type="checkbox" name="checkBox2" value="checkBox2Value" />
 </fieldset>
 </form>
 
@@ -96,6 +96,11 @@ Interest:
 <br>
 <br>
 <label></label>
+
+<fieldset>
+    <legend>Test Fieldset</legend>
+</fieldset>
+
 <input type="submit" name="submit" value="submit" id="Submit">
 </form>
 
@@ -137,7 +142,9 @@ var testCase = new Test.Unit.Runner({
     assertType(String, object.checkBox1);
     assertEqual("", object.checkBox2);
     assertType(String, object.checkBox2);
-    
+    var count = 0;
+    for (p in object) { count ++}
+    assertEqual(3, count);
 	}},
   
 	testFieldSetShouldBeExculded: function(){with(this){
