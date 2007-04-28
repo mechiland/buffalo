@@ -7,6 +7,14 @@ buffalo.events["onLoading"] = function(state) {
 		window.status = "Loading complete";
 	}
 }
+
+buffalo.events["onException"] = function(fault) {
+	var str = "Found Exception: " + fault.code;
+	str += "\nWhen found an exception, and you define the event handler, "
+	str += "the callback function won't be executed."
+	alert(str);
+}
+
 function openObj(obj) {
 	var tmp = obj+"{";
 	for (var x in obj) {

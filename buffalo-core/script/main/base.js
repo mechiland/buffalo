@@ -25,7 +25,7 @@ Buffalo.prototype = {
 		this.events = {
 			onLoading: Buffalo.Default.showLoading,
 			onFinish: new Function(),
-			onException: Buffalo.Default.showException,
+			onException: null,
 			onError: Buffalo.Default.showError,
 			onTimeout: new Function()
 		};
@@ -105,9 +105,15 @@ Buffalo.prototype = {
 		if (this.transport.responseText && this.transport.status == '200') {
 			var reply = new Buffalo.Reply(this.transport);
 			if (reply.isFault()) {
-				this.events["onException"](reply.getResult());
+			  if (this.events["onException"]) {
+			    this.events["onException"](reply.getResult());
+			  } else {
+			    Buffalo.Default.showException(reply.getResult());
+			    this.currentCallback(reply);  
+			  }
+			} else {
+			  this.currentCallback(reply);  
 			}
-			this.currentCallback(reply);
 			this.events["onFinish"](reply);
 			this.requesting = false;
 			this.nextRemoteCall();
