@@ -38,6 +38,7 @@ Buffalo.prototype = {
 		try {
 			this.transport.open("POST", url, this.async);
 			this.transport.setRequestHeader("X-Buffalo-Version", Buffalo.VERSION);
+			this.transport.setRequestHeader("Content-Type", "text/xml;charset=utf-8");
 			this.transport.send(buffaloCall.xml());
 		} catch (e) {
 			this.events.onError(this.transport);

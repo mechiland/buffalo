@@ -22,7 +22,7 @@
 		<dependency>
 			<groupId>buffalo</groupId>
 			<artifactId>buffalo-core</artifactId>
-			<version>2.0-alpha4</version>
+			<version>2.0</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
