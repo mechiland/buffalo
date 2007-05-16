@@ -205,6 +205,7 @@ Buffalo.BindFactory = {
 	},
 	
 	checkTrue: function(value) {
+		var ret = false;
 		switch (typeof(value)) {
 			case 'boolean': ret = value; break;
 			case 'string': ret = (value == true || value == "1" || value == "true" || value == "yes"); break;
