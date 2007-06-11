@@ -1,0 +1,71 @@
+ -------
+ Buffalo简单指南
+ -------
+
+Buffalo, J2EE AJAX可以更简单
+
+ AJAX已经成为了当今WEB应用不可缺少的组成部分。在一些小规模的应用中，WEB框架甚至不再变得必不可少，
+ 成熟的AJAX框架完全可以承担起整个WEB层的工作。基于Java的AJAX框架有很多，Buffalo以其简单性成为很多用户的选择。这篇文章通过一个
+ 短消息WEB应用的实现，尝试全面介绍Buffalo的各种特性，包括基本的AJAX调用，对象树的序列化/反序列化，
+ HTML元素绑定以及对但页面应用程序的支持。读者将会看到，Buffalo是如何简单并强大的解决AJAX开发中的常见问题。同样，
+ 作为AJAX最早期的提出者以及坚定不移的实践者，作者提出了在应用AJAX、使用Buffalo的过程中应当注意的问题以及建议。
+ 
+需求概述
+ 
+ 系统内短消息应用成为很多Web应用乃至大型应用不可缺少的一部分，大部分论坛也提供了站内短消息的功能。基本需求是系统用户可以给其他用户
+ 发送消息，接收其他用户的短消息，将消息存为草稿，删除消息。我们的这个应用将会使用buffalo实现这个小型的WEB应用。
+ 
+ 为了让这个应用足够小，在这个例子中我们将使用内存来存储短消息。在实际的系统中，应该是数据来存贮这些消息。
+ 
+ TODO: 最终实现的应用的截图
+ 
+环境准备
+ 
+ 开发工具准备：Eclipse + TomcatPlugin. Eclipse可以到{{http://www.eclipse.org/}}下载，TomcatPlugin可以到
+ {{http://www.sysdeo.com/eclipse/tomcatplugin}}下载。完成后配置好TomcatPlugin(主要是tomcat的路径及其依赖的JDK), 这方面
+ 的配置可以Google得到，在此不作赘述。
+ 
+ http://buffalo.sourceforge.net/下载最新的buffalo发行包。截止写本文档止，Buffalo最新版本为2.0. 下载包的文件名
+ 一般为buffalo-2.0-bin.zip, 解压缩后得到buffalo-2.0.jar, buffalo.js, buffalo-blank.html等文件。从
+ http://www.prototypejs.org/download下载最新的prototype.js文件。从http://jakarta.apache.org/commons/logging/
+ 下载最新的commons-logging.jar。
+ 
+  [NOTE:] 如果你不想一个个的下载，在buffalo发行包中，解压缩buffalo-demo.war, 使用其中对应的文件即可。
+ 
+ 在Eclipse中新建一个名为messages的Tomcat项目，保持其他设置不变。在messages目录下新建script文件夹，将下载后的buffalo.js和
+ prototype.js放到这个文件夹中。将buffalo-2.0.jar和commons-logging.jar放到WEB-INF/lib目录中。
+ 
+ 在WEB-INF文件夹下建立一个web.xml文件，代码如下：
+ 
++----------------------------------------------------------------------------------+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+<display-name>Buffalo Messages Application</display-name>
+<servlet>
+    <servlet-name>bfapp</servlet-name>
+    <servlet-class>net.buffalo.web.servlet.ApplicationServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>bfapp</servlet-name>
+    <url-pattern>/bfapp/*</url-pattern>
+</servlet-mapping>
+</web-app>
++---------------------------------------------------------------------------------+
+
+ 上面这段代码是使用buffalo必要的配置，他定义了buffalo servlet的位置，以便于AJAX远程调用。/bfapp/*意味着所有满足这个URL路径的访问
+ 都会被buffalo的ApplicationServlet访问到。
+ 
+ 完成这些工作后，eclispe中的项目文件夹如下图：
+ 
+[images/easy-buffalo-1.png]
+ 
+ 为了检验上述配置是否正确，访问{{http://localhost:8080/messages/bfapp/buffalo/}} 如果出现500错误，并提示
+ buffalo support POST only, 则说明buffalos配置成功
+ 
+领域模型实现
+ 
+ 按照需求，我们整理出Message类来封装一个消息对象。他包括了内容、当前状态（已读、未读）、发送时间等属性。
+ 代码摘要如下：
+ 
+ 

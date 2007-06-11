@@ -294,6 +294,7 @@ Buffalo.Call.prototype = {
 	initialize: function(methodname){
 		this.method = methodname;
 		this.params = [];
+        this._objects = [];
 	},
 
 	addParameter: function(data){
@@ -302,6 +303,7 @@ Buffalo.Call.prototype = {
 	},
 
 	xml: function(){
+        this._objects = [];
 		var xmlstr = "<buffalo-call>\n";
 		xmlstr += "<method>" + this.method+ "</method>\n";
 		for (var i = 0; i < this.params.length; i++) {
@@ -362,7 +364,11 @@ Buffalo.Call.prototype = {
 	},
 	
 	doArrayXML : function(data){
-		var xml = "<list>\n";
+		var ref = this._checkRef(data);
+        if (ref != -1) return "<ref>" + ref + "</ref>";
+        this._objects[this._objects.length] = data;
+        
+        var xml = "<list>\n";
 		var boClass = data[Buffalo.BOCLASS];
 		var boType = boClass ? boClass : this.arrayType(data);
 		xml += "<type>" +boType+ "</type>\n";
@@ -409,8 +415,22 @@ Buffalo.Call.prototype = {
 	isArray: function(obj) {
 		return typeof(obj) == 'object' && obj.constructor == Array; 
 	},
+    
+    _checkRef: function(obj) {
+        var ref = -1;
+        for (var i = 0; i < this._objects.length; i++) {
+            if (obj === this._objects[i]) {
+                ref = i; break;   
+            }
+        }
+        return ref;
+    },
 	
 	doStructXML : function(data){
+        var ref = this._checkRef(data);
+        if (ref != -1) return "<ref>" + ref + "</ref>";
+        this._objects[this._objects.length] = data;
+        
 		var boType = data[Buffalo.BOCLASS] || "java.util.HashMap";
 		var xml = "<map>\n";
 		xml += "<type>" +boType+ "</type>\n";
@@ -585,11 +605,7 @@ Buffalo.Reply.prototype = {
 		var attrs = dataNode.childNodes;
 		obj[Buffalo.BOCLASS] = this.getNodeText(attrs[0]);
 		for (var i = 1; i < attrs.length; i+=2) {
-			if (attrs[i+1].hasChildNodes() ) {
-				obj[this.getNodeText(attrs[i])] = this.deserialize(attrs[i+1]);
-			} else {
-				obj[this.getNodeText(attrs[i])] = attrs[i+1].text;
-			}
+			obj[this.getNodeText(attrs[i])] = this.deserialize(attrs[i+1]);
 		}
 		
 		return obj;

@@ -42,7 +42,7 @@ public class SqlDateConverterTest extends TestCase {
 		MarshallingContext context = new DefaultMarshallingContext(defaultConverterLookup, streamWriter);
 		converter.marshal(sdate, context, streamWriter);
 		
-		String string = "<map><type>java.sql.Date</type><string>value</string><date>20061001T000000Z</date></map>";
+		String string = "<map><type>java.sql.Date</type><string>value</string><date>20061101T000000Z</date></map>";
 		assertEquals(string, 
 				stringWriter.getBuffer().toString());
 		

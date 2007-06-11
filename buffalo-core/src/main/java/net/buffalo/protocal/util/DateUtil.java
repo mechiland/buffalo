@@ -27,10 +27,12 @@ public class DateUtil {
 
 	public static String toUTCString(long time) {
 		Calendar cal = Calendar.getInstance();
+        cal.clear();
 		cal.setTimeInMillis(time);
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(cal.get(Calendar.YEAR));
-		buffer.append(DateUtil.leadingZero(cal.get(Calendar.MONTH)));
+        // Calendar.MONTH start from 0 (January)
+		buffer.append(DateUtil.leadingZero(cal.get(Calendar.MONTH) + 1));
 		buffer.append(DateUtil.leadingZero(cal.get(Calendar.DAY_OF_MONTH)));
 		buffer.append("T");
 		buffer.append(DateUtil.leadingZero(cal.get(Calendar.HOUR_OF_DAY)));
@@ -49,6 +51,7 @@ public class DateUtil {
 			throw new ProtocolException("date format error: " + string);
 		}
 		Calendar cal = Calendar.getInstance();
+        cal.clear();
 		cal.set(Calendar.YEAR, Integer.valueOf(string.substring(0,4)).intValue());
 		cal.set(Calendar.MONTH, Integer.valueOf(string.substring(4,6)).intValue() - 1);
 		cal.set(Calendar.DAY_OF_MONTH, Integer.valueOf(string.substring(6,8)).intValue());

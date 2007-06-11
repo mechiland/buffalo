@@ -40,15 +40,14 @@ var testCase = new Test.Unit.Runner({
 		xmlhttp.send(null);
 		var reply = new Buffalo.Reply(xmlhttp);
 		var obj = reply.getResult();
-    gObj = obj;
-    assertEqual("cn.com.carnegietech.User", obj[Buffalo.BOCLASS]);
-    assertEqual(1, obj.roles.length);
-    assertIdentical(1, obj.id);
-    assertEqual("java.util.HashSet", obj.roles[Buffalo.BOCLASS]);
-    
-    var call = new Buffalo.Call("saveUser");
-    call.addParameter(obj);
-    
+        gObj = obj;
+        assertEqual("cn.com.carnegietech.User", obj[Buffalo.BOCLASS]);
+        assertEqual(1, obj.roles.length);
+        assertIdentical(1, obj.id);
+        assertEqual("java.util.HashSet", obj.roles[Buffalo.BOCLASS]);
+        
+        var call = new Buffalo.Call("saveUser");
+        call.addParameter(obj);
 	}},
 
 	testForChineseCharacter: function(){with(this){
@@ -67,6 +66,16 @@ var testCase = new Test.Unit.Runner({
 		
 		var reply = new Buffalo.Reply(xmlhttp);
 		assert(reply.getResult().length > 4096)
+	}},
+	
+	testDealWithNull: function() {with(this) {
+		var xmlhttp = XmlHttp.create();
+		xmlhttp.open("get", "bug36.xml", false);
+		xmlhttp.send(null);
+		var reply = new Buffalo.Reply(xmlhttp);
+		var obj = reply.getResult();
+        assertEqual(1, obj.id);
+        assertNull(obj.name);
 	}}
 
 }, "testlog");

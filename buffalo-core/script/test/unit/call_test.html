@@ -123,7 +123,21 @@ var testCase = new Test.Unit.Runner({
 		assertEqual("", call.arrayType(d));
 		assertEqual("", call.arrayType(e));
 		
-	}}
+	}},
+    
+    testObjectReference: function() {with(this){
+        var call = new Buffalo.Call("test");
+        var objA = {name:"A", friend: null};
+        var objB = {name:"B", friend: objA};
+        var c = [
+			objA, objB
+		]
+        call.addParameter(c);
+        var posOfRef = call.xml().indexOf("ref");
+        var posOfRefNo = call.xml().indexOf("1");
+        assert(posOfRef > 0);
+        assert(posOfRefNo > posOfRef);
+    }}
 
 }, "testlog");
 </script>

@@ -121,11 +121,7 @@ Buffalo.Reply.prototype = {
 		var attrs = dataNode.childNodes;
 		obj[Buffalo.BOCLASS] = this.getNodeText(attrs[0]);
 		for (var i = 1; i < attrs.length; i+=2) {
-			if (attrs[i+1].hasChildNodes() ) {
-				obj[this.getNodeText(attrs[i])] = this.deserialize(attrs[i+1]);
-			} else {
-				obj[this.getNodeText(attrs[i])] = attrs[i+1].text;
-			}
+			obj[this.getNodeText(attrs[i])] = this.deserialize(attrs[i+1]);
 		}
 		
 		return obj;

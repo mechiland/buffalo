@@ -123,7 +123,7 @@ public class PrimitiveTypeSerializerTest extends TestCase {
 		assertFalse(ds.canConvert(null));
 		
 		Calendar cal = Calendar.getInstance();
-		cal.set(2006, 8, 1, 17, 54, 21);
+		cal.set(2006, 7, 1, 17, 54, 21);
 		Date d = cal.getTime();
 		assertEquals("<date>20060801T175421Z</date>", marshal(ds, d));
 	}
