@@ -21,18 +21,18 @@ body,input,select,textarea {font-size:12px;font-family: Arial, Helvetica, sans-s
 var endPoint="<%=request.getContextPath()%>/bfapp";
 var buffalo = new Buffalo(endPoint);
 
+
 var Example = {
+	
     init : function(){
         
         var ds = new Ext.data.Store({
-		        proxy: new Buffalo.Ext.DataProxy(endPoint, "simpleService.allLocales", []),
-		        reader: new Buffalo.Ext.ObjectArrayReader ({
-		        		
-		        	}, [
+		        proxy: new Buffalo.Ext.DataProxy(buffalo, "simpleService.allLocales", []),
+		        reader: new Ext.data.JsonReader({}, [
                        {name: 'language'},
                        {name: 'country'},
                        {name: 'variant'},
-                       {name: 'hashcode'},
+                       {name: 'hashcode'}
                   ])
         });
         ds.load();
@@ -64,6 +64,7 @@ var Example = {
     }
 };
 
+
 Ext.onReady(Example.init, Example);
 
 </script>
@@ -75,6 +76,5 @@ Ext.onReady(Example.init, Example);
 <div id="grid-panel" style="width:600px;height:300px;">
 <div id="grid-example"></div>
 </div>
-
 </body>
 </html>
