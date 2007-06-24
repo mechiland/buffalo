@@ -48,7 +48,8 @@ public class SimpleService {
 	}
 	
 	public Locale[] allLocales() {
-	    return Locale.getAvailableLocales();
+	    Locale[] availableLocales = Locale.getAvailableLocales();
+        return new Locale[]{availableLocales[0], availableLocales[1]};
 	}
 	
 	public List provincesNames() {

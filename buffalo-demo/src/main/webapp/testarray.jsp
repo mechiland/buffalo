@@ -7,7 +7,6 @@
 <title>Buffalo Demo</title>
 <script language="JavaScript" src="script/prototype.js"></script>
 <script language="JavaScript" src="script/buffalo.js"></script>
-<script language="JavaScript" src="script/template.js"></script>
 </head>
 
 <body>

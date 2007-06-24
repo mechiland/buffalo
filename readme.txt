@@ -18,6 +18,6 @@ and, the "site" sub folder contains the documentation.
 http://buffalo.sourceforge.net/  buffalo site
 http://www.sourceforge.net/projects/buffalo sourceforge site
 
-http://www.amowa.net/buffalo/zh  buffalo chinese document site (mainly for buffalo 1.2.x)
+http://www.amowa.net/buffalo/zh  buffalo chinese document site (mainly for buffalo 1.2.x, deprecated)
 http://michael.nona.name/archives/category/amowa/  Author's blog about amowa/buffalo (Chinese)
 http://groups.google.com/group/amowa buffalo forum (Chinese)
