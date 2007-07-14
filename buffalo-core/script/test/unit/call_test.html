@@ -13,7 +13,6 @@
 
 <body>
 <div id="testlog"> </div>
-<textarea id="call" cols="60" rows="10"></textarea>
 <script type="text/javascript" language="javascript" charset="utf-8">
 var testCase = new Test.Unit.Runner({
 
@@ -79,6 +78,15 @@ var testCase = new Test.Unit.Runner({
 		assertEqual("[string", call.arrayType(b));
 		assertEqual("[[string", call.arrayType(c));
 	}},
+    
+    testFloatValueArray: function() {with(this){
+        
+       var call = new Buffalo.Call("test");
+       var a = [0.1, 0.2, 0.3];
+       var b = [0.1, 1, 0.2];
+       assertEqual("[double", call.arrayType(a));
+       assertEqual("", call.arrayType(b));
+    }},
 	
 	testEmptyArray: function() {with(this){
 		var call = new Buffalo.Call("test");

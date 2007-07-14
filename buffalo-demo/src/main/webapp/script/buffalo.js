@@ -323,8 +323,7 @@ Buffalo.Call.prototype = {
 		type = type.toLowerCase();
 		switch(type){
 		  case "number":
-			if (Math.round(o) == o) type = "int";
-			else type = "double";
+			type = this._getNumberType(o);
 			break;
 		  case "object":
 			var con = o.constructor;
@@ -335,6 +334,13 @@ Buffalo.Call.prototype = {
 		}
 		return type;
 	},
+    
+    _getNumberType: function(o) {
+        if (Math.round(o) == o) 
+            return "int";
+	    else 
+            return "double";
+    },
 	
 	doValueXML: function(type,data){
 		var xml, str = data;
@@ -385,18 +391,27 @@ Buffalo.Call.prototype = {
 		var type = "";
 		var obj = arr;
 		while(this.isArray(obj)) {
+            var obj0 = obj[0];
 			var canBeArray = true;
 			for(var i = 0; i < obj.length; i++) {
-				if (typeof(obj[i]) != typeof(obj[0])) {
+                var obji = obj[i];
+				if (typeof(obji) != typeof(obj0)) {
 					canBeArray = false;
 					break;
 				} else {
-					if (typeof(obj[i]) == 'object') {
-						if (obj[0][Buffalo.BOCLASS] != obj[i][Buffalo.BOCLASS]) {
+					if (typeof(obji) == 'object') {
+						if (obj0[Buffalo.BOCLASS] != obji[Buffalo.BOCLASS]) {
 							canBeArray = false;
 							break;
 						}
 					} 
+                    
+                    if (typeof(obji) == 'number') {
+                        if (this._getNumberType(obji) != this._getNumberType(obj0)) {
+                            canBeArray = false;
+                            break;
+                        }
+                    }
 				}
 			}
 			if (canBeArray) {
@@ -409,6 +424,7 @@ Buffalo.Call.prototype = {
 		if (type.indexOf("[") == -1) return "";
 		var componentType = obj[Buffalo.BOCLASS] || typeof(obj);
 		if (componentType == 'object') return "";
+        if (componentType == 'number') componentType = this._getNumberType(obj);
 		return type+componentType;
 	},
 	
