@@ -73,9 +73,6 @@ Buffalo.Form = {
 			if (!data[element.name]) continue;
 			var val = data[element.name];
 			switch (element.type) {
-			case "text": ;
-			case "hidden": ;
-			case "password": element.value = val; break;
 			case "radio" : 
 			case "checkbox" : 
 				if (val instanceof Array) element.checked = (val.indexOf(element.value) > -1);
@@ -92,6 +89,7 @@ Buffalo.Form = {
 					}
 				}
 				break;
+			default: element.value = val; 
 			}
 		}
 	}
